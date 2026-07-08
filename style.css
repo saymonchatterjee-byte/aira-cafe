@@ -100,7 +100,7 @@ body {
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
-    padding: 0 1.5rem;
+    padding: 0 2rem;
     height: 70px;
     display: flex;
     align-items: center;
@@ -135,6 +135,12 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
+}
+
+/* Form inputs & interactive styles */
+input:focus, textarea:focus {
+    border-color: var(--accent-gold) !important;
+    box-shadow: 0 0 0 2px var(--accent-gold-dim) !important;
 }
 
 /* --- Table Select --- */

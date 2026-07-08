@@ -48,7 +48,7 @@ function initTableSelector() {
     for (let i = 1; i <= 11; i++) {
         const opt = document.createElement("option");
         opt.value = i;
-        opt.textContent = `Table ${i}`;
+        opt.textContent = `T-${i}`;
         select.appendChild(opt);
     }
 }
@@ -310,16 +310,16 @@ function showPaymentModal(orderId, amount, tableNumber) {
     const modal = document.getElementById("payment-modal");
     const content = document.getElementById("payment-modal-content");
 
-    // Generate QR pattern
-    const qrCells = generateQRPattern();
+    // Dynamic UPI Link format: upi://pay?pa=YOUR_UPI_ID@upi&pn=AiraCafe&am={total_amount}&cu=INR
+    const upiUrl = `upi://pay?pa=9387438403@fam&pn=AiraCafe&am=${amount}&cu=INR`;
 
     content.innerHTML = `
         <div class="modal-icon">💳</div>
         <h3 class="modal-title">Payment Gateway</h3>
-        <p class="modal-subtitle">Scan QR code to complete payment for Table ${tableNumber}</p>
+        <p class="modal-subtitle">Scan UPI QR code to complete payment for Table ${tableNumber}</p>
         
-        <div class="qr-container">
-            <div class="qr-code">${qrCells}</div>
+        <div class="flex justify-center mb-6">
+            <div id="qrcode-canvas" class="p-3 bg-white rounded-xl shadow-inner border border-zinc-700 flex items-center justify-center w-[204px] h-[204px]"></div>
         </div>
 
         <p class="modal-amount">₹${amount}</p>
@@ -347,37 +347,23 @@ function showPaymentModal(orderId, amount, tableNumber) {
         </div>
 
         <p style="margin-top: 1.5rem; font-size: 0.7rem; color: var(--text-muted);">
-            Order #${orderId} · Simulated Payment Gateway
+            Order #${orderId} · Dynamic UPI Integration
         </p>
     `;
 
-    modal.classList.add("open");
-    document.body.style.overflow = "hidden";
-}
-
-function generateQRPattern() {
-    // Generate a visually convincing QR-like pattern
-    const size = 9;
-    let cells = "";
-    
-    // Seeded pseudo-random for consistent look
-    const pattern = [
-        1,1,1,1,1,1,1,0,1,
-        1,0,0,0,0,0,1,0,0,
-        1,0,1,1,1,0,1,0,1,
-        1,0,1,1,1,0,1,0,1,
-        1,0,1,1,1,0,1,0,0,
-        1,0,0,0,0,0,1,0,1,
-        1,1,1,1,1,1,1,0,1,
-        0,0,0,0,0,0,0,0,0,
-        1,0,1,1,0,1,1,0,1,
-    ];
-
-    pattern.forEach(val => {
-        cells += `<div class="qr-cell ${val ? "dark" : "light"}"></div>`;
+    // Initialize qrcodejs code generation
+    const qrCanvas = document.getElementById("qrcode-canvas");
+    new QRCode(qrCanvas, {
+        text: upiUrl,
+        width: 180,
+        height: 180,
+        colorDark: "#111111",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M
     });
 
-    return cells;
+    modal.classList.add("open");
+    document.body.style.overflow = "hidden";
 }
 
 window.handlePaymentComplete = async function (orderId) {
@@ -449,6 +435,34 @@ window.closePaymentModal = function () {
     const modal = document.getElementById("payment-modal");
     modal.classList.remove("open");
     document.body.style.overflow = "";
+};
+
+// ============================================
+//  MOBILE MENU TOGGLE
+// ============================================
+
+window.toggleMobileMenu = function () {
+    const menu = document.getElementById("mobile-menu");
+    const icon = document.getElementById("hamburger-icon");
+    const isHidden = menu.classList.contains("hidden");
+
+    if (isHidden) {
+        menu.classList.remove("hidden");
+        icon.setAttribute("d", "M6 18L18 6M6 6l12 12");
+    } else {
+        menu.classList.add("hidden");
+        icon.setAttribute("d", "M4 6h16M4 12h16M4 18h16");
+    }
+};
+
+// ============================================
+//  CONTACT FORM SUBMIT
+// ============================================
+
+window.handleContactSubmit = function (event) {
+    event.preventDefault();
+    showToast("Message sent successfully! We will get back to you soon.", "success");
+    document.getElementById("contact-form").reset();
 };
 
 // ============================================

@@ -6,15 +6,19 @@
     <title>Aira Cafe — Premium Cafe & Kitchen</title>
     <meta name="description" content="Aira Cafe — Uzanbazar's finest artisan cafe. Explore our curated menu and order directly from your table.">
 
-    <!-- Fonts -->
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Swiper.js -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 
     <!-- Tailwind CSS v3 (Play CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- QRCode.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <!-- Supabase Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -28,28 +32,52 @@
          NAVBAR
          ======================================== -->
     <nav class="navbar" id="navbar">
-        <a href="#" class="navbar-brand">
-            <img src="images/aira-logo.jpg" alt="Aira Cafe" class="navbar-logo">
-            <span class="navbar-title">AIRA</span>
-        </a>
+        <div class="flex items-center gap-4 lg:gap-8">
+            <a href="#home" class="navbar-brand">
+                <img src="images/aira-logo.jpg" alt="Aira Cafe" class="navbar-logo">
+                <span class="navbar-title">AIRA</span>
+            </a>
+            <!-- Desktop Nav Links -->
+            <div class="hidden md:flex items-center gap-6 text-xs font-semibold tracking-widest uppercase text-[var(--text-secondary)]">
+                <a href="#home" class="hover:text-[var(--accent-gold)] transition duration-200">Home</a>
+                <a href="#menu-section" class="hover:text-[var(--accent-gold)] transition duration-200">Menu</a>
+                <a href="#about-section" class="hover:text-[var(--accent-gold)] transition duration-200">About</a>
+                <a href="#contacts-section" class="hover:text-[var(--accent-gold)] transition duration-200">Contacts</a>
+            </div>
+        </div>
 
         <div class="navbar-actions">
             <select id="table-select" class="table-select" aria-label="Select your table">
-                <option value="" disabled selected>Select Table</option>
+                <option value="" disabled selected>Table</option>
             </select>
 
             <button onclick="toggleCartDrawer()" class="cart-btn" id="cart-toggle-btn" aria-label="Open cart">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                <span>Cart</span>
-                <span class="badge" id="cart-count">0</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                <span class="hidden sm:inline ml-1">Cart</span>
+                <span class="badge ml-2" id="cart-count">0</span>
             </button>
+
+            <!-- Mobile Hamburger Button -->
+            <button onclick="toggleMobileMenu()" class="md:hidden text-[var(--text-primary)] focus:outline-none p-2 ml-1" aria-label="Toggle menu" id="mobile-menu-btn">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path id="hamburger-icon" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Menu Dropdown -->
+        <div id="mobile-menu" class="hidden absolute top-[70px] left-0 right-0 bg-[var(--bg-secondary)] border-b border-[var(--border)] py-6 px-6 flex flex-col gap-4 text-center md:hidden backdrop-blur-lg bg-opacity-95 shadow-xl transition-all duration-300">
+            <a href="#home" onclick="toggleMobileMenu()" class="hover:text-[var(--accent-gold)] font-medium text-lg uppercase tracking-wider text-[var(--text-primary)]">Home</a>
+            <a href="#menu-section" onclick="toggleMobileMenu()" class="hover:text-[var(--accent-gold)] font-medium text-lg uppercase tracking-wider text-[var(--text-primary)]">Menu</a>
+            <a href="#about-section" onclick="toggleMobileMenu()" class="hover:text-[var(--accent-gold)] font-medium text-lg uppercase tracking-wider text-[var(--text-primary)]">About Us</a>
+            <a href="#contacts-section" onclick="toggleMobileMenu()" class="hover:text-[var(--accent-gold)] font-medium text-lg uppercase tracking-wider text-[var(--text-primary)]">Contacts</a>
         </div>
     </nav>
 
     <!-- ========================================
          HERO CAROUSEL (Swiper.js)
          ======================================== -->
-    <section class="hero-section">
+    <section id="home" class="hero-section">
         <div class="swiper hero-swiper">
             <div class="swiper-wrapper">
 
@@ -97,7 +125,7 @@
     <!-- ========================================
          MENU SECTION
          ======================================== -->
-    <main id="menu-section" style="max-width: 1200px; margin: 0 auto; padding: 4rem 1.5rem 2rem;">
+    <section id="menu-section" style="max-width: 1200px; margin: 0 auto; padding: 6rem 1.5rem 2rem;">
 
         <div class="section-header">
             <p class="section-label">Our Selection</p>
@@ -111,7 +139,100 @@
         <!-- Menu Grid -->
         <div id="menu-grid" class="menu-grid"></div>
 
-    </main>
+    </section>
+
+    <!-- ========================================
+         ABOUT SECTION
+         ======================================== -->
+    <section id="about-section" class="py-24 border-t border-[var(--border)] bg-[#141414]">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <div class="section-header">
+                <p class="section-label">A Culinary Sanctuary</p>
+                <h2 class="section-title">About Us</h2>
+                <div class="section-divider"></div>
+            </div>
+            <p class="font-display italic text-2xl text-[var(--accent-gold)] mb-8">
+                "Crafting unforgettable moments through flavor and design."
+            </p>
+            <div class="text-[var(--text-secondary)] leading-relaxed space-y-6 text-md font-light max-w-3xl mx-auto">
+                <p>
+                    Established in Uzanbazar, Aira Cafe is born from a desire to combine high-end architecture with exceptional culinary craftsmanship. We source our coffee beans from award-winning single estates in the misty hills of Chikmagalur, carefully roasting them to reveal notes of rich cocoa, citrus, and hazelnut.
+                </p>
+                <p>
+                    Our kitchen specializes in house-fermented sourdough plates, French pastries baked fresh every morning, and comfort dishes reinvented with modern culinary techniques. Whether you are seeking a quiet morning workspace or an intimate dinner with friends, Aira offers a sensory escape away from the city's bustle.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         CONTACTS SECTION
+         ======================================== -->
+    <section id="contacts-section" class="py-24 border-t border-[var(--border)] bg-[var(--bg-secondary)]">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="section-header">
+                <p class="section-label">Get In Touch</p>
+                <h2 class="section-title">Contacts</h2>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start mt-12">
+                <!-- Info & CTA Buttons -->
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-[var(--text-primary)] mb-4 font-display">Reservation &amp; Inquiries</h3>
+                        <p class="text-[var(--text-secondary)] text-sm leading-relaxed mb-6">
+                            Have any questions about hosting a private event, or want to secure the best table for the weekend? Reach out to us directly or tap below to make a call.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="tel:+919387438403" class="flex-1 flex items-center justify-center gap-3 py-4 bg-[var(--accent-gold)] hover:bg-[var(--accent-gold-hover)] text-[#111] font-bold rounded-xl transition duration-300 uppercase tracking-widest text-xs">
+                            <i class="fas fa-phone-alt"></i>
+                            Call Reservation
+                        </a>
+                        <a href="mailto:info@airacafe.com" class="flex-1 flex items-center justify-center gap-3 py-4 bg-[var(--bg-surface)] hover:bg-[var(--bg-elevated)] border border-[var(--border-light)] text-[var(--text-primary)] font-bold rounded-xl transition duration-300 uppercase tracking-widest text-xs">
+                            <i class="fas fa-envelope"></i>
+                            Email Kitchen
+                        </a>
+                    </div>
+
+                    <div class="p-6 rounded-2xl border border-[var(--border)] bg-[#1e1e1e] flex items-center gap-4">
+                        <div class="text-3xl text-[var(--accent-gold)]">📍</div>
+                        <div>
+                            <h4 class="font-bold text-sm text-[var(--text-primary)] mb-1">Our Prime Spot</h4>
+                            <p class="text-xs text-[var(--text-secondary)]">Opposite River Front Park, Uzanbazar, Guwahati</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clean Contact Form -->
+                <form id="contact-form" class="bg-[var(--bg-card)] border border-[var(--border)] p-8 rounded-2xl shadow-xl space-y-6" onsubmit="handleContactSubmit(event)">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label for="contact-name" class="block text-xs font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-2">Name</label>
+                            <input type="text" id="contact-name" required class="w-full bg-[var(--bg-elevated)] border border-[var(--border-light)] rounded-xl py-3 px-4 text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-gold)] transition duration-200">
+                        </div>
+                        <div>
+                            <label for="contact-email" class="block text-xs font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-2">Email Address</label>
+                            <input type="email" id="contact-email" required class="w-full bg-[var(--bg-elevated)] border border-[var(--border-light)] rounded-xl py-3 px-4 text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-gold)] transition duration-200">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="contact-subject" class="block text-xs font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-2">Subject</label>
+                        <input type="text" id="contact-subject" required class="w-full bg-[var(--bg-elevated)] border border-[var(--border-light)] rounded-xl py-3 px-4 text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-gold)] transition duration-200">
+                    </div>
+                    <div>
+                        <label for="contact-message" class="block text-xs font-semibold uppercase tracking-wider text-[var(--text-secondary)] mb-2">Your Message</label>
+                        <textarea id="contact-message" rows="4" required class="w-full bg-[var(--bg-elevated)] border border-[var(--border-light)] rounded-xl py-3 px-4 text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent-gold)] transition duration-200"></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-4 bg-[var(--accent-gold)] hover:bg-[var(--accent-gold-hover)] text-[#111] font-bold rounded-xl transition duration-300 uppercase tracking-widest text-xs">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
 
     <!-- ========================================
          CART DRAWER
@@ -153,12 +274,69 @@
     <div class="toast-container" id="toast-container"></div>
 
     <!-- ========================================
-         FOOTER
+         FOOTER & SOCIALS
          ======================================== -->
-    <footer class="site-footer">
-        <p class="footer-brand">AIRA CAFE & KITCHEN</p>
-        <p>Uzanbazar, Guwahati · Open Daily 8 AM – 10 PM</p>
-        <p style="margin-top: 0.75rem; opacity: 0.5;">© 2026 Aira Cafe. All rights reserved.</p>
+    <footer class="site-footer bg-[#0d0d0d] border-t border-[var(--border)] pt-16 pb-8 px-6 mt-16">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-left mb-12">
+            <!-- Brand & Socials -->
+            <div>
+                <h3 class="footer-brand font-display text-2xl font-bold mb-4 tracking-wider text-[var(--accent-gold)]">AIRA CAFE</h3>
+                <p class="text-[var(--text-secondary)] text-sm mb-6 max-w-sm">
+                    A premium culinary sanctuary serving handcrafted artisan coffees, fresh sourdough bakes, and gourmet dishes in a sophisticated, minimalist ambiance.
+                </p>
+                <div class="flex gap-4 text-xl">
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="text-[var(--text-secondary)] hover:text-[var(--accent-gold)] transition duration-300" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="text-[var(--text-secondary)] hover:text-[var(--accent-gold)] transition duration-300" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="text-[var(--text-secondary)] hover:text-[var(--accent-gold)] transition duration-300" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Contacts Info -->
+            <div id="contact-info">
+                <h3 class="text-[var(--text-primary)] font-semibold uppercase tracking-wider text-sm mb-6 border-b border-[var(--border-light)] pb-2">Contact Us</h3>
+                <ul class="space-y-4 text-sm text-[var(--text-secondary)]">
+                    <li class="flex items-center gap-3">
+                        <i class="fas fa-phone text-[var(--accent-gold)]"></i>
+                        <a href="tel:+919387438403" class="hover:text-[var(--text-primary)] transition">+91 93874 38403</a>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fas fa-envelope text-[var(--accent-gold)]"></i>
+                        <a href="mailto:info@airacafe.com" class="hover:text-[var(--text-primary)] transition">info@airacafe.com</a>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fas fa-map-marker-alt text-[var(--accent-gold)]"></i>
+                        <span>Uzanbazar, Guwahati, Assam, India - 781001</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fas fa-clock text-[var(--accent-gold)]"></i>
+                        <span>Open Daily: 8:00 AM – 10:00 PM</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Google Maps Integration -->
+            <div>
+                <h3 class="text-[var(--text-primary)] font-semibold uppercase tracking-wider text-sm mb-6 border-b border-[var(--border-light)] pb-2">Our Location</h3>
+                <div class="rounded-lg overflow-hidden border border-[var(--border)] h-[180px] w-full">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3580.4632313627063!2d91.75168019999999!3d26.181666899999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x375a596000000001%3A0xe54848039e17b8ee!2sUzan%20Bazar%2C%20Guwahati%2C%20Assam!5e0!3m2!1sen!2sin!4v1719999999999!5m2!1sen!2sin" 
+                        class="w-full h-full border-0 filter invert-[90%] hue-rotate-[180deg]" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Google Maps Location"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-6xl mx-auto border-t border-[var(--border)] pt-8 text-center text-[var(--text-muted)] text-xs tracking-widest uppercase">
+            <p>© 2026 Aira Cafe. All rights reserved.</p>
+        </div>
     </footer>
 
     <!-- ========================================
