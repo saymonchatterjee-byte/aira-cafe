@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aira Cafe — Kitchen Dashboard (KOT)</title>
+    <meta name="description" content="Aira Cafe Kitchen Order Ticket system. Real-time order management for kitchen staff.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Tailwind CSS v3 (Play CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Design System -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ========================================
+         ADMIN NAVBAR
+         ======================================== -->
+    <nav class="navbar no-print">
+        <a href="index.html" class="navbar-brand">
+            <img src="images/aira-logo.jpg" alt="Aira Cafe" class="navbar-logo">
+            <span class="navbar-title">AIRA</span>
+            <span style="
+                margin-left: 8px;
+                font-size: 0.65rem;
+                font-weight: 700;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                color: var(--accent-gold);
+                background: var(--accent-gold-dim);
+                padding: 4px 10px;
+                border-radius: var(--radius-full);
+            ">KITCHEN</span>
+        </a>
+
+        <div class="navbar-actions">
+            <span class="live-badge">
+                <span class="live-dot"></span>
+                Live · Supabase
+            </span>
+            <button onclick="loadPaidOrders()" style="
+                background: var(--bg-elevated);
+                border: 1px solid var(--border-light);
+                color: var(--text-secondary);
+                padding: 8px 18px;
+                border-radius: var(--radius-full);
+                font-family: 'Inter', sans-serif;
+                font-size: 0.8rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s;
+            " onmouseover="this.style.borderColor='var(--accent-gold)'; this.style.color='var(--text-primary)'"
+               onmouseout="this.style.borderColor='var(--border-light)'; this.style.color='var(--text-secondary)'">
+                ↻ Refresh
+            </button>
+        </div>
+    </nav>
+
+    <!-- ========================================
+         KOT DASHBOARD
+         ======================================== -->
+    <main class="no-print" style="max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem;">
+
+        <div class="section-header" style="margin-bottom: 2rem;">
+            <p class="section-label">Kitchen Display</p>
+            <h1 class="section-title">Order Tickets</h1>
+            <div class="section-divider"></div>
+        </div>
+
+        <!-- Stats Bar -->
+        <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; justify-content: center;" id="stats-bar">
+            <div style="
+                background: var(--bg-card);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-md);
+                padding: 1rem 1.5rem;
+                text-align: center;
+                min-width: 140px;
+            ">
+                <p style="font-size: 2rem; font-weight: 800; color: var(--accent-gold);" id="stat-count">0</p>
+                <p style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">Active Orders</p>
+            </div>
+            <div style="
+                background: var(--bg-card);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-md);
+                padding: 1rem 1.5rem;
+                text-align: center;
+                min-width: 140px;
+            ">
+                <p style="font-size: 2rem; font-weight: 800; color: var(--text-primary);" id="stat-revenue">₹0</p>
+                <p style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">Revenue (Paid)</p>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" style="
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+            display: none;
+        ">
+            <p style="font-size: 3rem; margin-bottom: 1rem;">🍳</p>
+            <p style="font-size: 1.2rem; font-weight: 600; color: var(--text-secondary);">No active orders</p>
+            <p style="font-size: 0.85rem;">Paid orders will appear here in real-time</p>
+        </div>
+
+        <!-- Orders Grid -->
+        <div id="orders-grid" style="
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.25rem;
+        "></div>
+
+    </main>
+
+    <!-- ========================================
+         HIDDEN PRINT AREA (KOT Receipts)
+         ======================================== -->
+    <div id="print-area" class="hidden"></div>
+
+    <!-- ========================================
+         TOAST CONTAINER
+         ======================================== -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- ========================================
+         ADMIN SCRIPT
+         ======================================== -->
+    <script>
+        // ─── Supabase Config ───
+        const SUPABASE_URL = "https://apcnjwfkweoalekxvdjp.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwY25qd2Zrd2VvYWxla3h2ZGpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4ODc5OTEsImV4cCI6MjA5ODQ2Mzk5MX0.usxF2_HoZSR13Jh12gUH9IQvdiUgmlZ2MFWUAfrO5Dc";
+        const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // ─── Toast System ───
+        function showToast(message, type = "info") {
+            const container = document.getElementById("toast-container");
+            const icons = { success: "✓", error: "✕", info: "ℹ" };
+
+            const toast = document.createElement("div");
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span class="toast-icon">${icons[type] || icons.info}</span>
+                <span class="toast-message">${message}</span>
+            `;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add("removing");
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        // ─── Load Paid Orders ───
+        async function loadPaidOrders() {
+            try {
+                const { data, error } = await sb
+                    .from("orders")
+                    .select(`
+                        id, table_number, total_amount, status, created_at,
+                        order_items ( menu_item_name, quantity, price )
+                    `)
+                    .eq("status", "Paid")
+                    .order("created_at", { ascending: true });
+
+                if (error) throw error;
+
+                const grid = document.getElementById("orders-grid");
+                grid.innerHTML = "";
+
+                if (!data || data.length === 0) {
+                    document.getElementById("empty-state").style.display = "block";
+                } else {
+                    document.getElementById("empty-state").style.display = "none";
+                    data.forEach(order => renderKOTCard(order));
+                }
+
+                updateStats(data || []);
+            } catch (err) {
+                console.error("Failed to load orders:", err);
+                showToast(`Failed to load orders: ${err.message}`, "error");
+            }
+        }
+
+        // ─── Render a KOT Card ───
+        function renderKOTCard(order) {
+            const grid = document.getElementById("orders-grid");
+
+            // Skip if already rendered
+            if (document.getElementById(`order-${order.id}`)) return;
+
+            const timeFormatted = new Date(order.created_at).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+            });
+
+            const card = document.createElement("div");
+            card.id = `order-${order.id}`;
+            card.className = "kot-card";
+
+            const items = order.order_items || [];
+
+            card.innerHTML = `
+                <div>
+                    <div class="kot-header">
+                        <span class="kot-table">Table ${order.table_number}</span>
+                        <span class="kot-time">${timeFormatted} · #${order.id}</span>
+                    </div>
+                    <div class="kot-items">
+                        ${items.map(i => `
+                            <div class="kot-item-row">
+                                <span>${i.menu_item_name}</span>
+                                <span class="kot-item-qty">×${i.quantity}</span>
+                            </div>
+                        `).join("")}
+                    </div>
+                    <div class="kot-amount">₹${order.total_amount || 0}</div>
+                </div>
+                <div class="kot-actions">
+                    <button class="kot-btn kot-btn-print" onclick='printKOT(${JSON.stringify(order).replace(/'/g, "&#39;")})'>
+                        🖨️ Print KOT
+                    </button>
+                    <button class="kot-btn kot-btn-complete" onclick="completeOrder(${order.id})">
+                        ✓ Complete
+                    </button>
+                </div>
+            `;
+
+            grid.appendChild(card);
+        }
+
+        // ─── Update Stats ───
+        function updateStats(orders) {
+            document.getElementById("stat-count").textContent = orders.length;
+            const revenue = orders.reduce((sum, o) => sum + (parseFloat(o.total_amount) || 0), 0);
+            document.getElementById("stat-revenue").textContent = `₹${revenue}`;
+        }
+
+        // ─── Print KOT ───
+        function printKOT(order) {
+            const printArea = document.getElementById("print-area");
+            const timeFormatted = new Date(order.created_at).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+            });
+
+            const items = order.order_items || [];
+
+            printArea.innerHTML = `
+                <div style="text-align:center; font-size:16px; font-weight:bold;">*** KOT ***</div>
+                <div style="text-align:center; margin-bottom:10px;">AIRA CAFE & KITCHEN</div>
+                <div><strong>Table ${order.table_number}</strong> · Order #${order.id}</div>
+                <div>Time: ${timeFormatted}</div>
+                <div style="border-top:1px dashed #000; border-bottom:1px dashed #000; padding:5px 0; margin:8px 0;">
+                    <table style="width:100%;">
+                        ${items.map(i => `
+                            <tr>
+                                <td>${i.menu_item_name}</td>
+                                <td style="text-align:right;"><strong>×${i.quantity}</strong></td>
+                            </tr>
+                        `).join("")}
+                    </table>
+                </div>
+                <div style="text-align:right; font-weight:bold;">Total: ₹${order.total_amount || 0}</div>
+                <div style="text-align:center; font-size:10px; margin-top:15px;">[ Self-Service Web Order ]</div>
+            `;
+
+            printArea.classList.remove("hidden");
+            window.print();
+            printArea.classList.add("hidden");
+
+            showToast("KOT sent to printer", "info");
+        }
+
+        // ─── Complete Order ───
+        async function completeOrder(id) {
+            try {
+                const { error } = await sb
+                    .from("orders")
+                    .update({ status: "Completed" })
+                    .eq("id", id);
+
+                if (error) throw error;
+
+                const card = document.getElementById(`order-${id}`);
+                if (card) {
+                    card.style.opacity = "0";
+                    card.style.transform = "scale(0.95)";
+                    card.style.transition = "all 0.3s ease";
+                    setTimeout(() => card.remove(), 300);
+                }
+
+                showToast(`Order #${id} marked as completed`, "success");
+
+                // Update stats
+                setTimeout(loadPaidOrders, 400);
+
+            } catch (err) {
+                console.error("Failed to complete order:", err);
+                showToast(`Failed to complete order: ${err.message}`, "error");
+            }
+        }
+
+        // ─── Realtime Subscription ───
+        sb.channel("kot-realtime")
+            .on("postgres_changes", {
+                event: "INSERT",
+                schema: "public",
+                table: "orders",
+            }, (payload) => {
+                // New order inserted — reload if it's paid
+                if (payload.new.status === "Paid") {
+                    loadPaidOrders();
+                    showToast(`New order from Table ${payload.new.table_number}!`, "info");
+                }
+            })
+            .on("postgres_changes", {
+                event: "UPDATE",
+                schema: "public",
+                table: "orders",
+            }, (payload) => {
+                if (payload.new.status === "Paid") {
+                    // Order just got paid — reload
+                    loadPaidOrders();
+                    showToast(`Table ${payload.new.table_number} payment confirmed!`, "success");
+                } else if (payload.new.status === "Completed") {
+                    // Order completed — remove card
+                    const card = document.getElementById(`order-${payload.new.id}`);
+                    if (card) {
+                        card.style.opacity = "0";
+                        card.style.transform = "scale(0.95)";
+                        card.style.transition = "all 0.3s ease";
+                        setTimeout(() => card.remove(), 300);
+                    }
+                }
+            })
+            .subscribe();
+
+        // ─── Initial Load ───
+        loadPaidOrders();
+    </script>
+
+</body>
+</html>
