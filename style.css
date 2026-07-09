@@ -1222,7 +1222,7 @@ input:focus, textarea:focus {
 }
 
 .accordion-content {
-    border-t: 1px solid var(--border);
+    border-top: 1px solid var(--border);
     background: #FAF8F5;
     padding: 1.5rem;
     transition: all var(--transition-base);
