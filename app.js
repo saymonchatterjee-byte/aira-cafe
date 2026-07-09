@@ -363,6 +363,7 @@ function getCategoryImage(category) {
 function generateCategoryFilters() {
     const categories = ["All", ...new Set(MENU_DATA.map(item => item.category))];
     const container = document.getElementById("filter-bar");
+    if (!container) return;
     container.innerHTML = "";
 
     categories.forEach(cat => {
@@ -389,6 +390,7 @@ function generateCategoryFilters() {
 
 function renderMenu(items) {
     const grid = document.getElementById("menu-accordion");
+    if (!grid) return;
     grid.innerHTML = "";
 
     items.forEach(item => {
