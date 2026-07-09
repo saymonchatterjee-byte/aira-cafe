@@ -7,27 +7,27 @@
 
 /* --- Design Tokens --- */
 :root {
-    --bg-primary: #111111;
-    --bg-secondary: #1A1A1A;
-    --bg-card: #1E1E1E;
-    --bg-elevated: #252525;
-    --bg-surface: #2A2A2A;
+    --bg-primary: #FCFAF7;
+    --bg-secondary: #F7F4EF;
+    --bg-card: #FFFFFF;
+    --bg-elevated: #F2EEE9;
+    --bg-surface: #F4F0EA;
 
-    --text-primary: #F5F0E8;
-    --text-secondary: #A39E93;
-    --text-muted: #6B6560;
+    --text-primary: #2A2725;
+    --text-secondary: #605A56;
+    --text-muted: #9E9690;
 
-    --accent-gold: #C9A96E;
-    --accent-gold-hover: #D4B87A;
-    --accent-gold-dim: rgba(201, 169, 110, 0.15);
-    --accent-warm: #E8A87C;
+    --accent-gold: #B39255;
+    --accent-gold-hover: #C19F68;
+    --accent-gold-dim: rgba(179, 146, 85, 0.08);
+    --accent-warm: #D38C5E;
 
-    --border: #2A2A2A;
-    --border-light: #333333;
+    --border: #EBE5DC;
+    --border-light: #F2EBE0;
 
-    --success: #4ADE80;
-    --error: #F87171;
-    --info: #C9A96E;
+    --success: #22C55E;
+    --error: #EF4444;
+    --info: #B39255;
 
     --radius-sm: 8px;
     --radius-md: 12px;
@@ -35,10 +35,10 @@
     --radius-xl: 24px;
     --radius-full: 9999px;
 
-    --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
-    --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
-    --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
-    --shadow-gold: 0 4px 24px rgba(201,169,110,0.2);
+    --shadow-sm: 0 4px 16px rgba(42, 39, 37, 0.03);
+    --shadow-md: 0 12px 32px rgba(42, 39, 37, 0.06);
+    --shadow-lg: 0 24px 64px rgba(42, 39, 37, 0.1);
+    --shadow-gold: 0 8px 24px rgba(179, 146, 85, 0.15);
 
     --transition-fast: 150ms ease;
     --transition-base: 300ms ease;
@@ -96,7 +96,7 @@ body {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(17, 17, 17, 0.85);
+    background: rgba(252, 250, 247, 0.85);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
@@ -1180,6 +1180,52 @@ input:focus, textarea:focus {
         justify-content: flex-start;
         flex-wrap: nowrap;
     }
+}
+
+/* ============================================
+   ACCORDION COMPONENT (Boutique Cafe)
+   ============================================ */
+.accordion-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+}
+
+.accordion-item:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent-gold);
+}
+
+.accordion-item.active {
+    border-color: var(--accent-gold);
+    box-shadow: var(--shadow-md);
+}
+
+.accordion-header {
+    background: transparent;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: all var(--transition-base);
+}
+
+.accordion-icon {
+    transition: transform var(--transition-base);
+    color: var(--text-muted);
+}
+
+.accordion-item.active .accordion-icon {
+    transform: rotate(180deg);
+    color: var(--accent-gold);
+}
+
+.accordion-content {
+    border-t: 1px solid var(--border);
+    background: #FAF8F5;
+    padding: 1.5rem;
+    transition: all var(--transition-base);
 }
 
 /* ============================================
