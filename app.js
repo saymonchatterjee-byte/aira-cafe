@@ -333,6 +333,33 @@ function initSwiper() {
 //  MENU RENDERING
 // ============================================
 
+function getCategoryImage(category) {
+    const defaultImg = "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=120&h=120&q=80";
+    
+    const mapping = {
+        "all": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=120&h=120&q=80",
+        "bakery": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=120&h=120&q=80",
+        "sourdough": "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=120&h=120&q=80",
+        "burger": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=120&h=120&q=80",
+        "sandwich": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=120&h=120&q=80",
+        "fries": "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=120&h=120&q=80",
+        "momo": "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=120&h=120&q=80",
+        "pizza": "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=120&h=120&q=80",
+        "starter": "https://images.unsplash.com/photo-1541532713592-79a0317b6b77?auto=format&fit=crop&w=120&h=120&q=80",
+        "mocktail": "https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=120&h=120&q=80",
+        "coffee": "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=120&h=120&q=80"
+    };
+
+    const cleanCat = category.toLowerCase().trim();
+    if (mapping[cleanCat]) return mapping[cleanCat];
+    for (const key in mapping) {
+        if (cleanCat.includes(key)) {
+            return mapping[key];
+        }
+    }
+    return defaultImg;
+}
+
 function generateCategoryFilters() {
     const categories = ["All", ...new Set(MENU_DATA.map(item => item.category))];
     const container = document.getElementById("filter-bar");
@@ -340,12 +367,18 @@ function generateCategoryFilters() {
 
     categories.forEach(cat => {
         const btn = document.createElement("button");
-        btn.className = `category-btn${cat === currentFilter ? " active" : ""}`;
-        btn.textContent = cat;
+        btn.className = `category-card-btn${cat === currentFilter ? " active" : ""}`;
+        
+        const imgUrl = getCategoryImage(cat);
+        btn.innerHTML = `
+            <img src="${imgUrl}" alt="${cat}" class="category-card-img">
+            <span class="category-card-name">${cat}</span>
+        `;
+
         btn.addEventListener("click", () => {
             currentFilter = cat;
-            document.querySelectorAll(".category-btn").forEach(b =>
-                b.classList.toggle("active", b.textContent === cat)
+            document.querySelectorAll(".category-card-btn").forEach(b =>
+                b.classList.toggle("active", b.querySelector(".category-card-name").textContent === cat)
             );
             const filtered = cat === "All" ? MENU_DATA : MENU_DATA.filter(i => i.category === cat);
             renderMenu(filtered);

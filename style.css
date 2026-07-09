@@ -354,41 +354,68 @@ input:focus, textarea:focus {
 }
 
 /* ============================================
-   CATEGORY FILTER PILLS
+   CATEGORY FILTER VERTICAL LIST
    ============================================ */
 .filter-bar {
     display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    padding-bottom: 8px;
-    justify-content: center;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
 }
 
-.category-btn {
-    padding: 10px 26px;
-    border-radius: var(--radius-full);
-    font-weight: 600;
-    font-size: 0.85rem;
-    background: var(--bg-elevated);
-    color: var(--text-secondary);
-    border: 1px solid var(--border-light);
+.category-card-btn {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 12px 18px;
+    border-radius: var(--radius-lg);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
     cursor: pointer;
-    transition: all var(--transition-fast);
-    white-space: nowrap;
+    transition: all var(--transition-base);
+    text-align: left;
 }
 
-.category-btn:hover {
-    color: var(--text-primary);
+.category-card-btn:hover {
+    border-color: var(--accent-gold);
+    background: var(--bg-surface);
+    transform: translateX(6px);
+}
+
+.category-card-btn.active {
     border-color: var(--accent-gold);
     background: var(--accent-gold-dim);
 }
 
-.category-btn.active {
-    background: var(--accent-gold);
-    color: #111;
+.category-card-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-light);
+    transition: all var(--transition-base);
+    flex-shrink: 0;
+}
+
+.category-card-btn:hover .category-card-img,
+.category-card-btn.active .category-card-img {
     border-color: var(--accent-gold);
-    font-weight: 700;
+    transform: scale(1.05);
+}
+
+.category-card-name {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color var(--transition-fast);
+}
+
+.category-card-btn:hover .category-card-name,
+.category-card-btn.active .category-card-name {
+    color: var(--text-primary);
 }
 
 /* ============================================
