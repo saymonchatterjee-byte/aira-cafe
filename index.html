@@ -32,17 +32,17 @@
          NAVBAR
          ======================================== -->
     <nav class="navbar" id="navbar">
-        <div class="navbar-brand-group">
+        <div class="flex items-center gap-4 lg:gap-8">
             <a href="#home" class="navbar-brand">
                 <img src="images/aira-logo.jpg" alt="Aira Cafe" class="navbar-logo">
                 <span class="navbar-title">AIRA</span>
             </a>
             <!-- Desktop Nav Links -->
-            <div class="navbar-links hidden md:flex gap-6">
-                <a href="#home" class="navbar-link">Home</a>
-                <a href="#menu-section" class="navbar-link">Menu</a>
-                <a href="#about-section" class="navbar-link">About</a>
-                <a href="#contacts-section" class="navbar-link">Contacts</a>
+            <div class="hidden md:flex items-center gap-6 text-xs font-semibold tracking-widest uppercase text-[var(--text-secondary)]">
+                <a href="#home" class="hover:text-[var(--accent-gold)] transition duration-200">Home</a>
+                <a href="#menu-section" class="hover:text-[var(--accent-gold)] transition duration-200">Menu</a>
+                <a href="#about-section" class="hover:text-[var(--accent-gold)] transition duration-200">About</a>
+                <a href="#contacts-section" class="hover:text-[var(--accent-gold)] transition duration-200">Contacts</a>
             </div>
         </div>
 
@@ -125,26 +125,26 @@
     <!-- ========================================
          MENU SECTION
          ======================================== -->
-    <section id="menu-section" class="section">
-        <div class="container">
-            <div class="section-header">
-                <p class="section-label">Our Selection</p>
-                <h2 class="section-title">The Menu</h2>
-                <div class="section-divider"></div>
-            </div>
+    <section id="menu-section" style="max-width: 1200px; margin: 0 auto; padding: 6rem 1.5rem 2rem;">
 
-            <!-- Accordion Menu Container -->
-            <div id="menu-accordion" class="w-full max-w-4xl mx-auto space-y-6 mt-12">
-                <!-- Accordion items will be generated dynamically in JS -->
-            </div>
+        <div class="section-header">
+            <p class="section-label">Our Selection</p>
+            <h2 class="section-title">The Menu</h2>
+            <div class="section-divider"></div>
         </div>
+
+        <!-- Accordion Menu Container -->
+        <div id="menu-accordion" class="w-full max-w-4xl mx-auto space-y-6 mt-12">
+            <!-- Accordion items will be generated dynamically in JS -->
+        </div>
+
     </section>
 
     <!-- ========================================
          ABOUT SECTION
          ======================================== -->
-    <section id="about-section" class="section" style="background: #FAF7F2; border-top: 1px solid rgba(51, 51, 51, 0.08);">
-        <div class="container text-center">
+    <section id="about-section" class="py-24 border-t border-[var(--border)] bg-[#FAF7F2]">
+        <div class="max-w-4xl mx-auto px-6 text-center">
             <div class="section-header">
                 <p class="section-label">A Culinary Sanctuary</p>
                 <h2 class="section-title">About Us</h2>
@@ -167,8 +167,8 @@
     <!-- ========================================
          CONTACTS SECTION
          ======================================== -->
-    <section id="contacts-section" class="section" style="border-top: 1px solid rgba(51, 51, 51, 0.08);">
-        <div class="container">
+    <section id="contacts-section" class="py-24 border-t border-[var(--border)] bg-[var(--bg-secondary)]">
+        <div class="max-w-6xl mx-auto px-6">
             <div class="section-header">
                 <p class="section-label">Get In Touch</p>
                 <h2 class="section-title">Contacts</h2>
