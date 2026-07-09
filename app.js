@@ -388,7 +388,7 @@ function generateCategoryFilters() {
 }
 
 function renderMenu(items) {
-    const grid = document.getElementById("menu-grid");
+    const grid = document.getElementById("menu-accordion");
     grid.innerHTML = "";
 
     items.forEach(item => {
