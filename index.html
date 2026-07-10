@@ -133,12 +133,22 @@
             <div class="section-divider"></div>
         </div>
 
-        <!-- Menu Category Filters -->
-        <div id="filter-bar" class="menu-filter-bar flex flex-wrap justify-center gap-3 mt-8"></div>
+        <div class="menu-browser">
+            <div class="menu-browser-header">
+                <div>
+                    <p class="menu-browser-label">Browse by category</p>
+                    <h3 class="menu-browser-title" id="menu-active-category">All Menu</h3>
+                </div>
+                <p class="menu-browser-count" id="menu-item-count">0 items</p>
+            </div>
 
-        <!-- Accordion Menu Container -->
-        <div id="menu-accordion" class="w-full max-w-4xl mx-auto space-y-6 mt-12">
-            <!-- Accordion items will be generated dynamically in JS -->
+            <!-- Menu Category Filters -->
+            <nav id="filter-bar" class="menu-filter-bar" aria-label="Menu categories"></nav>
+
+            <!-- Menu Container -->
+            <div id="menu-accordion" class="menu-results" aria-live="polite">
+                <!-- Menu items will be generated dynamically in JS -->
+            </div>
         </div>
 
     </section>
