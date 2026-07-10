@@ -299,13 +299,28 @@ const CATEGORY_DEFINITIONS = [
     { key: "Signatures", label: "Aira", icon: "✨", match: (item) => item.category === "Aira Signature" }
 ];
 
+const DEBUG_PREFIX = "[Aira Debug]";
+const PAYMENT_CANCEL_BUTTON_STYLE = [
+    "background: transparent",
+    "border: 1px solid var(--border-light)",
+    "color: var(--text-secondary)",
+    "padding: 12px",
+    "border-radius: var(--radius-lg)",
+    "font-family: 'Inter', sans-serif",
+    "font-size: 0.8rem",
+    "font-weight: 700",
+    "cursor: pointer",
+    "transition: all 0.2s"
+].join("; ");
+
 // ─── DOM Ready ───
 document.addEventListener("DOMContentLoaded", () => {
+    console.log(`${DEBUG_PREFIX} DOM ready. Initializing app.`);
     initTableSelector();
     initSwiper();
     generateCategoryFilters();
     renderMenu(getFilteredMenuItems(currentFilter));
-    document.getElementById("checkout-btn").addEventListener("click", handlePlaceOrder);
+    initCheckoutButton();
 });
 
 // ============================================
@@ -314,12 +329,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function initTableSelector() {
     const select = document.getElementById("table-select");
+    if (!select) {
+        console.error(`${DEBUG_PREFIX} Table selector not found.`);
+        return;
+    }
+
     for (let i = 1; i <= 11; i++) {
         const opt = document.createElement("option");
         opt.value = i;
         opt.textContent = `T-${i}`;
         select.appendChild(opt);
     }
+
+    select.addEventListener("change", (event) => {
+        console.log(`${DEBUG_PREFIX} Table changed:`, event.target.value);
+    });
+}
+
+function initCheckoutButton() {
+    const checkoutBtn = document.getElementById("checkout-btn");
+    if (!checkoutBtn) {
+        console.error(`${DEBUG_PREFIX} Checkout button not found. Order flow cannot start.`);
+        return;
+    }
+
+    checkoutBtn.addEventListener("click", (event) => {
+        console.log(`${DEBUG_PREFIX} Checkout button clicked.`, {
+            tableValue: document.getElementById("table-select")?.value || null,
+            cartCount: cart.length,
+            cartSnapshot: getCartSnapshot()
+        });
+        handlePlaceOrder(event);
+    });
+
+    console.log(`${DEBUG_PREFIX} Checkout button listener attached.`);
 }
 
 function initSwiper() {
@@ -346,6 +389,15 @@ function initSwiper() {
 function isCoffeeItem(item) {
     const name = item.name.toLowerCase();
     return item.category === "Aira Signature" || /coffee|espresso|latte|cappuccino|americano|mocha|affogato|cold brew|macchiato/.test(name);
+}
+
+function getCartSnapshot() {
+    return cart.map(item => ({
+        id: item.id,
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price
+    }));
 }
 
 function isDrinkItem(item) {
@@ -572,18 +624,41 @@ window.toggleCartDrawer = function () {
 //  ORDER PIPELINE
 // ============================================
 
-async function handlePlaceOrder() {
-    if (isProcessing) return;
+async function handlePlaceOrder(event) {
+    if (event) {
+        event.preventDefault();
+    }
 
-    const tableValue = document.getElementById("table-select").value;
+    if (isProcessing) {
+        console.warn(`${DEBUG_PREFIX} Order submission blocked because a request is already processing.`);
+        return;
+    }
+
+    const tableSelect = document.getElementById("table-select");
+    const tableValue = tableSelect ? tableSelect.value : "";
+    const parsedTableNumber = parseInt(tableValue, 10);
+
+    console.log(`${DEBUG_PREFIX} Starting order submission flow.`, {
+        tableValue,
+        parsedTableNumber,
+        cartCount: cart.length,
+        cartSnapshot: getCartSnapshot()
+    });
 
     // Validations
     if (!tableValue) {
+        console.warn(`${DEBUG_PREFIX} Validation failed: table not selected.`);
         showToast("Please select a table first", "error");
         return;
     }
     if (cart.length === 0) {
+        console.warn(`${DEBUG_PREFIX} Validation failed: cart is empty.`);
         showToast("Your cart is empty", "error");
+        return;
+    }
+    if (Number.isNaN(parsedTableNumber)) {
+        console.error(`${DEBUG_PREFIX} Validation failed: table value is not a valid number.`, tableValue);
+        showToast("Selected table is invalid. Please choose again.", "error");
         return;
     }
 
@@ -591,24 +666,42 @@ async function handlePlaceOrder() {
     const checkoutBtn = document.getElementById("checkout-btn");
     checkoutBtn.disabled = true;
     checkoutBtn.textContent = "PROCESSING...";
+    let createdOrderId = null;
 
     try {
         // Calculate total
         const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const orderPayload = {
+            table_number: parsedTableNumber,
+            total_amount: totalAmount,
+            status: "Pending",
+            created_at: new Date().toISOString()
+        };
+
+        console.log(`${DEBUG_PREFIX} Order payload prepared.`, orderPayload);
 
         // 1. Insert order with status 'Pending'
         const { data: order, error: orderError } = await supabaseClient
             .from("orders")
-            .insert([{
-                table_number: parseInt(tableValue),
-                total_amount: totalAmount,
-                status: "Pending",
-                created_at: new Date().toISOString()
-            }])
+            .insert([orderPayload])
             .select("id")
             .single();
 
-        if (orderError) throw orderError;
+        console.log(`${DEBUG_PREFIX} Orders insert response received.`, { order, orderError });
+
+        if (orderError) {
+            console.error(`${DEBUG_PREFIX} Orders insert failed. This can indicate RLS, schema mismatch, or connectivity trouble.`, orderError);
+            throw orderError;
+        }
+        if (!order || !order.id) {
+            throw new Error("Order insert returned no order ID.");
+        }
+
+        createdOrderId = order.id;
+        console.log(`${DEBUG_PREFIX} Order row created successfully.`, {
+            orderId: createdOrderId,
+            note: "Admin dashboard currently shows only Paid orders, so Pending orders will not appear there yet."
+        });
 
         // 2. Insert order items
         const itemsToInsert = cart.map(item => ({
@@ -618,30 +711,68 @@ async function handlePlaceOrder() {
             price: item.price
         }));
 
+        console.log(`${DEBUG_PREFIX} Order items payload prepared.`, itemsToInsert);
+
         const { error: itemsError } = await supabaseClient
             .from("order_items")
             .insert(itemsToInsert);
 
-        if (itemsError) throw itemsError;
+        console.log(`${DEBUG_PREFIX} Order items insert response received.`, { itemsError });
+
+        if (itemsError) {
+            console.error(`${DEBUG_PREFIX} Order items insert failed.`, itemsError);
+            throw itemsError;
+        }
 
         // 3. Close cart drawer and show payment modal
         currentOrderId = order.id;
+        console.log(`${DEBUG_PREFIX} Opening payment modal for created order.`, {
+            orderId: order.id,
+            totalAmount,
+            tableNumber: parsedTableNumber
+        });
         toggleCartDrawer();
 
         // Small delay for drawer animation to complete
         setTimeout(() => {
-            showPaymentModal(order.id, totalAmount, parseInt(tableValue));
+            showPaymentModal(order.id, totalAmount, parsedTableNumber);
         }, 400);
 
         showToast("Order created! Complete payment to confirm.", "info");
 
     } catch (err) {
-        console.error("Order creation failed:", err);
+        console.error(`${DEBUG_PREFIX} Order creation failed.`, {
+            message: err.message,
+            code: err.code,
+            details: err.details,
+            hint: err.hint,
+            error: err
+        });
+
+        if (createdOrderId) {
+            console.warn(`${DEBUG_PREFIX} Attempting cleanup for partially created order.`, { createdOrderId });
+            const { error: cleanupItemsError } = await supabaseClient
+                .from("order_items")
+                .delete()
+                .eq("order_id", createdOrderId);
+
+            const { error: cleanupOrderError } = await supabaseClient
+                .from("orders")
+                .delete()
+                .eq("id", createdOrderId);
+
+            console.log(`${DEBUG_PREFIX} Cleanup result after failed order flow.`, {
+                cleanupItemsError,
+                cleanupOrderError
+            });
+        }
+
         showToast(`Order failed: ${err.message || "Unknown error"}`, "error");
     } finally {
         isProcessing = false;
         checkoutBtn.disabled = false;
-        checkoutBtn.textContent = "PLACE ORDER";
+        checkoutBtn.textContent = "Place Order";
+        console.log(`${DEBUG_PREFIX} Order submission flow finished.`);
     }
 }
 
@@ -655,6 +786,7 @@ function showPaymentModal(orderId, amount, tableNumber) {
 
     // Dynamic UPI Link format: upi://pay?pa=YOUR_UPI_ID@upi&pn=AiraCafe&am={total_amount}&cu=INR
     const upiUrl = `upi://pay?pa=9387438403@fam&pn=AiraCafe&am=${amount}&cu=INR`;
+    console.log(`${DEBUG_PREFIX} Rendering payment modal.`, { orderId, amount, tableNumber, upiUrl });
 
     content.innerHTML = `
         <div class="modal-icon">💳</div>
@@ -669,22 +801,10 @@ function showPaymentModal(orderId, amount, tableNumber) {
         <p class="modal-amount-label">Total Amount Due</p>
 
         <div style="display: flex; flex-direction: column; gap: 10px;">
-            <button class="payment-btn" id="complete-payment-btn" onclick="handlePaymentComplete(${orderId})">
+            <button class="payment-btn" id="complete-payment-btn" type="button" data-order-id="${orderId}">
                 ✓ Payment Complete
             </button>
-            <button style="
-                background: transparent;
-                border: 1px solid var(--border-light);
-                color: var(--text-secondary);
-                padding: 12px;
-                border-radius: var(--radius-lg);
-                font-family: 'Inter', sans-serif;
-                font-size: 0.8rem;
-                cursor: pointer;
-                transition: all 0.2s;
-            " onmouseover="this.style.borderColor='var(--error)'; this.style.color='var(--error)'"
-               onmouseout="this.style.borderColor='var(--border-light)'; this.style.color='var(--text-secondary)'"
-               onclick="cancelPayment(${orderId})">
+            <button id="cancel-payment-btn" type="button" data-order-id="${orderId}" style="${PAYMENT_CANCEL_BUTTON_STYLE}">
                 Cancel Order
             </button>
         </div>
@@ -705,25 +825,89 @@ function showPaymentModal(orderId, amount, tableNumber) {
         correctLevel: QRCode.CorrectLevel.M
     });
 
+    bindPaymentModalActions(orderId);
     modal.classList.add("open");
     document.body.style.overflow = "hidden";
 }
 
+function bindPaymentModalActions(orderId) {
+    const completeBtn = document.getElementById("complete-payment-btn");
+    const cancelBtn = document.getElementById("cancel-payment-btn");
+
+    if (!completeBtn || !cancelBtn) {
+        console.error(`${DEBUG_PREFIX} Payment modal buttons were not found after render.`, { orderId });
+        return;
+    }
+
+    completeBtn.addEventListener("click", () => {
+        const targetOrderId = Number(completeBtn.dataset.orderId || orderId || currentOrderId);
+        console.log(`${DEBUG_PREFIX} Payment complete button clicked.`, {
+            orderId: targetOrderId,
+            currentOrderId
+        });
+        window.handlePaymentComplete(targetOrderId);
+    });
+
+    cancelBtn.addEventListener("click", () => {
+        const targetOrderId = Number(cancelBtn.dataset.orderId || orderId || currentOrderId);
+        console.log(`${DEBUG_PREFIX} Cancel payment button clicked.`, {
+            orderId: targetOrderId,
+            currentOrderId
+        });
+        window.cancelPayment(targetOrderId);
+    });
+
+    cancelBtn.addEventListener("mouseenter", () => {
+        cancelBtn.style.borderColor = "var(--error)";
+        cancelBtn.style.color = "var(--error)";
+    });
+
+    cancelBtn.addEventListener("mouseleave", () => {
+        cancelBtn.style.borderColor = "var(--border-light)";
+        cancelBtn.style.color = "var(--text-secondary)";
+    });
+
+    console.log(`${DEBUG_PREFIX} Payment modal button listeners attached.`, { orderId });
+}
+
 window.handlePaymentComplete = async function (orderId) {
+    const resolvedOrderId = Number(orderId || currentOrderId);
     const btn = document.getElementById("complete-payment-btn");
     if (!btn) return;
+    if (!resolvedOrderId || Number.isNaN(resolvedOrderId)) {
+        console.error(`${DEBUG_PREFIX} Payment completion aborted because no valid order ID was available.`, {
+            orderId,
+            currentOrderId
+        });
+        showToast("Unable to verify this payment. Please create the order again.", "error");
+        return;
+    }
     
     btn.disabled = true;
     btn.textContent = "VERIFYING...";
+    console.log(`${DEBUG_PREFIX} Payment confirmation started.`, { orderId: resolvedOrderId });
 
     try {
         // Update order status from 'Pending' to 'Paid'
-        const { error } = await supabaseClient
+        const { data, error } = await supabaseClient
             .from("orders")
             .update({ status: "Paid" })
-            .eq("id", orderId);
+            .eq("id", resolvedOrderId)
+            .select("id, status")
+            .single();
 
-        if (error) throw error;
+        console.log(`${DEBUG_PREFIX} Payment status update response received.`, {
+            data,
+            error
+        });
+
+        if (error) {
+            console.error(`${DEBUG_PREFIX} Payment status update failed.`, error);
+            throw error;
+        }
+        if (!data || data.status !== "Paid") {
+            throw new Error("Payment update did not return a paid order record.");
+        }
 
         // Show success state
         showPaymentSuccess();
@@ -733,10 +917,17 @@ window.handlePaymentComplete = async function (orderId) {
         currentOrderId = null;
         updateCartUI();
 
+        console.log(`${DEBUG_PREFIX} Payment flow completed successfully.`, { orderId: resolvedOrderId });
         showToast("Payment confirmed! Your order is being prepared.", "success");
 
     } catch (err) {
-        console.error("Payment update failed:", err);
+        console.error(`${DEBUG_PREFIX} Payment update failed.`, {
+            message: err.message,
+            code: err.code,
+            details: err.details,
+            hint: err.hint,
+            error: err
+        });
         showToast(`Payment failed: ${err.message || "Unknown error"}`, "error");
         btn.disabled = false;
         btn.textContent = "✓ Payment Complete";
@@ -759,12 +950,34 @@ function showPaymentSuccess() {
 }
 
 window.cancelPayment = async function (orderId) {
+    const resolvedOrderId = Number(orderId || currentOrderId);
+    console.log(`${DEBUG_PREFIX} Cancelling order.`, { orderId: resolvedOrderId });
+
+    if (!resolvedOrderId || Number.isNaN(resolvedOrderId)) {
+        console.error(`${DEBUG_PREFIX} Cancel order aborted because no valid order ID was available.`, {
+            orderId,
+            currentOrderId
+        });
+        showToast("Unable to cancel this order right now.", "error");
+        return;
+    }
+
     try {
         // Optionally delete the pending order
-        await supabaseClient.from("order_items").delete().eq("order_id", orderId);
-        await supabaseClient.from("orders").delete().eq("id", orderId);
+        const { error: deleteItemsError } = await supabaseClient.from("order_items").delete().eq("order_id", resolvedOrderId);
+        const { error: deleteOrderError } = await supabaseClient.from("orders").delete().eq("id", resolvedOrderId);
+        console.log(`${DEBUG_PREFIX} Cancel order delete responses received.`, {
+            deleteItemsError,
+            deleteOrderError
+        });
+
+        if (deleteItemsError || deleteOrderError) {
+            throw deleteItemsError || deleteOrderError;
+        }
     } catch (err) {
-        console.error("Cancel error:", err);
+        console.error(`${DEBUG_PREFIX} Cancel error.`, err);
+        showToast(`Cancel failed: ${err.message || "Unknown error"}`, "error");
+        return;
     }
 
     closePaymentModal();
