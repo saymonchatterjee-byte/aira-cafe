@@ -785,7 +785,7 @@ function showPaymentModal(orderId, amount, tableNumber) {
     const content = document.getElementById("payment-modal-content");
 
     // Dynamic UPI Link format: upi://pay?pa=YOUR_UPI_ID@upi&pn=AiraCafe&am={total_amount}&cu=INR
-    const upiUrl = `upi://pay?pa=9387438403@fam&pn=AiraCafe&am=${amount}&cu=INR`;
+    const upiUrl = `upi://pay?pa=animapathakchatterjee@oksbi&pn=AiraCafe&am=${amount}&cu=INR`;
     console.log(`${DEBUG_PREFIX} Rendering payment modal.`, { orderId, amount, tableNumber, upiUrl });
 
     content.innerHTML = `
