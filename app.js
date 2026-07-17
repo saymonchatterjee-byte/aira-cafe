@@ -840,18 +840,22 @@ function bindPaymentModalActions(orderId) {
     }
 
     completeBtn.addEventListener("click", () => {
-        const targetOrderId = Number(completeBtn.dataset.orderId || orderId || currentOrderId);
-        console.log(`${DEBUG_PREFIX} Payment complete button clicked.`, {
-            orderId: targetOrderId,
+        // Use the UUID string directly — do NOT wrap in Number() or parseInt();
+        // UUIDs are hex strings and will become NaN if coerced to a number.
+        const targetOrderId = String(completeBtn.dataset.orderId || orderId || currentOrderId || "");
+        console.log(`[AIRA][Payment] ▶ Payment Complete button clicked — START of submission flow.`, {
+            targetOrderId,
+            source: completeBtn.dataset.orderId ? "data-order-id attr" : orderId ? "orderId param" : "currentOrderId global",
             currentOrderId
         });
         window.handlePaymentComplete(targetOrderId);
     });
 
     cancelBtn.addEventListener("click", () => {
-        const targetOrderId = Number(cancelBtn.dataset.orderId || orderId || currentOrderId);
-        console.log(`${DEBUG_PREFIX} Cancel payment button clicked.`, {
-            orderId: targetOrderId,
+        // Same UUID-safe string resolution — no Number() conversion.
+        const targetOrderId = String(cancelBtn.dataset.orderId || orderId || currentOrderId || "");
+        console.log(`[AIRA][Payment] ✕ Cancel button clicked.`, {
+            targetOrderId,
             currentOrderId
         });
         window.cancelPayment(targetOrderId);
@@ -871,11 +875,14 @@ function bindPaymentModalActions(orderId) {
 }
 
 window.handlePaymentComplete = async function (orderId) {
-    const resolvedOrderId = Number(orderId || currentOrderId);
+    // Resolve ID as a plain string — UUIDs must NOT be coerced with Number() or parseInt().
+    const resolvedOrderId = String(orderId || currentOrderId || "").trim();
+    console.log(`[AIRA][Payment] ▶ handlePaymentComplete called — START. Resolved order ID:`, resolvedOrderId);
+
     const btn = document.getElementById("complete-payment-btn");
     if (!btn) return;
-    if (!resolvedOrderId || Number.isNaN(resolvedOrderId)) {
-        console.error(`${DEBUG_PREFIX} Payment completion aborted because no valid order ID was available.`, {
+    if (!resolvedOrderId) {
+        console.error(`[AIRA][Payment] ✕ Aborted: no valid order ID available.`, {
             orderId,
             currentOrderId
         });
@@ -892,7 +899,7 @@ window.handlePaymentComplete = async function (orderId) {
         const { data, error } = await supabaseClient
             .from("orders")
             .update({ status: "Paid" })
-            .eq("id", resolvedOrderId)
+            .eq("id", resolvedOrderId)   // UUID string — passed as-is, no numeric coercion
             .select("id, status")
             .single();
 
@@ -917,7 +924,7 @@ window.handlePaymentComplete = async function (orderId) {
         currentOrderId = null;
         updateCartUI();
 
-        console.log(`${DEBUG_PREFIX} Payment flow completed successfully.`, { orderId: resolvedOrderId });
+        console.log(`[AIRA][Payment] ✓ handlePaymentComplete finished — END. Order ID sent to DB:`, resolvedOrderId);
         showToast("Payment confirmed! Your order is being prepared.", "success");
 
     } catch (err) {
@@ -950,11 +957,12 @@ function showPaymentSuccess() {
 }
 
 window.cancelPayment = async function (orderId) {
-    const resolvedOrderId = Number(orderId || currentOrderId);
-    console.log(`${DEBUG_PREFIX} Cancelling order.`, { orderId: resolvedOrderId });
+    // UUID string — do NOT wrap in Number() or parseInt().
+    const resolvedOrderId = String(orderId || currentOrderId || "").trim();
+    console.log(`[AIRA][Payment] ▶ cancelPayment called — START. Resolved order ID:`, resolvedOrderId);
 
-    if (!resolvedOrderId || Number.isNaN(resolvedOrderId)) {
-        console.error(`${DEBUG_PREFIX} Cancel order aborted because no valid order ID was available.`, {
+    if (!resolvedOrderId) {
+        console.error(`[AIRA][Payment] ✕ Cancel aborted: no valid order ID available.`, {
             orderId,
             currentOrderId
         });
