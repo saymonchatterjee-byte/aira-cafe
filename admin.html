@@ -46,7 +46,7 @@
                 <span class="live-dot"></span>
                 Live · Supabase
             </span>
-            <button onclick="loadPaidOrders()" style="
+            <button onclick="loadOrders()" style="
                 background: var(--bg-elevated);
                 border: 1px solid var(--border-light);
                 color: var(--text-secondary);
@@ -97,7 +97,7 @@
                 min-width: 140px;
             ">
                 <p style="font-size: 2rem; font-weight: 800; color: var(--text-primary);" id="stat-revenue">₹0</p>
-                <p style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">Revenue (Paid)</p>
+                <p style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">Active Order Total</p>
             </div>
         </div>
 
@@ -110,7 +110,7 @@
         ">
             <p style="font-size: 3rem; margin-bottom: 1rem;">🍳</p>
             <p style="font-size: 1.2rem; font-weight: 600; color: var(--text-secondary);">No active orders</p>
-            <p style="font-size: 0.85rem;">Paid orders will appear here in real-time</p>
+            <p style="font-size: 0.85rem;">Pending orders will appear here in real-time</p>
         </div>
 
         <!-- Orders Grid -->
@@ -160,8 +160,8 @@
             }, 4000);
         }
 
-        // ─── Load Paid Orders ───
-        async function loadPaidOrders() {
+        // ─── Load Pending Orders ───
+        async function loadOrders() {
             try {
                 const { data, error } = await sb
                     .from("orders")
@@ -169,7 +169,7 @@
                         id, table_number, total_amount, status, created_at,
                         order_items ( menu_item_name, quantity, price )
                     `)
-                    .eq("status", "Paid")
+                    .eq("status", "Pending")
                     .order("created_at", { ascending: true });
 
                 if (error) throw error;
@@ -229,7 +229,7 @@
                     <button class="kot-btn kot-btn-print" onclick='printKOT(${JSON.stringify(order).replace(/'/g, "&#39;")})'>
                         🖨️ Print KOT
                     </button>
-                    <button class="kot-btn kot-btn-complete" onclick="completeOrder(${order.id})">
+                    <button class="kot-btn kot-btn-complete" onclick="completeOrder('${order.id}')">
                         ✓ Complete
                     </button>
                 </div>
@@ -302,7 +302,7 @@
                 showToast(`Order #${id} marked as completed`, "success");
 
                 // Update stats
-                setTimeout(loadPaidOrders, 400);
+                setTimeout(loadOrders, 400);
 
             } catch (err) {
                 console.error("Failed to complete order:", err);
@@ -317,9 +317,9 @@
                 schema: "public",
                 table: "orders",
             }, (payload) => {
-                // New order inserted — reload if it's paid
-                if (payload.new.status === "Paid") {
-                    loadPaidOrders();
+                // New order inserted — reload if it's Pending
+                if (payload.new.status === "Pending") {
+                    loadOrders();
                     showToast(`New order from Table ${payload.new.table_number}!`, "info");
                 }
             })
@@ -328,10 +328,9 @@
                 schema: "public",
                 table: "orders",
             }, (payload) => {
-                if (payload.new.status === "Paid") {
-                    // Order just got paid — reload
-                    loadPaidOrders();
-                    showToast(`Table ${payload.new.table_number} payment confirmed!`, "success");
+                if (payload.new.status === "Pending") {
+                    loadOrders();
+                    showToast(`Table ${payload.new.table_number} updated!`, "info");
                 } else if (payload.new.status === "Completed") {
                     // Order completed — remove card
                     const card = document.getElementById(`order-${payload.new.id}`);
@@ -346,7 +345,7 @@
             .subscribe();
 
         // ─── Initial Load ───
-        loadPaidOrders();
+        loadOrders();
     </script>
 
 </body>

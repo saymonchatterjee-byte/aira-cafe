@@ -300,23 +300,12 @@ const CATEGORY_DEFINITIONS = [
 ];
 
 const DEBUG_PREFIX = "[Aira Debug]";
-const PAYMENT_CANCEL_BUTTON_STYLE = [
-    "background: transparent",
-    "border: 1px solid var(--border-light)",
-    "color: var(--text-secondary)",
-    "padding: 12px",
-    "border-radius: var(--radius-lg)",
-    "font-family: 'Inter', sans-serif",
-    "font-size: 0.8rem",
-    "font-weight: 700",
-    "cursor: pointer",
-    "transition: all 0.2s"
-].join("; ");
 
 // ─── DOM Ready ───
 document.addEventListener("DOMContentLoaded", () => {
     console.log(`${DEBUG_PREFIX} DOM ready. Initializing app.`);
-    initTableSelector();
+    const tableOk = initQRGatekeeper();
+    if (!tableOk) return; // QR gatekeeper blocked — halt all initialization
     initSwiper();
     generateCategoryFilters();
     renderMenu(getFilteredMenuItems(currentFilter));
@@ -327,23 +316,100 @@ document.addEventListener("DOMContentLoaded", () => {
 //  INITIALIZATION
 // ============================================
 
-function initTableSelector() {
-    const select = document.getElementById("table-select");
-    if (!select) {
-        console.error(`${DEBUG_PREFIX} Table selector not found.`);
-        return;
+/**
+ * QR Code Gatekeeper
+ * Parses ?table=X from the page URL. If missing or invalid, renders a
+ * full-screen blocker and returns false to halt all further app init.
+ * On success, stores the table number in window.currentTable, replaces
+ * the table dropdown with a static badge, and returns true.
+ */
+function initQRGatekeeper() {
+    const params = new URLSearchParams(window.location.search);
+    const tableParam = params.get("table");
+    const parsed = parseInt(tableParam, 10);
+
+    if (!tableParam || isNaN(parsed) || parsed < 1) {
+        console.warn(`${DEBUG_PREFIX} QR gatekeeper blocked — no valid ?table= param.`, { tableParam });
+        document.body.innerHTML = `
+            <div style="
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                background: var(--bg-primary);
+                font-family: 'Inter', -apple-system, sans-serif;
+                text-align: center;
+                padding: 2rem;
+                gap: 1rem;
+            ">
+                <div style="font-size: 5rem; margin-bottom: 0.5rem;">📵</div>
+                <h1 style="
+                    font-family: 'Playfair Display', Georgia, serif;
+                    font-size: clamp(1.5rem, 5vw, 2rem);
+                    font-weight: 700;
+                    color: var(--text-primary);
+                    margin-bottom: 0.5rem;
+                    letter-spacing: 1px;
+                ">Invalid Access</h1>
+                <p style="
+                    color: var(--text-secondary);
+                    font-size: 0.95rem;
+                    max-width: 300px;
+                    line-height: 1.7;
+                ">Please scan the <strong style="color: var(--text-primary);">QR code on your table</strong> to access the Aira Cafe menu and place your order.</p>
+                <div style="
+                    margin-top: 1.5rem;
+                    padding: 14px 28px;
+                    background: var(--accent-gold-dim);
+                    border: 1.5px solid var(--accent-gold);
+                    border-radius: 9999px;
+                    color: var(--accent-gold);
+                    font-size: 0.8rem;
+                    font-weight: 700;
+                    letter-spacing: 2px;
+                    text-transform: uppercase;
+                ">🪑 Scan Your Table QR Code</div>
+                <p style="
+                    margin-top: 2rem;
+                    font-size: 0.7rem;
+                    color: var(--text-muted);
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                ">Aira Cafe · Uzanbazar</p>
+            </div>
+        `;
+        return false;
     }
 
-    for (let i = 1; i <= 11; i++) {
-        const opt = document.createElement("option");
-        opt.value = i;
-        opt.textContent = `T-${i}`;
-        select.appendChild(opt);
+    window.currentTable = parsed;
+    console.log(`${DEBUG_PREFIX} QR gatekeeper passed. Table: ${window.currentTable}`);
+
+    // Replace the table dropdown with a static table badge
+    const tableSelect = document.getElementById("table-select");
+    if (tableSelect) {
+        const badge = document.createElement("div");
+        badge.id = "table-badge";
+        badge.style.cssText = [
+            "display: flex",
+            "align-items: center",
+            "gap: 6px",
+            "background: var(--accent-gold-dim)",
+            "border: 1px solid var(--accent-gold)",
+            "color: var(--accent-gold)",
+            "padding: 8px 18px",
+            "border-radius: 9999px",
+            "font-size: 0.8rem",
+            "font-weight: 700",
+            "letter-spacing: 1px",
+            "text-transform: uppercase",
+            "white-space: nowrap"
+        ].join("; ");
+        badge.textContent = `\uD83E\uDE91 Table ${window.currentTable}`;
+        tableSelect.replaceWith(badge);
     }
 
-    select.addEventListener("change", (event) => {
-        console.log(`${DEBUG_PREFIX} Table changed:`, event.target.value);
-    });
+    return true;
 }
 
 function initCheckoutButton() {
@@ -354,10 +420,9 @@ function initCheckoutButton() {
     }
 
     checkoutBtn.addEventListener("click", (event) => {
-        console.log(`${DEBUG_PREFIX} Checkout button clicked.`, {
-            tableValue: document.getElementById("table-select")?.value || null,
-            cartCount: cart.length,
-            cartSnapshot: getCartSnapshot()
+        console.log(`${DEBUG_PREFIX} Checkout clicked.`, {
+            table: window.currentTable,
+            cartCount: cart.length
         });
         handlePlaceOrder(event);
     });
@@ -625,83 +690,56 @@ window.toggleCartDrawer = function () {
 // ============================================
 
 async function handlePlaceOrder(event) {
-    if (event) {
-        event.preventDefault();
-    }
+    if (event) event.preventDefault();
 
     if (isProcessing) {
-        console.warn(`${DEBUG_PREFIX} Order submission blocked because a request is already processing.`);
+        console.warn(`${DEBUG_PREFIX} Order blocked — already processing.`);
         return;
     }
 
-    const tableSelect = document.getElementById("table-select");
-    const tableValue = tableSelect ? tableSelect.value : "";
-    const parsedTableNumber = parseInt(tableValue, 10);
-
-    console.log(`${DEBUG_PREFIX} Starting order submission flow.`, {
-        tableValue,
-        parsedTableNumber,
-        cartCount: cart.length,
-        cartSnapshot: getCartSnapshot()
-    });
-
-    // Validations
-    if (!tableValue) {
-        console.warn(`${DEBUG_PREFIX} Validation failed: table not selected.`);
-        showToast("Please select a table first", "error");
+    // Guard: table must come from the QR gatekeeper
+    if (!window.currentTable) {
+        showToast("Invalid session. Please scan your table QR code again.", "error");
         return;
     }
     if (cart.length === 0) {
-        console.warn(`${DEBUG_PREFIX} Validation failed: cart is empty.`);
         showToast("Your cart is empty", "error");
-        return;
-    }
-    if (Number.isNaN(parsedTableNumber)) {
-        console.error(`${DEBUG_PREFIX} Validation failed: table value is not a valid number.`, tableValue);
-        showToast("Selected table is invalid. Please choose again.", "error");
         return;
     }
 
     isProcessing = true;
     const checkoutBtn = document.getElementById("checkout-btn");
     checkoutBtn.disabled = true;
-    checkoutBtn.textContent = "PROCESSING...";
-    let createdOrderId = null;
+    checkoutBtn.textContent = "PLACING ORDER...";
 
     try {
-        // Calculate total
         const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        const orderPayload = {
-            table_number: parsedTableNumber,
-            total_amount: totalAmount,
-            status: "Pending",
-            created_at: new Date().toISOString()
-        };
 
-        console.log(`${DEBUG_PREFIX} Order payload prepared.`, orderPayload);
+        console.log(`${DEBUG_PREFIX} Submitting order.`, {
+            table: window.currentTable,
+            totalAmount,
+            itemCount: cart.length
+        });
 
-        // 1. Insert order with status 'Pending'
+        // 1. Insert order row as Pending
         const { data: order, error: orderError } = await supabaseClient
             .from("orders")
-            .insert([orderPayload])
+            .insert([{
+                table_number: window.currentTable,
+                total_amount: totalAmount,
+                status: "Pending",
+                created_at: new Date().toISOString()
+            }])
             .select("id")
             .single();
 
-        console.log(`${DEBUG_PREFIX} Orders insert response received.`, { order, orderError });
-
         if (orderError) {
-            console.error(`${DEBUG_PREFIX} Orders insert failed. This can indicate RLS, schema mismatch, or connectivity trouble.`, orderError);
+            console.error(`${DEBUG_PREFIX} Order insert failed.`, orderError);
             throw orderError;
         }
-        if (!order || !order.id) {
-            throw new Error("Order insert returned no order ID.");
-        }
+        if (!order?.id) throw new Error("Order insert returned no ID.");
 
-        createdOrderId = order.id;
-        console.log(`${DEBUG_PREFIX} Order row created successfully.`, {
-            orderId: createdOrderId,
-            note: "Admin dashboard currently shows only Paid orders, so Pending orders will not appear there yet."
-        });
+        console.log(`${DEBUG_PREFIX} Order row created.`, { orderId: order.id });
 
         // 2. Insert order items
         const itemsToInsert = cart.map(item => ({
@@ -711,294 +749,112 @@ async function handlePlaceOrder(event) {
             price: item.price
         }));
 
-        console.log(`${DEBUG_PREFIX} Order items payload prepared.`, itemsToInsert);
-
         const { error: itemsError } = await supabaseClient
             .from("order_items")
             .insert(itemsToInsert);
-
-        console.log(`${DEBUG_PREFIX} Order items insert response received.`, { itemsError });
 
         if (itemsError) {
             console.error(`${DEBUG_PREFIX} Order items insert failed.`, itemsError);
             throw itemsError;
         }
+        console.log(`${DEBUG_PREFIX} Order complete. Showing Pay at Counter confirmation.`);
 
-        // 3. Close cart drawer and show payment modal
-        currentOrderId = order.id;
-        console.log(`${DEBUG_PREFIX} Opening payment modal for created order.`, {
-            orderId: order.id,
-            totalAmount,
-            tableNumber: parsedTableNumber
-        });
+        // 3. Clear cart, close drawer, show confirmation
+        cart = [];
+        currentOrderId = null;
+        updateCartUI();
         toggleCartDrawer();
 
-        // Small delay for drawer animation to complete
         setTimeout(() => {
-            showPaymentModal(order.id, totalAmount, parsedTableNumber);
+            showOrderConfirmation(window.currentTable, order.id, totalAmount);
         }, 400);
 
-        showToast("Order created! Complete payment to confirm.", "info");
+        showToast("Order placed! Please pay at the counter.", "success");
 
     } catch (err) {
         console.error(`${DEBUG_PREFIX} Order creation failed.`, {
             message: err.message,
             code: err.code,
             details: err.details,
-            hint: err.hint,
-            error: err
+            hint: err.hint
         });
-
-        if (createdOrderId) {
-            console.warn(`${DEBUG_PREFIX} Attempting cleanup for partially created order.`, { createdOrderId });
-            const { error: cleanupItemsError } = await supabaseClient
-                .from("order_items")
-                .delete()
-                .eq("order_id", createdOrderId);
-
-            const { error: cleanupOrderError } = await supabaseClient
-                .from("orders")
-                .delete()
-                .eq("id", createdOrderId);
-
-            console.log(`${DEBUG_PREFIX} Cleanup result after failed order flow.`, {
-                cleanupItemsError,
-                cleanupOrderError
-            });
-        }
-
         showToast(`Order failed: ${err.message || "Unknown error"}`, "error");
     } finally {
         isProcessing = false;
-        checkoutBtn.disabled = false;
-        checkoutBtn.textContent = "Place Order";
-        console.log(`${DEBUG_PREFIX} Order submission flow finished.`);
+        const checkoutBtn = document.getElementById("checkout-btn");
+        if (checkoutBtn) {
+            checkoutBtn.disabled = false;
+            checkoutBtn.textContent = "Place Order";
+        }
     }
 }
 
 // ============================================
-//  PAYMENT MODAL
+//  ORDER CONFIRMATION (Pay at Counter)
 // ============================================
 
-function showPaymentModal(orderId, amount, tableNumber) {
+/**
+ * Shows a "Pay at Counter" confirmation screen.
+ * Reuses the existing #payment-modal overlay — no extra HTML needed.
+ */
+function showOrderConfirmation(tableNumber, orderId, total) {
     const modal = document.getElementById("payment-modal");
     const content = document.getElementById("payment-modal-content");
 
-    // Dynamic UPI Link format: upi://pay?pa=YOUR_UPI_ID@upi&pn=AiraCafe&am={total_amount}&cu=INR
-    const upiUrl = `upi://pay?pa=animapathakchatterjee@oksbi&pn=AiraCafe&am=${amount}&cu=INR`;
-    console.log(`${DEBUG_PREFIX} Rendering payment modal.`, { orderId, amount, tableNumber, upiUrl });
+    if (!modal || !content) return;
+
+    const shortId = String(orderId).slice(0, 8).toUpperCase();
+    const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
     content.innerHTML = `
-        <div class="modal-icon">💳</div>
-        <h3 class="modal-title">Payment Gateway</h3>
-        <p class="modal-subtitle">Scan UPI QR code to complete payment for Table ${tableNumber}</p>
-        
-        <div class="flex justify-center mb-6">
-            <div id="qrcode-canvas" class="p-3 bg-white rounded-xl shadow-inner border border-zinc-700 flex items-center justify-center w-[204px] h-[204px]"></div>
+        <div class="success-check">✓</div>
+        <h3 class="modal-title">Order Placed!</h3>
+        <p class="modal-subtitle">Your order has been sent to the kitchen.</p>
+
+        <div style="
+            background: var(--accent-gold-dim);
+            border: 1px solid var(--accent-gold);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+            text-align: left;
+        ">
+            <p style="font-size: 0.95rem; font-weight: 700; color: var(--accent-gold); margin-bottom: 0.4rem;">
+                💰 Please Pay at the Counter
+            </p>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
+                A staff member will collect your payment of
+                <strong style="color: var(--text-primary);">₹${total}</strong>
+                at your table shortly.
+            </p>
         </div>
 
-        <p class="modal-amount">₹${amount}</p>
-        <p class="modal-amount-label">Total Amount Due</p>
-
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-            <button class="payment-btn" id="complete-payment-btn" type="button" data-order-id="${orderId}">
-                ✓ Payment Complete
-            </button>
-            <button id="cancel-payment-btn" type="button" data-order-id="${orderId}" style="${PAYMENT_CANCEL_BUTTON_STYLE}">
-                Cancel Order
-            </button>
+        <div style="
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        ">
+            <span>🪑 Table ${tableNumber}</span>
+            <span>Order #${shortId} · ${time}</span>
         </div>
 
-        <p style="margin-top: 1.5rem; font-size: 0.7rem; color: var(--text-muted);">
-            Order #${orderId} · Dynamic UPI Integration
-        </p>
+        <button class="checkout-btn" onclick="closePaymentModal()" style="margin-top: 0.5rem;">
+            Done
+        </button>
     `;
 
-    // Initialize qrcodejs code generation
-    const qrCanvas = document.getElementById("qrcode-canvas");
-    new QRCode(qrCanvas, {
-        text: upiUrl,
-        width: 180,
-        height: 180,
-        colorDark: "#111111",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.M
-    });
-
-    bindPaymentModalActions(orderId);
     modal.classList.add("open");
     document.body.style.overflow = "hidden";
 }
 
-function bindPaymentModalActions(orderId) {
-    const completeBtn = document.getElementById("complete-payment-btn");
-    const cancelBtn = document.getElementById("cancel-payment-btn");
-
-    if (!completeBtn || !cancelBtn) {
-        console.error(`${DEBUG_PREFIX} Payment modal buttons were not found after render.`, { orderId });
-        return;
-    }
-
-    completeBtn.addEventListener("click", () => {
-        // Use the UUID string directly — do NOT wrap in Number() or parseInt();
-        // UUIDs are hex strings and will become NaN if coerced to a number.
-        const targetOrderId = String(completeBtn.dataset.orderId || orderId || currentOrderId || "");
-        console.log(`[AIRA][Payment] ▶ Payment Complete button clicked — START of submission flow.`, {
-            targetOrderId,
-            source: completeBtn.dataset.orderId ? "data-order-id attr" : orderId ? "orderId param" : "currentOrderId global",
-            currentOrderId
-        });
-        window.handlePaymentComplete(targetOrderId);
-    });
-
-    cancelBtn.addEventListener("click", () => {
-        // Same UUID-safe string resolution — no Number() conversion.
-        const targetOrderId = String(cancelBtn.dataset.orderId || orderId || currentOrderId || "");
-        console.log(`[AIRA][Payment] ✕ Cancel button clicked.`, {
-            targetOrderId,
-            currentOrderId
-        });
-        window.cancelPayment(targetOrderId);
-    });
-
-    cancelBtn.addEventListener("mouseenter", () => {
-        cancelBtn.style.borderColor = "var(--error)";
-        cancelBtn.style.color = "var(--error)";
-    });
-
-    cancelBtn.addEventListener("mouseleave", () => {
-        cancelBtn.style.borderColor = "var(--border-light)";
-        cancelBtn.style.color = "var(--text-secondary)";
-    });
-
-    console.log(`${DEBUG_PREFIX} Payment modal button listeners attached.`, { orderId });
-}
-
-window.handlePaymentComplete = async function (orderId) {
-    // Resolve ID as a plain string — UUIDs must NOT be coerced with Number() or parseInt().
-    const resolvedOrderId = String(orderId || currentOrderId || "").trim();
-    console.log(`[AIRA][Payment] ▶ handlePaymentComplete called — START. Resolved order ID:`, resolvedOrderId);
-
-    const btn = document.getElementById("complete-payment-btn");
-    if (!btn) return;
-    if (!resolvedOrderId) {
-        console.error(`[AIRA][Payment] ✕ Aborted: no valid order ID available.`, {
-            orderId,
-            currentOrderId
-        });
-        showToast("Unable to verify this payment. Please create the order again.", "error");
-        return;
-    }
-    
-    btn.disabled = true;
-    btn.textContent = "VERIFYING...";
-    console.log(`${DEBUG_PREFIX} Payment confirmation started.`, { orderId: resolvedOrderId });
-
-    try {
-        // Update order status from 'Pending' to 'Paid'
-        const { data, error } = await supabaseClient
-            .from("orders")
-            .update({ status: "Paid" })
-            .eq("id", resolvedOrderId)   // UUID string — passed as-is, no numeric coercion
-            .select("id, status")
-            .single();
-
-        console.log(`${DEBUG_PREFIX} Payment status update response received.`, {
-            data,
-            error
-        });
-
-        if (error) {
-            console.error(`${DEBUG_PREFIX} Payment status update failed.`, error);
-            throw error;
-        }
-        if (!data || data.status !== "Paid") {
-            throw new Error("Payment update did not return a paid order record.");
-        }
-
-        // Show success state
-        showPaymentSuccess();
-        
-        // Clear cart
-        cart = [];
-        currentOrderId = null;
-        updateCartUI();
-
-        console.log(`[AIRA][Payment] ✓ handlePaymentComplete finished — END. Order ID sent to DB:`, resolvedOrderId);
-        showToast("Payment confirmed! Your order is being prepared.", "success");
-
-    } catch (err) {
-        console.error(`${DEBUG_PREFIX} Payment update failed.`, {
-            message: err.message,
-            code: err.code,
-            details: err.details,
-            hint: err.hint,
-            error: err
-        });
-        showToast(`Payment failed: ${err.message || "Unknown error"}`, "error");
-        btn.disabled = false;
-        btn.textContent = "✓ Payment Complete";
-    }
-};
-
-function showPaymentSuccess() {
-    const content = document.getElementById("payment-modal-content");
-    content.innerHTML = `
-        <div class="success-check">✓</div>
-        <h3 class="modal-title">Payment Successful!</h3>
-        <p class="modal-subtitle">Your order has been sent to the kitchen.</p>
-        <p style="color: var(--accent-gold); font-family: 'Playfair Display', serif; font-style: italic; margin: 1.5rem 0;">
-            Thank you for dining with us
-        </p>
-        <button class="checkout-btn" onclick="closePaymentModal()" style="margin-top: 1rem;">
-            Done
-        </button>
-    `;
-}
-
-window.cancelPayment = async function (orderId) {
-    // UUID string — do NOT wrap in Number() or parseInt().
-    const resolvedOrderId = String(orderId || currentOrderId || "").trim();
-    console.log(`[AIRA][Payment] ▶ cancelPayment called — START. Resolved order ID:`, resolvedOrderId);
-
-    if (!resolvedOrderId) {
-        console.error(`[AIRA][Payment] ✕ Cancel aborted: no valid order ID available.`, {
-            orderId,
-            currentOrderId
-        });
-        showToast("Unable to cancel this order right now.", "error");
-        return;
-    }
-
-    try {
-        // Optionally delete the pending order
-        const { error: deleteItemsError } = await supabaseClient.from("order_items").delete().eq("order_id", resolvedOrderId);
-        const { error: deleteOrderError } = await supabaseClient.from("orders").delete().eq("id", resolvedOrderId);
-        console.log(`${DEBUG_PREFIX} Cancel order delete responses received.`, {
-            deleteItemsError,
-            deleteOrderError
-        });
-
-        if (deleteItemsError || deleteOrderError) {
-            throw deleteItemsError || deleteOrderError;
-        }
-    } catch (err) {
-        console.error(`${DEBUG_PREFIX} Cancel error.`, err);
-        showToast(`Cancel failed: ${err.message || "Unknown error"}`, "error");
-        return;
-    }
-
-    closePaymentModal();
-    showToast("Order cancelled", "info");
-    cart = [];
-    currentOrderId = null;
-    updateCartUI();
-};
-
 window.closePaymentModal = function () {
     const modal = document.getElementById("payment-modal");
-    modal.classList.remove("open");
-    document.body.style.overflow = "";
+    if (modal) {
+        modal.classList.remove("open");
+        document.body.style.overflow = "";
+    }
 };
 
 // ============================================
