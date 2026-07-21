@@ -210,27 +210,31 @@ input:focus, textarea:focus {
 .hero-section {
     position: relative;
     width: 100%;
-    height: 85vh;
-    min-height: 500px;
-    max-height: 800px;
+    height: 560px;
     overflow: hidden;
+}
+
+/* Ensure Swiper's internal containers propagate height fully */
+.hero-section .swiper,
+.hero-section .swiper-wrapper {
+    width: 100%;
+    height: 100%;
 }
 
 .hero-slide {
     position: relative;
     width: 100%;
     height: 100%;
-    background-position: center center;
-    background-size: cover;
+    overflow: hidden;
 }
 
 .hero-slide-bg {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center center;
-    background-position: center center;
-    background-size: cover;
     filter: brightness(0.4);
 }
 
@@ -1241,19 +1245,12 @@ input:focus, textarea:focus {
    ============================================ */
 @media (max-width: 768px) {
     .hero-section {
-        height: 72vh;
-        min-height: 440px;
-    }
-
-    .hero-slide,
-    .hero-slide-bg {
-        background-position: center center;
-        background-size: cover;
+        height: 420px;
     }
 
     .hero-slide-overlay {
         padding: 1.5rem 1rem 2rem;
-        justify-content: flex-end;
+        justify-content: center;
     }
 
     .hero-title {
@@ -1300,8 +1297,7 @@ input:focus, textarea:focus {
         letter-spacing: 1px;
     }
     .hero-section {
-        height: 70vh;
-        min-height: 400px;
+        height: 320px;
     }
     .hero-logo {
         width: 65px;
