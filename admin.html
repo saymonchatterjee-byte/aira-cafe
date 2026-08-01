@@ -336,6 +336,197 @@
             .metric-card { padding: 1rem 1.2rem; }
             .metric-value { font-size: 1.6rem; }
         }
+
+        /* ═══════════════════════════════════════
+           BILLING MODAL
+           ═══════════════════════════════════════ */
+        .bill-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.72);
+            backdrop-filter: blur(4px);
+            z-index: 9000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .bill-overlay.open { display: flex; }
+
+        .bill-modal-wrap {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 480px;
+            max-height: 92vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+        }
+
+        /* Modal top bar */
+        .bill-modal-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.4rem;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+        .bill-modal-bar-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+        }
+        .bill-close-btn {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-light);
+            color: var(--text-muted);
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+        .bill-close-btn:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+        /* Payment selector */
+        .bill-pay-row {
+            display: flex;
+            gap: 0.6rem;
+            padding: 1rem 1.4rem;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+            flex-wrap: wrap;
+            flex-shrink: 0;
+        }
+        .bill-pay-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+        .pay-pill {
+            padding: 6px 16px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border-light);
+            background: var(--bg-elevated);
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.18s;
+            font-family: 'Inter', sans-serif;
+        }
+        .pay-pill:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+        .pay-pill.active {
+            background: var(--accent-gold);
+            border-color: var(--accent-gold);
+            color: #111;
+        }
+
+        /* Receipt preview inside modal */
+        .bill-receipt-preview {
+            padding: 1.4rem;
+            flex: 1;
+        }
+        .receipt-paper {
+            background: #fff;
+            color: #111;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            padding: 20px 18px;
+            border-radius: 4px;
+            max-width: 300px;
+            margin: 0 auto;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            position: relative;
+        }
+        /* Jagged top/bottom edge for thermal paper illusion */
+        .receipt-paper::before, .receipt-paper::after {
+            content: '';
+            display: block;
+            height: 8px;
+            background: repeating-linear-gradient(90deg, var(--bg-card) 0px, var(--bg-card) 8px, #fff 8px, #fff 16px);
+            position: absolute;
+            left: 0; right: 0;
+        }
+        .receipt-paper::before { top: -8px; }
+        .receipt-paper::after  { bottom: -8px; }
+
+        .receipt-header  { text-align: center; margin-bottom: 12px; }
+        .receipt-logo    { width: 72px; height: 72px; object-fit: cover; border-radius: 50%; margin: 0 auto 8px; display: block; }
+        .receipt-brand   { font-size: 18px; font-weight: 900; letter-spacing: 2px; font-family: 'Playfair Display', serif; }
+        .receipt-tagline { font-size: 11px; color: #555; margin-bottom: 2px; }
+        .receipt-addr    { font-size: 10px; color: #555; line-height: 1.5; }
+        .receipt-divider { border: none; border-top: 1px dashed #999; margin: 10px 0; }
+        .receipt-meta    { font-size: 11px; margin-bottom: 10px; line-height: 1.7; }
+        .receipt-table   { width: 100%; border-collapse: collapse; font-size: 11px; }
+        .receipt-table th { text-align: left; border-bottom: 1px dashed #999; padding-bottom: 4px; font-weight: bold; }
+        .receipt-table th.r, .receipt-table td.r { text-align: right; }
+        .receipt-table th.c, .receipt-table td.c { text-align: center; }
+        .receipt-table td { padding: 3px 0; vertical-align: top; }
+        .receipt-totals  { font-size: 11px; margin-top: 8px; }
+        .receipt-totals tr td:first-child { color: #555; }
+        .receipt-totals tr td:last-child  { text-align: right; font-weight: 600; }
+        .receipt-grand   { font-size: 20px; font-weight: 900; text-align: center; margin: 8px 0 4px; letter-spacing: 1px; }
+        .receipt-footer  { text-align: center; font-size: 10px; color: #666; margin-top: 12px; line-height: 1.7; }
+        .receipt-footer strong { color: #111; }
+
+        /* Bill action buttons */
+        .bill-actions {
+            display: flex;
+            gap: 0.6rem;
+            padding: 1rem 1.4rem;
+            border-top: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+        .bill-action-btn {
+            flex: 1;
+            padding: 11px;
+            border-radius: var(--radius-md);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+        }
+        .bill-action-print {
+            background: var(--accent-gold);
+            color: #111;
+        }
+        .bill-action-print:hover { filter: brightness(1.08); }
+        .bill-action-close {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-light);
+            color: var(--text-secondary);
+        }
+        .bill-action-close:hover { border-color: var(--accent-gold); color: var(--text-primary); }
+
+        /* ── Print: bill only ── */
+        @media print {
+            body > *:not(#bill-print-area) { display: none !important; }
+            #bill-print-area {
+                display: block !important;
+                position: static !important;
+                width: 80mm;
+                margin: 0;
+                padding: 0;
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 12px;
+                color: #000;
+            }
+        }
     </style>
 </head>
 <body>
@@ -584,6 +775,46 @@
     <div id="print-area" class="hidden"></div>
 
     <!-- ========================================
+         BILL PRINT AREA (thermal receipt)
+         ======================================== -->
+    <div id="bill-print-area" style="display:none;"></div>
+
+    <!-- ========================================
+         BILL MODAL
+         ======================================== -->
+    <div class="bill-overlay" id="bill-overlay" onclick="handleBillOverlayClick(event)">
+        <div class="bill-modal-wrap" id="bill-modal-wrap">
+
+            <!-- Top bar -->
+            <div class="bill-modal-bar">
+                <span class="bill-modal-bar-title">🧾 Bill Preview</span>
+                <button class="bill-close-btn" onclick="closeBillModal()" aria-label="Close bill">✕</button>
+            </div>
+
+            <!-- Payment mode selector -->
+            <div class="bill-pay-row">
+                <span class="bill-pay-label">Payment:</span>
+                <button class="pay-pill active" id="pay-cash"  onclick="selectPayMode('Cash')">💵 Cash</button>
+                <button class="pay-pill"        id="pay-card"  onclick="selectPayMode('Card')">💳 Card</button>
+                <button class="pay-pill"        id="pay-upi"   onclick="selectPayMode('UPI')">📱 UPI</button>
+            </div>
+
+            <!-- Receipt preview -->
+            <div class="bill-receipt-preview">
+                <div class="receipt-paper" id="receipt-paper">
+                    <!-- Injected by generateBill() -->
+                </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="bill-actions">
+                <button class="bill-action-btn bill-action-print" onclick="printBill()">🖨️ Print Bill</button>
+                <button class="bill-action-btn bill-action-close" onclick="closeBillModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================
          TOAST CONTAINER
          ======================================== -->
     <div class="toast-container" id="toast-container"></div>
@@ -728,9 +959,12 @@
                 </div>
                 <div class="kot-actions">
                     <button class="kot-btn kot-btn-print" onclick='printKOT(${JSON.stringify(order).replace(/'/g, "&#39;")})'>
-                        🖨️ Print KOT
+                        🖨️ KOT
                     </button>
-                    <button class="kot-btn kot-btn-complete" onclick="completeOrder('${order.id}')">
+                    <button class="kot-btn" style="background: var(--bg-elevated); border: 1px solid var(--accent-gold); color: var(--accent-gold); flex: 1;" onclick='generateBill(${JSON.stringify(order).replace(/'/g, "&#39;")}, false)'>
+                        🧾 Bill
+                    </button>
+                    <button class="kot-btn kot-btn-complete" onclick='completeAndBill(${JSON.stringify(order).replace(/'/g, "&#39;")})'>
                         ✓ Complete
                     </button>
                 </div>
@@ -743,6 +977,194 @@
             document.getElementById("stat-count").textContent = orders.length;
             const revenue = orders.reduce((sum, o) => sum + (parseFloat(o.total_amount) || 0), 0);
             document.getElementById("stat-revenue").textContent = `₹${revenue}`;
+        }
+
+        // ── Bill state ──
+        let _billOrder  = null;
+        let _billPayMode = "Cash";
+
+        function selectPayMode(mode) {
+            _billPayMode = mode;
+            document.querySelectorAll(".pay-pill").forEach(p => p.classList.remove("active"));
+            const map = { Cash: "pay-cash", Card: "pay-card", UPI: "pay-upi" };
+            const btn = document.getElementById(map[mode]);
+            if (btn) btn.classList.add("active");
+            // Re-render receipt with new payment mode
+            if (_billOrder) renderReceiptHtml(_billOrder, _billPayMode);
+        }
+
+        /**
+         * Opens the bill modal for a given order.
+         * @param {object} order   - full order object with order_items
+         * @param {boolean} [afterComplete=false] - whether called after completing order
+         */
+        function generateBill(order, afterComplete = false) {
+            _billOrder   = order;
+            _billPayMode = "Cash";
+            // Reset payment pill
+            document.querySelectorAll(".pay-pill").forEach(p => p.classList.remove("active"));
+            document.getElementById("pay-cash").classList.add("active");
+            // Render receipt content
+            renderReceiptHtml(order, _billPayMode);
+            // Open modal
+            document.getElementById("bill-overlay").classList.add("open");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeBillModal() {
+            document.getElementById("bill-overlay").classList.remove("open");
+            document.body.style.overflow = "";
+            _billOrder = null;
+        }
+
+        function handleBillOverlayClick(e) {
+            if (e.target === document.getElementById("bill-overlay")) closeBillModal();
+        }
+
+        /** completeOrder + open bill immediately after */
+        async function completeAndBill(order) {
+            try {
+                const { error } = await sb
+                    .from("orders")
+                    .update({ status: "Completed" })
+                    .eq("id", order.id);
+
+                if (error) throw error;
+
+                const card = document.getElementById(`order-${order.id}`);
+                if (card) {
+                    card.style.opacity = "0";
+                    card.style.transform = "scale(0.95)";
+                    card.style.transition = "all 0.3s ease";
+                    setTimeout(() => card.remove(), 300);
+                }
+
+                showToast(`Order #${order.id} completed`, "success");
+                setTimeout(loadOrders, 400);
+
+                // Open bill modal
+                generateBill(order, true);
+
+            } catch (err) {
+                console.error("Failed to complete order:", err);
+                showToast(`Failed to complete order: ${err.message}`, "error");
+            }
+        }
+
+        function renderReceiptHtml(order, payMode) {
+            const paper = document.getElementById("receipt-paper");
+            if (!paper) return;
+
+            const items      = order.order_items || [];
+            const total      = parseFloat(order.total_amount) || 0;
+            const totalQty   = items.reduce((s, i) => s + (i.quantity || 0), 0);
+            const totalItems = items.length;
+            const shortId    = String(order.id).slice(0, 8).toUpperCase();
+
+            const now = new Date(order.created_at);
+            const dateStr = now.toLocaleDateString("en-IN", {
+                day: "2-digit", month: "2-digit", year: "2-digit"
+            });
+            const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: true });
+
+            paper.innerHTML = `
+                <!-- Header -->
+                <div class="receipt-header">
+                    <img src="images/aira-logo.jpg" alt="Aira" class="receipt-logo">
+                    <div class="receipt-brand">Aira</div>
+                    <div class="receipt-tagline">Your mood Cafe</div>
+                    <div class="receipt-addr">
+                        MG Road, Uzanbazar, ASSAM, 781001<br>
+                        LICENSE: 1764767909049363<br>
+                        Phone: 7663944239<br>
+                        ✉ aira.moodstation@gmail.com
+                    </div>
+                </div>
+
+                <hr class="receipt-divider">
+
+                <!-- Bill meta -->
+                <div class="receipt-meta">
+                    <strong>Bill No:</strong> ${shortId}<br>
+                    <strong>Created On:</strong> ${dateStr} ${timeStr}<br>
+                    <strong>Bill To:</strong> Table ${order.table_number}
+                </div>
+
+                <hr class="receipt-divider">
+
+                <!-- Items table -->
+                <table class="receipt-table">
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th class="c">Qty</th>
+                            <th class="r">Rate</th>
+                            <th class="r">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${items.map(i => {
+                            const lineTotal = (i.price || 0) * (i.quantity || 0);
+                            return `<tr>
+                                <td>${i.menu_item_name}</td>
+                                <td class="c">${i.quantity}</td>
+                                <td class="r">${i.price}</td>
+                                <td class="r">${lineTotal}</td>
+                            </tr>`;
+                        }).join("")}
+                    </tbody>
+                </table>
+
+                <hr class="receipt-divider">
+
+                <!-- Totals -->
+                <table class="receipt-totals" style="width:100%;">
+                    <tr><td>Total Items:</td><td>${totalItems}</td></tr>
+                    <tr><td>Total Quantity:</td><td>${totalQty}</td></tr>
+                    <tr><td>Sub Total</td><td style="text-align:right;">₹${total}</td></tr>
+                </table>
+
+                <div class="receipt-grand">Total ₹${total}</div>
+
+                <hr class="receipt-divider">
+
+                <!-- Payment -->
+                <table style="width:100%; font-size:11px;">
+                    <tr>
+                        <td>Mode of Payment</td>
+                        <td style="text-align:right;">${payMode}</td>
+                    </tr>
+                    <tr>
+                        <td>Received</td>
+                        <td style="text-align:right;">₹${total}</td>
+                    </tr>
+                </table>
+
+                <hr class="receipt-divider">
+
+                <!-- Footer -->
+                <div class="receipt-footer">
+                    <strong>Aira Loves You! Visit Again!</strong><br>
+                    Powered by Aira Web System
+                </div>
+            `;
+        }
+
+        function printBill() {
+            if (!_billOrder) return;
+
+            const paper = document.getElementById("receipt-paper");
+            if (!paper) return;
+
+            const billPrintArea = document.getElementById("bill-print-area");
+            billPrintArea.innerHTML = paper.innerHTML;
+            billPrintArea.style.display = "block";
+
+            window.print();
+
+            billPrintArea.style.display = "none";
+            billPrintArea.innerHTML = "";
+            showToast("Bill sent to printer", "info");
         }
 
         function printKOT(order) {
@@ -777,6 +1199,7 @@
             showToast("KOT sent to printer", "info");
         }
 
+        /* completeOrder kept for realtime subscription usage */
         async function completeOrder(id) {
             try {
                 const { error } = await sb
