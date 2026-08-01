@@ -1,0 +1,55 @@
+name,price,category
+Truffle Parmigiano Alfredo (Veg),349,Pasta
+Truffle Parmigiano Alfredo (Chicken),399,Pasta
+Smoked Makhani Pasta (Veg),299,Pasta
+Smoked Makhani Pasta (Chicken),349,Pasta
+Roasted Garlic Cream Pasta (Veg),299,Pasta
+Roasted Garlic Cream Pasta (Chicken),349,Pasta
+Creamy Alfredo (Veg),279,Pasta
+Creamy Alfredo (Chicken),329,Pasta
+Arrabbiata (Veg),269,Pasta
+Arrabbiata (Chicken),319,Pasta
+Aglio E Olio (Veg),249,Pasta
+Aglio E Olio (Chicken),299,Pasta
+Basil Pesto Verde (Veg),299,Pasta
+Basil Pesto Verde (Chicken),349,Pasta
+Signature Fried Chicken Burger,299,Burgers
+Korean Crunch Chicken Burger,319,Burgers
+BBQ Crunch Chicken Burger,319,Burgers
+Cheesy Veg Burger,249,Burgers
+Special Smash Chicken Burger,349,Burgers
+Signature Fried Chicken - 6 Pcs,399,Fried Chicken
+Signature Fried Chicken - 12 Pcs,749,Fried Chicken
+Fried Chicken Wings - 6 Pcs,279,Fried Chicken
+Fried Chicken Wings - 12 Pcs,499,Fried Chicken
+Veg Club Sandwich,229,Sandwiches
+Chicken Club Sandwich,279,Sandwiches
+Salted Fries,129,Fries
+Cajun Spiced Fries,149,Fries
+Peri-Peri Fries,149,Fries
+Cheese Overload Fries,199,Fries
+Crispy Fried Chicken Fries,249,Fries
+Seasonal Fruit French Toast,279,Breakfast
+Tiramisu French Toast,299,Breakfast
+Choice of Eggs,249,Breakfast
+Smoothie Bowl,249,Breakfast
+Egg & Cheese Sandwich,199,Breakfast
+Avocado & Hummus Toast,279,Breakfast
+Veg Thukpa,199,Comfort Food
+Chicken Thukpa,229,Comfort Food
+Steamed Veg Momos (6 pcs),159,Comfort Food
+Steamed Chicken Momos (6 pcs),189,Comfort Food
+Fried Veg Momos (6 pcs),179,Comfort Food
+Fried Chicken Momos (6 pcs),209,Comfort Food
+Veg Wrap,199,Comfort Food
+Chicken Wrap,239,Comfort Food
+Crispy Chili Baby Corn (Original),199,Comfort Food
+Crispy Chili Baby Corn (Korean),219,Comfort Food
+Crispy Chili Baby Corn (BBQ),219,Comfort Food
+Crispy Chili Baby Corn (Nashville Hot),219,Comfort Food
+Burnt Garlic Chicken Combo,299,Indo-Chinese Combos
+Burnt Garlic Paneer Combo,279,Indo-Chinese Combos
+Chili Chicken Combo,299,Indo-Chinese Combos
+Chili Paneer Combo,279,Indo-Chinese Combos
+Masala Chicken Paratha Combo,249,Paratha Combos
+Masala Paneer Paratha Combo,229,Paratha Combos
