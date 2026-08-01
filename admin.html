@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aira Cafe — Kitchen Dashboard (KOT)</title>
-    <meta name="description" content="Aira Cafe Kitchen Order Ticket system. Real-time order management for kitchen staff.">
+    <title>Aira Cafe — Admin Dashboard</title>
+    <meta name="description" content="Aira Cafe admin dashboard. Kitchen order tickets and daily sales analytics.">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap">
 
     <!-- Tailwind CSS v3 (Play CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,6 +19,324 @@
 
     <!-- Design System -->
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* ── Tab Navigation ── */
+        .admin-tab-bar {
+            display: flex;
+            gap: 0.25rem;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            padding: 4px;
+            width: fit-content;
+            margin: 0 auto 2.5rem;
+        }
+        .admin-tab {
+            padding: 8px 22px;
+            border-radius: var(--radius-full);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            transition: all 0.22s ease;
+            font-family: 'Inter', sans-serif;
+        }
+        .admin-tab:hover { color: var(--text-primary); }
+        .admin-tab.active {
+            background: var(--accent-gold);
+            color: #111;
+        }
+
+        /* ── Panel visibility ── */
+        .admin-panel { display: none; }
+        .admin-panel.active { display: block; }
+
+        /* ── Sales: Metric Cards ── */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .metric-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.4rem 1.6rem;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+        .metric-card:hover { border-color: var(--accent-gold); }
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--accent-gold);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .metric-card:hover::before { opacity: 1; }
+        .metric-icon {
+            font-size: 1.6rem;
+            margin-bottom: 0.6rem;
+        }
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            font-family: 'Inter', sans-serif;
+            line-height: 1;
+            margin-bottom: 0.35rem;
+        }
+        .metric-label {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-weight: 700;
+        }
+
+        /* ── Sales: Filter Bar ── */
+        .filter-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.4rem 1.6rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            flex: 1;
+            min-width: 160px;
+        }
+        .filter-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+        }
+        .filter-input {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-light);
+            color: var(--text-primary);
+            border-radius: var(--radius-md);
+            padding: 9px 14px;
+            font-size: 0.82rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            outline: none;
+            transition: border-color 0.2s;
+            width: 100%;
+        }
+        .filter-input:focus { border-color: var(--accent-gold); }
+        .filter-input option { background: var(--bg-elevated); color: var(--text-primary); }
+        .filter-btn {
+            padding: 9px 22px;
+            border-radius: var(--radius-md);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .filter-btn-primary {
+            background: var(--accent-gold);
+            color: #111;
+        }
+        .filter-btn-primary:hover { background: var(--accent-gold-hover, #c8973a); }
+        .filter-btn-ghost {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-light);
+            color: var(--text-secondary);
+        }
+        .filter-btn-ghost:hover { border-color: var(--accent-gold); color: var(--text-primary); }
+
+        /* ── Sales: Data Table ── */
+        .sales-table-wrap {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+        .sales-table-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.2rem 1.6rem;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        .sales-table-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 0.04em;
+        }
+        .sales-table-subtitle {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+        .export-btn {
+            padding: 7px 16px;
+            border-radius: var(--radius-md);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-light);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+        }
+        .export-btn:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+        table.sales-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .sales-table thead tr {
+            background: var(--bg-elevated);
+        }
+        .sales-table th {
+            padding: 10px 16px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        .sales-table th.right, .sales-table td.right { text-align: right; }
+        .sales-table td {
+            padding: 11px 16px;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+        .sales-table tbody tr:last-child td { border-bottom: none; }
+        .sales-table tbody tr:hover td { background: var(--bg-elevated); color: var(--text-primary); }
+        .sales-table .item-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            max-width: 260px;
+        }
+        .sales-table .revenue-cell {
+            font-weight: 700;
+            color: var(--accent-gold);
+        }
+        .table-footer-row td {
+            background: var(--bg-elevated) !important;
+            font-weight: 700;
+            font-size: 0.82rem;
+            color: var(--text-primary) !important;
+            border-top: 2px solid var(--border);
+        }
+
+        /* ── Loading Skeleton ── */
+        .skeleton-row td {
+            padding: 14px 16px;
+        }
+        .skeleton-cell {
+            height: 14px;
+            border-radius: 6px;
+            background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-card) 50%, var(--bg-elevated) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* ── Empty / No-data state ── */
+        .table-empty {
+            padding: 3.5rem 2rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+        .table-empty-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+        .table-empty-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+        }
+        .table-empty-sub { font-size: 0.8rem; }
+
+        /* ── Order Detail Rows (collapsible) ── */
+        .order-rows-container { display: none; }
+        .order-rows-container.open { display: table-row-group; }
+        .order-detail-row td {
+            background: var(--bg-elevated) !important;
+            padding: 7px 16px 7px 40px;
+            font-size: 0.77rem;
+            color: var(--text-muted);
+        }
+        .expand-btn {
+            background: none; border: none; cursor: pointer;
+            color: var(--text-muted); font-size: 0.75rem; padding: 0;
+            transition: color 0.2s;
+        }
+        .expand-btn:hover { color: var(--accent-gold); }
+
+        /* ── Date Range Preset Pills ── */
+        .preset-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .preset-pill {
+            padding: 5px 14px;
+            border-radius: var(--radius-full);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: 1px solid var(--border-light);
+            background: var(--bg-elevated);
+            color: var(--text-muted);
+            transition: all 0.18s;
+            font-family: 'Inter', sans-serif;
+        }
+        .preset-pill:hover, .preset-pill.active {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            background: var(--accent-gold-dim);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 640px) {
+            .filter-group { min-width: 100%; }
+            .metric-card { padding: 1rem 1.2rem; }
+            .metric-value { font-size: 1.6rem; }
+        }
+    </style>
 </head>
 <body>
 
@@ -38,7 +357,7 @@
                 background: var(--accent-gold-dim);
                 padding: 4px 10px;
                 border-radius: var(--radius-full);
-            ">KITCHEN</span>
+            ">ADMIN</span>
         </a>
 
         <div class="navbar-actions">
@@ -46,7 +365,7 @@
                 <span class="live-dot"></span>
                 Live · Supabase
             </span>
-            <button onclick="loadOrders()" style="
+            <button id="nav-refresh-btn" onclick="handleNavRefresh()" style="
                 background: var(--bg-elevated);
                 border: 1px solid var(--border-light);
                 color: var(--text-secondary);
@@ -65,60 +384,197 @@
     </nav>
 
     <!-- ========================================
-         KOT DASHBOARD
+         MAIN DASHBOARD
          ======================================== -->
     <main class="no-print" style="max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem;">
 
-        <div class="section-header" style="margin-bottom: 2rem;">
-            <p class="section-label">Kitchen Display</p>
-            <h1 class="section-title">Order Tickets</h1>
+        <div class="section-header" style="margin-bottom: 1.75rem;">
+            <p class="section-label">Restaurant Management</p>
+            <h1 class="section-title">Admin Dashboard</h1>
             <div class="section-divider"></div>
         </div>
 
-        <!-- Stats Bar -->
-        <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; justify-content: center;" id="stats-bar">
-            <div style="
-                background: var(--bg-card);
-                border: 1px solid var(--border);
-                border-radius: var(--radius-md);
-                padding: 1rem 1.5rem;
-                text-align: center;
-                min-width: 140px;
-            ">
-                <p style="font-size: 2rem; font-weight: 800; color: var(--accent-gold);" id="stat-count">0</p>
-                <p style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">Active Orders</p>
-            </div>
-            <div style="
-                background: var(--bg-card);
-                border: 1px solid var(--border);
-                border-radius: var(--radius-md);
-                padding: 1rem 1.5rem;
-                text-align: center;
-                min-width: 140px;
-            ">
-                <p style="font-size: 2rem; font-weight: 800; color: var(--text-primary);" id="stat-revenue">₹0</p>
-                <p style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">Active Order Total</p>
-            </div>
+        <!-- Tab Navigation -->
+        <div class="admin-tab-bar" id="admin-tab-bar" role="tablist">
+            <button class="admin-tab active" id="tab-kot" role="tab" aria-selected="true"
+                    onclick="switchTab('kot')">
+                🍳 Kitchen Orders
+            </button>
+            <button class="admin-tab" id="tab-sales" role="tab" aria-selected="false"
+                    onclick="switchTab('sales')">
+                📊 Sales Analytics
+            </button>
         </div>
 
-        <!-- Empty State -->
-        <div id="empty-state" style="
-            text-align: center;
-            padding: 4rem 2rem;
-            color: var(--text-muted);
-            display: none;
-        ">
-            <p style="font-size: 3rem; margin-bottom: 1rem;">🍳</p>
-            <p style="font-size: 1.2rem; font-weight: 600; color: var(--text-secondary);">No active orders</p>
-            <p style="font-size: 0.85rem;">Pending orders will appear here in real-time</p>
+        <!-- ==========================================
+             PANEL 1: KOT (Kitchen Order Tickets)
+             ========================================== -->
+        <div id="panel-kot" class="admin-panel active" role="tabpanel">
+
+            <!-- Stats Bar -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; justify-content: center;" id="stats-bar">
+                <div style="
+                    background: var(--bg-card);
+                    border: 1px solid var(--border);
+                    border-radius: var(--radius-md);
+                    padding: 1rem 1.5rem;
+                    text-align: center;
+                    min-width: 140px;
+                ">
+                    <p style="font-size: 2rem; font-weight: 800; color: var(--accent-gold);" id="stat-count">0</p>
+                    <p style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">Active Orders</p>
+                </div>
+                <div style="
+                    background: var(--bg-card);
+                    border: 1px solid var(--border);
+                    border-radius: var(--radius-md);
+                    padding: 1rem 1.5rem;
+                    text-align: center;
+                    min-width: 140px;
+                ">
+                    <p style="font-size: 2rem; font-weight: 800; color: var(--text-primary);" id="stat-revenue">₹0</p>
+                    <p style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px;">Active Order Total</p>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state" style="
+                text-align: center;
+                padding: 4rem 2rem;
+                color: var(--text-muted);
+                display: none;
+            ">
+                <p style="font-size: 3rem; margin-bottom: 1rem;">🍳</p>
+                <p style="font-size: 1.2rem; font-weight: 600; color: var(--text-secondary);">No active orders</p>
+                <p style="font-size: 0.85rem;">Pending orders will appear here in real-time</p>
+            </div>
+
+            <!-- Orders Grid -->
+            <div id="orders-grid" style="
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                gap: 1.25rem;
+            "></div>
         </div>
 
-        <!-- Orders Grid -->
-        <div id="orders-grid" style="
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.25rem;
-        "></div>
+        <!-- ==========================================
+             PANEL 2: SALES ANALYTICS
+             ========================================== -->
+        <div id="panel-sales" class="admin-panel" role="tabpanel">
+
+            <!-- Metric Cards -->
+            <div class="metric-grid" id="metric-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">💰</div>
+                    <div class="metric-value" id="metric-revenue">₹0</div>
+                    <div class="metric-label">Total Revenue</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">🧾</div>
+                    <div class="metric-value" id="metric-orders">0</div>
+                    <div class="metric-label">Total Orders</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">📦</div>
+                    <div class="metric-value" id="metric-items">0</div>
+                    <div class="metric-label">Items Sold</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">🏆</div>
+                    <div class="metric-value" id="metric-top" style="font-size:1rem; padding-top:0.2rem; word-break:break-word;">—</div>
+                    <div class="metric-label">Best Seller</div>
+                </div>
+            </div>
+
+            <!-- Filter Panel -->
+            <div class="filter-panel">
+
+                <!-- Date Presets -->
+                <div style="width: 100%;">
+                    <p class="filter-label" style="margin-bottom: 0.5rem;">Quick Select</p>
+                    <div class="preset-pills">
+                        <button class="preset-pill active" id="preset-today" onclick="applyPreset('today', this)">Today</button>
+                        <button class="preset-pill" id="preset-yesterday" onclick="applyPreset('yesterday', this)">Yesterday</button>
+                        <button class="preset-pill" id="preset-7d" onclick="applyPreset('7d', this)">Last 7 Days</button>
+                        <button class="preset-pill" id="preset-30d" onclick="applyPreset('30d', this)">Last 30 Days</button>
+                        <button class="preset-pill" id="preset-month" onclick="applyPreset('month', this)">This Month</button>
+                        <button class="preset-pill" id="preset-all" onclick="applyPreset('all', this)">All Time</button>
+                    </div>
+                </div>
+
+                <!-- Date Range -->
+                <div class="filter-group">
+                    <label class="filter-label" for="filter-date-from">From Date</label>
+                    <input type="date" id="filter-date-from" class="filter-input"
+                           onchange="clearPresetActive()">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label" for="filter-date-to">To Date</label>
+                    <input type="date" id="filter-date-to" class="filter-input"
+                           onchange="clearPresetActive()">
+                </div>
+
+                <!-- Item Search -->
+                <div class="filter-group" style="max-width: 280px;">
+                    <label class="filter-label" for="filter-item">Filter by Item</label>
+                    <select id="filter-item" class="filter-input">
+                        <option value="">All Items</option>
+                    </select>
+                </div>
+
+                <!-- Actions -->
+                <div style="display: flex; gap: 0.5rem; align-items: flex-end; padding-bottom: 1px;">
+                    <button class="filter-btn filter-btn-primary" onclick="runSalesQuery()" id="sales-run-btn">
+                        ↗ Apply Filter
+                    </button>
+                    <button class="filter-btn filter-btn-ghost" onclick="resetSalesFilters()">
+                        ↺ Reset
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sales Data Table -->
+            <div class="sales-table-wrap">
+                <div class="sales-table-header">
+                    <div>
+                        <p class="sales-table-title">Sales Breakdown</p>
+                        <p class="sales-table-subtitle" id="table-subtitle">Showing results for today</p>
+                    </div>
+                    <button class="export-btn" onclick="exportCSV()" id="export-btn">
+                        ⬇ Export CSV
+                    </button>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="sales-table" id="sales-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Item Name</th>
+                                <th class="right">Qty Sold</th>
+                                <th class="right">Unit Price</th>
+                                <th class="right">Total Revenue</th>
+                                <th class="right">% of Sales</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sales-tbody">
+                            <!-- Skeleton loading state -->
+                            <tr class="skeleton-row">
+                                <td><div class="skeleton-cell" style="width:20px"></div></td>
+                                <td><div class="skeleton-cell" style="width:200px"></div></td>
+                                <td><div class="skeleton-cell" style="width:40px; margin-left:auto"></div></td>
+                                <td><div class="skeleton-cell" style="width:60px; margin-left:auto"></div></td>
+                                <td><div class="skeleton-cell" style="width:70px; margin-left:auto"></div></td>
+                                <td><div class="skeleton-cell" style="width:50px; margin-left:auto"></div></td>
+                                <td><div class="skeleton-cell" style="width:30px"></div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div><!-- /panel-sales -->
 
     </main>
 
@@ -136,12 +592,58 @@
          ADMIN SCRIPT
          ======================================== -->
     <script>
+        /* ============================================================
+           AIRA CAFE — Admin Dashboard
+           KOT + Sales Analytics
+           ============================================================ */
+
         // ─── Supabase Config ───
-        const SUPABASE_URL = "https://apcnjwfkweoalekxvdjp.supabase.co";
+        const SUPABASE_URL  = "https://apcnjwfkweoalekxvdjp.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwY25qd2Zrd2VvYWxla3h2ZGpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4ODc5OTEsImV4cCI6MjA5ODQ2Mzk5MX0.usxF2_HoZSR13Jh12gUH9IQvdiUgmlZ2MFWUAfrO5Dc";
         const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // ─── Toast System ───
+        // ─── Active Tab State ───
+        let activeTab = "kot";
+
+        // ─── Sales State ───
+        let salesData = [];       // raw aggregated rows from last query
+        let allItemNames = [];    // unique item names for dropdown
+
+        // ============================================================
+        //  TAB SWITCHING
+        // ============================================================
+
+        function switchTab(tab) {
+            activeTab = tab;
+
+            // Update tab buttons
+            document.querySelectorAll(".admin-tab").forEach(btn => {
+                btn.classList.remove("active");
+                btn.setAttribute("aria-selected", "false");
+            });
+            const activeBtn = document.getElementById(`tab-${tab}`);
+            if (activeBtn) { activeBtn.classList.add("active"); activeBtn.setAttribute("aria-selected", "true"); }
+
+            // Toggle panels
+            document.querySelectorAll(".admin-panel").forEach(p => p.classList.remove("active"));
+            const activePanel = document.getElementById(`panel-${tab}`);
+            if (activePanel) activePanel.classList.add("active");
+
+            // Lazy-load sales data on first visit
+            if (tab === "sales" && salesData.length === 0) {
+                applyPreset("today", document.getElementById("preset-today"));
+            }
+        }
+
+        function handleNavRefresh() {
+            if (activeTab === "kot") loadOrders();
+            else runSalesQuery();
+        }
+
+        // ============================================================
+        //  TOAST
+        // ============================================================
+
         function showToast(message, type = "info") {
             const container = document.getElementById("toast-container");
             const icons = { success: "✓", error: "✕", info: "ℹ" };
@@ -160,7 +662,10 @@
             }, 4000);
         }
 
-        // ─── Load Pending Orders ───
+        // ============================================================
+        //  KOT — KITCHEN ORDER TICKETS
+        // ============================================================
+
         async function loadOrders() {
             try {
                 const { data, error } = await sb
@@ -184,23 +689,19 @@
                     data.forEach(order => renderKOTCard(order));
                 }
 
-                updateStats(data || []);
+                updateKOTStats(data || []);
             } catch (err) {
                 console.error("Failed to load orders:", err);
                 showToast(`Failed to load orders: ${err.message}`, "error");
             }
         }
 
-        // ─── Render a KOT Card ───
         function renderKOTCard(order) {
             const grid = document.getElementById("orders-grid");
-
-            // Skip if already rendered
             if (document.getElementById(`order-${order.id}`)) return;
 
             const timeFormatted = new Date(order.created_at).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
+                hour: "2-digit", minute: "2-digit",
             });
 
             const card = document.createElement("div");
@@ -238,26 +739,22 @@
             grid.appendChild(card);
         }
 
-        // ─── Update Stats ───
-        function updateStats(orders) {
+        function updateKOTStats(orders) {
             document.getElementById("stat-count").textContent = orders.length;
             const revenue = orders.reduce((sum, o) => sum + (parseFloat(o.total_amount) || 0), 0);
             document.getElementById("stat-revenue").textContent = `₹${revenue}`;
         }
 
-        // ─── Print KOT ───
         function printKOT(order) {
             const printArea = document.getElementById("print-area");
             const timeFormatted = new Date(order.created_at).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
+                hour: "2-digit", minute: "2-digit",
             });
-
             const items = order.order_items || [];
 
             printArea.innerHTML = `
                 <div style="text-align:center; font-size:16px; font-weight:bold;">*** KOT ***</div>
-                <div style="text-align:center; margin-bottom:10px;">AIRA CAFE & KITCHEN</div>
+                <div style="text-align:center; margin-bottom:10px;">AIRA CAFE &amp; KITCHEN</div>
                 <div><strong>Table ${order.table_number}</strong> · Order #${order.id}</div>
                 <div>Time: ${timeFormatted}</div>
                 <div style="border-top:1px dashed #000; border-bottom:1px dashed #000; padding:5px 0; margin:8px 0;">
@@ -277,11 +774,9 @@
             printArea.classList.remove("hidden");
             window.print();
             printArea.classList.add("hidden");
-
             showToast("KOT sent to printer", "info");
         }
 
-        // ─── Complete Order ───
         async function completeOrder(id) {
             try {
                 const { error } = await sb
@@ -300,8 +795,6 @@
                 }
 
                 showToast(`Order #${id} marked as completed`, "success");
-
-                // Update stats
                 setTimeout(loadOrders, 400);
 
             } catch (err) {
@@ -312,27 +805,17 @@
 
         // ─── Realtime Subscription ───
         sb.channel("kot-realtime")
-            .on("postgres_changes", {
-                event: "INSERT",
-                schema: "public",
-                table: "orders",
-            }, (payload) => {
-                // New order inserted — reload if it's Pending
+            .on("postgres_changes", { event: "INSERT", schema: "public", table: "orders" }, (payload) => {
                 if (payload.new.status === "Pending") {
                     loadOrders();
                     showToast(`New order from Table ${payload.new.table_number}!`, "info");
                 }
             })
-            .on("postgres_changes", {
-                event: "UPDATE",
-                schema: "public",
-                table: "orders",
-            }, (payload) => {
+            .on("postgres_changes", { event: "UPDATE", schema: "public", table: "orders" }, (payload) => {
                 if (payload.new.status === "Pending") {
                     loadOrders();
                     showToast(`Table ${payload.new.table_number} updated!`, "info");
                 } else if (payload.new.status === "Completed") {
-                    // Order completed — remove card
                     const card = document.getElementById(`order-${payload.new.id}`);
                     if (card) {
                         card.style.opacity = "0";
@@ -344,8 +827,403 @@
             })
             .subscribe();
 
-        // ─── Initial Load ───
+        // ============================================================
+        //  SALES ANALYTICS — FILTER HELPERS
+        // ============================================================
+
+        function toLocalDateString(date) {
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, "0");
+            const d = String(date.getDate()).padStart(2, "0");
+            return `${y}-${m}-${d}`;
+        }
+
+        function applyPreset(preset, btnEl) {
+            // Highlight active pill
+            document.querySelectorAll(".preset-pill").forEach(p => p.classList.remove("active"));
+            if (btnEl) btnEl.classList.add("active");
+
+            const today = new Date();
+            const fromEl = document.getElementById("filter-date-from");
+            const toEl   = document.getElementById("filter-date-to");
+
+            if (preset === "today") {
+                fromEl.value = toLocalDateString(today);
+                toEl.value   = toLocalDateString(today);
+            } else if (preset === "yesterday") {
+                const yd = new Date(today); yd.setDate(today.getDate() - 1);
+                fromEl.value = toLocalDateString(yd);
+                toEl.value   = toLocalDateString(yd);
+            } else if (preset === "7d") {
+                const d = new Date(today); d.setDate(today.getDate() - 6);
+                fromEl.value = toLocalDateString(d);
+                toEl.value   = toLocalDateString(today);
+            } else if (preset === "30d") {
+                const d = new Date(today); d.setDate(today.getDate() - 29);
+                fromEl.value = toLocalDateString(d);
+                toEl.value   = toLocalDateString(today);
+            } else if (preset === "month") {
+                const d = new Date(today.getFullYear(), today.getMonth(), 1);
+                fromEl.value = toLocalDateString(d);
+                toEl.value   = toLocalDateString(today);
+            } else if (preset === "all") {
+                fromEl.value = "";
+                toEl.value   = "";
+            }
+
+            runSalesQuery();
+        }
+
+        function clearPresetActive() {
+            document.querySelectorAll(".preset-pill").forEach(p => p.classList.remove("active"));
+        }
+
+        function resetSalesFilters() {
+            document.getElementById("filter-item").value = "";
+            applyPreset("today", document.getElementById("preset-today"));
+        }
+
+        // ============================================================
+        //  SALES ANALYTICS — CORE QUERY
+        // ============================================================
+
+        /**
+         * Fetches all completed orders + their order_items from Supabase,
+         * filtered by date range and (optionally) item name.
+         * Then aggregates client-side: groups by item, sums qty + revenue.
+         *
+         * Supabase query equivalent:
+         *   SELECT oi.menu_item_name, oi.quantity, oi.price, o.id, o.created_at
+         *   FROM order_items oi
+         *   JOIN orders o ON oi.order_id = o.id
+         *   WHERE o.status = 'Completed'
+         *     AND o.created_at >= :from
+         *     AND o.created_at <= :to
+         *     AND oi.menu_item_name = :item  -- optional
+         *   ORDER BY o.created_at DESC
+         */
+        async function runSalesQuery() {
+            const runBtn  = document.getElementById("sales-run-btn");
+            const tbody   = document.getElementById("sales-tbody");
+            const subtitle = document.getElementById("table-subtitle");
+
+            runBtn.textContent = "Loading…";
+            runBtn.disabled = true;
+
+            // Show skeleton
+            tbody.innerHTML = Array(5).fill(`
+                <tr class="skeleton-row">
+                    <td><div class="skeleton-cell" style="width:20px"></div></td>
+                    <td><div class="skeleton-cell" style="width:${160 + Math.random()*80|0}px"></div></td>
+                    <td><div class="skeleton-cell" style="width:40px; margin-left:auto"></div></td>
+                    <td><div class="skeleton-cell" style="width:55px; margin-left:auto"></div></td>
+                    <td><div class="skeleton-cell" style="width:65px; margin-left:auto"></div></td>
+                    <td><div class="skeleton-cell" style="width:45px; margin-left:auto"></div></td>
+                    <td><div class="skeleton-cell" style="width:28px"></div></td>
+                </tr>
+            `).join("");
+
+            try {
+                const fromDate = document.getElementById("filter-date-from").value;
+                const toDate   = document.getElementById("filter-date-to").value;
+                const itemFilter = document.getElementById("filter-item").value;
+
+                // Build query — fetch orders with nested order_items
+                let query = sb
+                    .from("orders")
+                    .select(`
+                        id, table_number, created_at, total_amount, status,
+                        order_items ( menu_item_name, quantity, price )
+                    `)
+                    .eq("status", "Completed")
+                    .order("created_at", { ascending: false });
+
+                // Date range filter (inclusive, using local-day boundaries converted to ISO)
+                if (fromDate) {
+                    const fromISO = new Date(fromDate + "T00:00:00").toISOString();
+                    query = query.gte("created_at", fromISO);
+                }
+                if (toDate) {
+                    const toISO = new Date(toDate + "T23:59:59").toISOString();
+                    query = query.lte("created_at", toISO);
+                }
+
+                const { data: orders, error } = await query;
+                if (error) throw error;
+
+                // ── Client-side aggregation ──
+                // Map: item_name → { qty, revenue, unitPrice, orderIds[] }
+                const itemMap = new Map();
+                let totalOrderSet = new Set();
+                let totalItemsSold = 0;
+                let totalRevenue = 0;
+
+                for (const order of (orders || [])) {
+                    const items = order.order_items || [];
+                    for (const item of items) {
+                        // Apply optional per-item filter
+                        if (itemFilter && item.menu_item_name !== itemFilter) continue;
+
+                        totalOrderSet.add(order.id);
+                        const key = item.menu_item_name;
+                        const lineRevenue = (item.price || 0) * (item.quantity || 0);
+
+                        if (!itemMap.has(key)) {
+                            itemMap.set(key, {
+                                name: key,
+                                qty: 0,
+                                revenue: 0,
+                                unitPrice: item.price || 0,
+                                orderIds: []
+                            });
+                        }
+                        const entry = itemMap.get(key);
+                        entry.qty      += item.quantity || 0;
+                        entry.revenue  += lineRevenue;
+                        totalItemsSold += item.quantity || 0;
+                        totalRevenue   += lineRevenue;
+
+                        if (!entry.orderIds.includes(order.id)) {
+                            entry.orderIds.push(order.id);
+                        }
+                    }
+                }
+
+                // Sort by revenue descending
+                salesData = [...itemMap.values()].sort((a, b) => b.revenue - a.revenue);
+
+                // Populate item dropdown (only on first load or if empty)
+                if (allItemNames.length === 0 && orders && orders.length > 0) {
+                    const names = new Set();
+                    orders.forEach(o => (o.order_items || []).forEach(i => names.add(i.menu_item_name)));
+                    allItemNames = [...names].sort();
+                    populateItemDropdown(allItemNames);
+                }
+
+                // ── Update Metrics ──
+                const totalOrders = totalOrderSet.size;
+                let bestSeller = "—";
+                if (salesData.length > 0) bestSeller = salesData[0].name;
+
+                document.getElementById("metric-revenue").textContent = `₹${totalRevenue.toLocaleString("en-IN")}`;
+                document.getElementById("metric-orders").textContent  = totalOrders.toLocaleString("en-IN");
+                document.getElementById("metric-items").textContent   = totalItemsSold.toLocaleString("en-IN");
+                document.getElementById("metric-top").textContent     = bestSeller;
+
+                // ── Update subtitle ──
+                let rangeLabel = "all time";
+                const fromEl = document.getElementById("filter-date-from");
+                const toEl   = document.getElementById("filter-date-to");
+                if (fromEl.value && toEl.value) {
+                    rangeLabel = fromEl.value === toEl.value
+                        ? formatDateLabel(fromEl.value)
+                        : `${formatDateLabel(fromEl.value)} → ${formatDateLabel(toEl.value)}`;
+                } else if (fromEl.value) {
+                    rangeLabel = `from ${formatDateLabel(fromEl.value)}`;
+                }
+                const itemLabel = itemFilter ? ` · "${itemFilter}"` : "";
+                subtitle.textContent = `Showing ${salesData.length} item${salesData.length !== 1 ? "s" : ""} for ${rangeLabel}${itemLabel}`;
+
+                // ── Render table ──
+                renderSalesTable(salesData, totalRevenue);
+
+            } catch (err) {
+                console.error("Sales query failed:", err);
+                showToast(`Failed to load sales data: ${err.message}`, "error");
+                tbody.innerHTML = `
+                    <tr><td colspan="7">
+                        <div class="table-empty">
+                            <div class="table-empty-icon">⚠️</div>
+                            <div class="table-empty-title">Query Failed</div>
+                            <div class="table-empty-sub">${err.message}</div>
+                        </div>
+                    </td></tr>
+                `;
+            } finally {
+                runBtn.textContent = "↗ Apply Filter";
+                runBtn.disabled = false;
+            }
+        }
+
+        function formatDateLabel(dateStr) {
+            if (!dateStr) return "";
+            const d = new Date(dateStr + "T12:00:00");
+            return d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+        }
+
+        // ============================================================
+        //  SALES ANALYTICS — TABLE RENDERING
+        // ============================================================
+
+        function renderSalesTable(rows, totalRevenue) {
+            const tbody = document.getElementById("sales-tbody");
+            tbody.innerHTML = "";
+
+            if (!rows || rows.length === 0) {
+                tbody.innerHTML = `
+                    <tr><td colspan="7">
+                        <div class="table-empty">
+                            <div class="table-empty-icon">📭</div>
+                            <div class="table-empty-title">No sales data found</div>
+                            <div class="table-empty-sub">Try adjusting your date range or item filter</div>
+                        </div>
+                    </td></tr>
+                `;
+                return;
+            }
+
+            rows.forEach((row, idx) => {
+                const pct = totalRevenue > 0 ? ((row.revenue / totalRevenue) * 100).toFixed(1) : "0.0";
+                const rowId = `detail-${idx}`;
+
+                // Main aggregate row
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td style="color: var(--text-muted); font-size:0.75rem;">${idx + 1}</td>
+                    <td class="item-name">${escapeHtml(row.name)}</td>
+                    <td class="right">${row.qty.toLocaleString("en-IN")}</td>
+                    <td class="right">₹${row.unitPrice.toLocaleString("en-IN")}</td>
+                    <td class="right revenue-cell">₹${row.revenue.toLocaleString("en-IN")}</td>
+                    <td class="right">
+                        <span style="display:inline-flex; align-items:center; gap:6px;">
+                            <span style="
+                                display: inline-block;
+                                width: ${Math.min(pct, 100) * 0.6}px;
+                                height: 5px;
+                                border-radius: 3px;
+                                background: var(--accent-gold);
+                                opacity: 0.7;
+                                min-width: 4px;
+                                max-width: 60px;
+                            "></span>
+                            ${pct}%
+                        </span>
+                    </td>
+                    <td>
+                        <button class="expand-btn" onclick="toggleOrderDetail('${rowId}', this)"
+                                title="Show order breakdown">
+                            ▸ ${row.orderIds.length} orders
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+
+                // Expandable order-detail rows (hidden by default)
+                const detailGroup = document.createElement("tbody");
+                detailGroup.id = rowId;
+                detailGroup.className = "order-rows-container";
+                detailGroup.innerHTML = row.orderIds.map(oid => `
+                    <tr class="order-detail-row">
+                        <td></td>
+                        <td colspan="5" style="color: var(--text-muted); font-size: 0.76rem;">
+                            Order #${oid}
+                        </td>
+                        <td></td>
+                    </tr>
+                `).join("");
+
+                // Append inside the table
+                document.getElementById("sales-table").appendChild(detailGroup);
+            });
+
+            // Footer totals row
+            const totalQty = rows.reduce((s, r) => s + r.qty, 0);
+            const tfoot = document.createElement("tfoot");
+            tfoot.innerHTML = `
+                <tr class="table-footer-row">
+                    <td colspan="2" style="font-weight:700; color:var(--text-primary);">TOTAL</td>
+                    <td class="right">${totalQty.toLocaleString("en-IN")}</td>
+                    <td class="right">—</td>
+                    <td class="right revenue-cell">₹${totalRevenue.toLocaleString("en-IN")}</td>
+                    <td class="right">100%</td>
+                    <td></td>
+                </tr>
+            `;
+            document.getElementById("sales-table").appendChild(tfoot);
+        }
+
+        function toggleOrderDetail(rowId, btn) {
+            const group = document.getElementById(rowId);
+            if (!group) return;
+            const isOpen = group.classList.contains("open");
+            group.classList.toggle("open", !isOpen);
+            btn.textContent = isOpen
+                ? btn.textContent.replace("▾", "▸")
+                : btn.textContent.replace("▸", "▾");
+            // update arrow
+            btn.textContent = isOpen
+                ? btn.textContent.replace("▾ ", "▸ ")
+                : btn.textContent.replace("▸ ", "▾ ");
+        }
+
+        // ============================================================
+        //  SALES ANALYTICS — ITEM DROPDOWN
+        // ============================================================
+
+        function populateItemDropdown(names) {
+            const sel = document.getElementById("filter-item");
+            // Keep the "All Items" option
+            sel.innerHTML = `<option value="">All Items</option>`;
+            names.forEach(name => {
+                const opt = document.createElement("option");
+                opt.value = name;
+                opt.textContent = name;
+                sel.appendChild(opt);
+            });
+        }
+
+        // ============================================================
+        //  SALES ANALYTICS — CSV EXPORT
+        // ============================================================
+
+        function exportCSV() {
+            if (!salesData || salesData.length === 0) {
+                showToast("No data to export", "error");
+                return;
+            }
+
+            const fromVal = document.getElementById("filter-date-from").value || "all";
+            const toVal   = document.getElementById("filter-date-to").value   || "all";
+
+            const rows = [
+                ["#", "Item Name", "Qty Sold", "Unit Price (INR)", "Total Revenue (INR)", "% of Sales"],
+                ...salesData.map((row, i) => {
+                    const totalRev = salesData.reduce((s, r) => s + r.revenue, 0);
+                    const pct = totalRev > 0 ? ((row.revenue / totalRev) * 100).toFixed(1) : "0.0";
+                    return [i + 1, `"${row.name}"`, row.qty, row.unitPrice, row.revenue, pct + "%"];
+                })
+            ];
+
+            const csv = rows.map(r => r.join(",")).join("\n");
+            const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+            const url  = URL.createObjectURL(blob);
+            const a    = document.createElement("a");
+            a.href     = url;
+            a.download = `aira-sales-${fromVal}-to-${toVal}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+
+            showToast("CSV exported successfully", "success");
+        }
+
+        // ============================================================
+        //  UTILITIES
+        // ============================================================
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;");
+        }
+
+        // ============================================================
+        //  INITIAL LOAD
+        // ============================================================
+
         loadOrders();
+
     </script>
 
 </body>
