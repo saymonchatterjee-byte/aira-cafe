@@ -60,10 +60,29 @@ html {
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--bg-primary);
+    background-color: #D4E2D8;
+    background-image: 
+        radial-gradient(circle at 15% 15%, rgba(220, 235, 226, 0.9) 0%, transparent 45%),
+        radial-gradient(circle at 85% 18%, rgba(179, 146, 85, 0.16) 0%, transparent 40%),
+        radial-gradient(circle at 50% 55%, rgba(212, 226, 218, 0.8) 0%, transparent 50%),
+        radial-gradient(circle at 85% 85%, rgba(28, 43, 36, 0.07) 0%, transparent 45%),
+        radial-gradient(circle at 12% 92%, rgba(179, 146, 85, 0.14) 0%, transparent 40%);
+    background-attachment: fixed;
     color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.3;
+    background-image: radial-gradient(rgba(28, 43, 36, 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
 }
 
 /* --- Scrollbar --- */
@@ -567,39 +586,151 @@ input:focus, textarea:focus {
     display: flex;
     align-items: flex-start;
     gap: 0.9rem;
-    padding: 0.9rem 0.25rem;
+    padding: 1.1rem 0.85rem;
     border-bottom: 1px solid var(--border-light);
-    background: transparent;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-md);
+    margin-bottom: 0.6rem;
     position: relative;
-    transition: background var(--transition-fast);
+    transition: all var(--transition-fast);
     overflow: visible;
+    border-left: 4px solid var(--border);
 }
 
 .menu-card:hover {
-    background: rgba(255,255,255,0.22);
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(28, 43, 36, 0.06);
+}
+
+/* ── Category-Specific Card Accent Styling ── */
+.menu-card-pasta { border-left-color: #B39255; }
+.menu-card-burgers { border-left-color: #C4875A; }
+.menu-card-fried-chicken { border-left-color: #E11D48; }
+.menu-card-sandwiches { border-left-color: #3B7A57; }
+.menu-card-fries { border-left-color: #D99B00; }
+.menu-card-breakfast { border-left-color: #D97706; }
+.menu-card-comfort-food { border-left-color: #059669; }
+.menu-card-indo-chinese-combos { border-left-color: #7C3AED; }
+.menu-card-paratha-combos { border-left-color: #C2410C; }
+
+/* ── Special Card Highlights ── */
+.menu-card.is-signature {
+    background: linear-gradient(135deg, rgba(179, 146, 85, 0.12) 0%, rgba(255, 255, 255, 0.35) 100%);
+    border: 1px solid rgba(179, 146, 85, 0.4);
+    border-left: 4px solid var(--accent-gold);
+    box-shadow: 0 4px 14px rgba(179, 146, 85, 0.1);
+}
+
+.menu-card.is-signature:hover {
+    box-shadow: 0 6px 20px rgba(179, 146, 85, 0.18);
 }
 
 /* Icon circle on the left */
 .menu-card-emoji {
     flex-shrink: 0;
-    width: 48px;
-    height: 48px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.6);
     border: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.45rem;
+    font-size: 1.5rem;
     margin-top: 0.1rem;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.07));
     transition: transform var(--transition-fast), background var(--transition-fast);
 }
 
 .menu-card:hover .menu-card-emoji {
-    transform: scale(1.06);
-    background: rgba(255,255,255,0.6);
+    transform: scale(1.08);
+    background: rgba(255,255,255,0.85);
 }
+
+/* ── Meta Bar & Badges ── */
+.menu-card-meta-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.3rem;
+}
+
+.category-chip {
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid var(--border);
+    padding: 2px 7px;
+    border-radius: var(--radius-sm);
+}
+
+.diet-badge {
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    letter-spacing: 0.3px;
+}
+
+.diet-badge-veg {
+    background: rgba(34, 197, 94, 0.12);
+    color: #15803D;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.diet-badge-nonveg {
+    background: rgba(225, 29, 72, 0.12);
+    color: #9F1239;
+    border: 1px solid rgba(225, 29, 72, 0.3);
+}
+
+.diet-badge-egg {
+    background: rgba(217, 119, 6, 0.12);
+    color: #92400E;
+    border: 1px solid rgba(217, 119, 6, 0.3);
+}
+
+.diet-badge-combo {
+    background: rgba(124, 58, 237, 0.12);
+    color: #5B21B6;
+    border: 1px solid rgba(124, 58, 237, 0.3);
+}
+
+.dot-veg { color: #15803D; }
+.dot-nonveg { color: #9F1239; }
+
+.badge-signature {
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #B39255 0%, #C19F68 100%);
+    color: #111;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    box-shadow: 0 2px 6px rgba(179, 146, 85, 0.25);
+}
+
+.badge-spicy {
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    background: rgba(239, 68, 68, 0.15);
+    color: #DC2626;
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+}
+
 
 /* Info block fills remaining width */
 .menu-card-info {

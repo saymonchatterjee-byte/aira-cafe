@@ -198,11 +198,10 @@ const MENU_DATA = [
         description: "Crispy baby corn tossed in your choice of signature sauce.",
         variants: [
             { label: "Original", price: 199 },
-            { label: "Korean", price: 219 },
+            { label: "Korean 🌶", price: 219 },
             { label: "BBQ", price: 219 },
-            { label: "Nashville Hot", price: 219 }
-        ],
-        modifierGroups: [ { id: "style", label: "Choose your Style", options: ["Original", "Korean 🌶", "BBQ", "Nashville Hot 🌶"] } ]
+            { label: "Nashville Hot 🌶", price: 219 }
+        ]
     },
 
     // ── INDO-CHINESE COMBOS ──
@@ -500,7 +499,10 @@ function renderMenu(items) {
 
     items.forEach(item => {
         const card = document.createElement("div");
-        card.className = "menu-card";
+        const catClass = `menu-card-${item.category.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+        const sigClass = item.signature ? "is-signature" : "";
+        const spicyClass = item.spicy ? "is-spicy" : "";
+        card.className = `menu-card ${catClass} ${sigClass} ${spicyClass}`.trim();
         card.innerHTML = buildMenuCardHTML(item);
         grid.appendChild(card);
     });
@@ -509,12 +511,30 @@ function renderMenu(items) {
 }
 
 /**
- * Builds the inner HTML for a rich menu card row.
+ * Builds the inner HTML for a rich, styled menu card row.
  */
 function buildMenuCardHTML(item) {
-    // ─ Tags
-    const sigTag   = item.signature ? '<span class="tag-signature">★</span>' : '';
-    const spicyTag = item.spicy     ? '<span class="tag-spicy">🌶</span>' : '';
+    // ─ Determine Food Type Badge
+    const catLabel = item.category.toUpperCase();
+    
+    // ─ Determine Dietary Badge (Veg / Chicken / Egg / Paneer)
+    let dietBadgeHtml = '';
+    const nameLower = item.name.toLowerCase();
+    if (item.variants && item.variants.some(v => v.label.includes("Veg")) && item.variants.some(v => v.label.includes("Chicken"))) {
+        dietBadgeHtml = '<span class="diet-badge diet-badge-combo"><span class="dot-veg">●</span> Veg / <span class="dot-nonveg">●</span> Chicken</span>';
+    } else if (nameLower.includes("chicken") || (item.variants && item.variants.some(v => v.label.toLowerCase().includes("chicken")))) {
+        dietBadgeHtml = '<span class="diet-badge diet-badge-nonveg">🍗 Chicken</span>';
+    } else if (nameLower.includes("egg")) {
+        dietBadgeHtml = '<span class="diet-badge diet-badge-egg">🍳 Egg</span>';
+    } else if (nameLower.includes("paneer")) {
+        dietBadgeHtml = '<span class="diet-badge diet-badge-veg">🧀 Paneer</span>';
+    } else {
+        dietBadgeHtml = '<span class="diet-badge diet-badge-veg">🌿 Veg</span>';
+    }
+
+    // ─ Special Badges
+    const sigBadge   = item.signature ? '<span class="badge-signature">★ Chef\'s Special</span>' : '';
+    const spicyBadge = item.spicy     ? '<span class="badge-spicy">🌶 Spicy</span>' : '';
 
     // ─ Price (range if variants, else fixed)
     let priceDisplay;
@@ -572,8 +592,14 @@ function buildMenuCardHTML(item) {
     return `
         <div class="menu-card-emoji">${item.emoji}</div>
         <div class="menu-card-info">
+            <div class="menu-card-meta-bar">
+                <span class="category-chip">${catLabel}</span>
+                ${dietBadgeHtml}
+                ${sigBadge}
+                ${spicyBadge}
+            </div>
             <div class="menu-card-title-row">
-                <h3 class="menu-card-name">${item.name}${sigTag}${spicyTag}${portionHtml}</h3>
+                <h3 class="menu-card-name">${item.name}${portionHtml}</h3>
                 <span class="menu-card-price" id="price-${item.id}">${priceDisplay}</span>
             </div>
             ${subtitleHtml}
