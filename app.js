@@ -676,7 +676,7 @@ window.addToCart = function(id) {
     if (existing) {
         existing.quantity++;
     } else {
-        cart.push({ ...menuItem, cartKey, quantity: 1, price, displayName, selectedModifiers });
+        cart.push({ ...menuItem, cartKey, quantity: 1, price, displayName, selectedVariantLabel, selectedModifiers });
     }
 
     updateCartUI();
@@ -685,6 +685,30 @@ window.addToCart = function(id) {
     const btn = document.getElementById("cart-toggle-btn");
     if (btn) { btn.style.animation = "none"; btn.offsetHeight; btn.style.animation = "pulse-gold 0.6s ease"; }
 };
+
+/**
+ * Returns clean database item name matching Supabase menu_items table.
+ */
+function getCartItemDBName(item) {
+    let name = item.name;
+    if (item.selectedVariantLabel) {
+        let cleanVariant = item.selectedVariantLabel.replace(/[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '').trim();
+        if (cleanVariant === "6 Pieces") cleanVariant = "6 Pcs";
+        if (cleanVariant === "12 Pieces") cleanVariant = "12 Pcs";
+        
+        if (name.includes("Signature Fried Chicken") || name.includes("Fried Chicken Wings")) {
+            name = `${name} - ${cleanVariant}`;
+        } else {
+            name = `${name} (${cleanVariant})`;
+        }
+    }
+    const mods = Object.values(item.selectedModifiers || {});
+    if (mods.length > 0) {
+        const cleanMods = mods.map(m => m.replace(/[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '').replace('✓','').trim());
+        name += ' · ' + cleanMods.join(' · ');
+    }
+    return name;
+}
 
 window.incrementItem = function(cartKey) {
     const item = cart.find(c => c.cartKey === cartKey);
@@ -826,10 +850,10 @@ async function handlePlaceOrder(event) {
 
         console.log(`${DEBUG_PREFIX} Order row created.`, { orderId: order.id });
 
-        // 2. Insert order items
+        // 2. Insert order items using DB-compatible name
         const itemsToInsert = cart.map(item => ({
             order_id: order.id,
-            menu_item_name: item.name,
+            menu_item_name: getCartItemDBName(item),
             quantity: item.quantity,
             price: item.price
         }));
