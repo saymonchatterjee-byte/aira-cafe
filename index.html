@@ -11,9 +11,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Swiper.js -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-
     <!-- Tailwind CSS v3 (Play CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -32,19 +29,10 @@
          NAVBAR
          ======================================== -->
     <nav class="navbar" id="navbar">
-        <div class="flex items-center gap-4 lg:gap-8">
-            <a href="#home" class="navbar-brand">
-                <img src="images/aira-logo.jpg" alt="Aira Cafe" class="navbar-logo">
-                <span class="navbar-title">AIRA</span>
-            </a>
-            <!-- Desktop Nav Links -->
-            <div class="hidden md:flex items-center gap-6 text-xs font-semibold tracking-widest uppercase text-[var(--text-secondary)]">
-                <a href="#home" class="hover:text-[var(--accent-gold)] transition duration-200">Home</a>
-                <a href="#menu-section" class="hover:text-[var(--accent-gold)] transition duration-200">Menu</a>
-                <a href="#about-section" class="hover:text-[var(--accent-gold)] transition duration-200">About</a>
-                <a href="#contacts-section" class="hover:text-[var(--accent-gold)] transition duration-200">Contacts</a>
-            </div>
-        </div>
+        <a href="#home" class="navbar-brand">
+            <img src="images/aira-logo.jpg" alt="Aira Cafe" class="navbar-logo">
+            <span class="navbar-title">AIRA</span>
+        </a>
 
         <div class="navbar-actions">
             <select id="table-select" class="table-select" aria-label="Select your table">
@@ -56,76 +44,26 @@
                 <span class="hidden sm:inline ml-1">Cart</span>
                 <span class="badge ml-2" id="cart-count">0</span>
             </button>
-
-            <!-- Mobile Hamburger Button -->
-            <button onclick="toggleMobileMenu()" class="md:hidden text-[var(--text-primary)] focus:outline-none p-2 ml-1" aria-label="Toggle menu" id="mobile-menu-btn">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path id="hamburger-icon" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </button>
-        </div>
-
-        <!-- Mobile Navigation Menu Dropdown -->
-        <div id="mobile-menu" class="hidden absolute top-[70px] left-0 right-0 bg-[var(--bg-secondary)] border-b border-[var(--border)] py-6 px-6 flex flex-col gap-4 text-center md:hidden backdrop-blur-lg bg-opacity-95 shadow-xl transition-all duration-300">
-            <a href="#home" onclick="toggleMobileMenu()" class="hover:text-[var(--accent-gold)] font-medium text-lg uppercase tracking-wider text-[var(--text-primary)]">Home</a>
-            <a href="#menu-section" onclick="toggleMobileMenu()" class="hover:text-[var(--accent-gold)] font-medium text-lg uppercase tracking-wider text-[var(--text-primary)]">Menu</a>
-            <a href="#about-section" onclick="toggleMobileMenu()" class="hover:text-[var(--accent-gold)] font-medium text-lg uppercase tracking-wider text-[var(--text-primary)]">About Us</a>
-            <a href="#contacts-section" onclick="toggleMobileMenu()" class="hover:text-[var(--accent-gold)] font-medium text-lg uppercase tracking-wider text-[var(--text-primary)]">Contacts</a>
         </div>
     </nav>
 
     <!-- ========================================
-         HERO CAROUSEL (Swiper.js)
+         CAFE IDENTITY BANNER (replaces hero carousel)
          ======================================== -->
-    <section id="home" class="hero-section">
-        <div class="swiper hero-swiper">
-            <div class="swiper-wrapper">
-
-                <!-- Slide 1 -->
-                <div class="swiper-slide hero-slide">
-                    <img src="images/hero-1.jpg" alt="Aira Cafe Interior" class="hero-slide-bg">
-                    <div class="hero-slide-overlay">
-                        <img src="images/aira-logo.jpg" alt="Aira" class="hero-logo">
-                        <h1 class="hero-title">Aira Cafe</h1>
-                        <p class="hero-subtitle">Cafe & Kitchen · Uzanbazar</p>
-                        <p class="hero-tagline">"Where every sip tells a story"</p>
-                        <button class="hero-cta" onclick="document.getElementById('menu-section').scrollIntoView({behavior:'smooth'})">Explore Menu</button>
-                    </div>
-                </div>
-
-                <!-- Slide 2 -->
-                <div class="swiper-slide hero-slide">
-                    <img src="images/hero-2.jpg" alt="Artisan Coffee" class="hero-slide-bg">
-                    <div class="hero-slide-overlay">
-                        <img src="images/aira-logo.jpg" alt="Aira" class="hero-logo">
-                        <h2 class="hero-title" style="font-size:clamp(2rem,5vw,3.5rem)">Handcrafted Brews</h2>
-                        <p class="hero-subtitle">Artisan Coffee · Fresh Daily</p>
-                        <p class="hero-tagline">"Precision in every pour"</p>
-                        <button class="hero-cta" onclick="document.getElementById('menu-section').scrollIntoView({behavior:'smooth'})">Order Now</button>
-                    </div>
-                </div>
-
-                <!-- Slide 3 -->
-                <div class="swiper-slide hero-slide">
-                    <img src="images/hero-3.jpg" alt="Gourmet Plates" class="hero-slide-bg">
-                    <div class="hero-slide-overlay">
-                        <img src="images/aira-logo.jpg" alt="Aira" class="hero-logo">
-                        <h2 class="hero-title" style="font-size:clamp(2rem,5vw,3.5rem)">Sourdough &amp; Beyond</h2>
-                        <p class="hero-subtitle">House Bakery · Artisan Plates</p>
-                        <p class="hero-tagline">"Baked with passion, served with pride"</p>
-                        <button class="hero-cta" onclick="document.getElementById('menu-section').scrollIntoView({behavior:'smooth'})">View Plates</button>
-                    </div>
-                </div>
-
+    <section id="home" class="cafe-banner">
+        <div class="cafe-banner-inner">
+            <img src="images/aira-logo.jpg" alt="Aira Cafe" class="cafe-banner-logo">
+            <div class="cafe-banner-text">
+                <h1 class="cafe-banner-name">Aira Cafe</h1>
+                <p class="cafe-banner-sub">Cafe &amp; Kitchen · Uzanbazar</p>
             </div>
-            <div class="swiper-pagination"></div>
         </div>
     </section>
 
     <!-- ========================================
          MENU SECTION
          ======================================== -->
-    <section id="menu-section" style="max-width: 1200px; margin: 0 auto; padding: 6rem 1.5rem 2rem;">
+    <section id="menu-section" style="max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem 2rem;">
 
         <div class="section-header">
             <p class="section-label">Our Selection</p>
@@ -347,7 +285,6 @@
     <!-- ========================================
          SCRIPTS
          ======================================== -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="app.js"></script>
 
 </body>
