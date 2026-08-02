@@ -325,10 +325,12 @@ function renderMenu(items) {
 
     if (items.length === 0) {
         grid.innerHTML = `
-            <article class="menu-card" style="grid-column: 1 / -1; align-items: center; text-align: center;">
+            <article class="menu-card" style="justify-content: center; text-align: center; padding: 2rem 0;">
                 <div class="menu-card-emoji">☕</div>
-                <h3 class="menu-card-name">No items in this category right now</h3>
-                <p class="menu-card-category">Please try another menu category</p>
+                <div class="menu-card-info">
+                    <h3 class="menu-card-name">No items in this category right now</h3>
+                    <p class="menu-card-category">Please try another menu category</p>
+                </div>
             </article>
         `;
         return;
@@ -339,10 +341,14 @@ function renderMenu(items) {
         card.className = "menu-card";
         card.innerHTML = `
             <div class="menu-card-emoji">${item.emoji}</div>
-            <h3 class="menu-card-name">${item.name}</h3>
-            <p class="menu-card-category">${item.category}</p>
-            <p class="menu-card-price">₹${item.price}</p>
-            <button class="menu-card-add" onclick="addToCart('${item.id}')">+ Add to Cart</button>
+            <div class="menu-card-info">
+                <h3 class="menu-card-name">${item.name}</h3>
+                <p class="menu-card-category">${item.category}</p>
+            </div>
+            <div class="menu-card-right">
+                <span class="menu-card-price">₹${item.price}</span>
+                <button class="menu-card-add" onclick="addToCart('${item.id}')">+ Add</button>
+            </div>
         `;
         grid.appendChild(card);
     });
