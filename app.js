@@ -102,7 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(`${DEBUG_PREFIX} DOM ready. Initializing app.`);
     const tableOk = initQRGatekeeper();
     if (!tableOk) return; // QR gatekeeper blocked — halt all initialization
-    initSwiper();
     generateCategoryFilters();
     renderMenu(getFilteredMenuItems(currentFilter));
     initCheckoutButton();
@@ -227,19 +226,16 @@ function initCheckoutButton() {
 }
 
 function initSwiper() {
+    // Swiper carousel removed — this function is kept as a safe no-op
+    // to avoid breaking any external references.
+    if (typeof Swiper === "undefined") return;
     new Swiper(".hero-swiper", {
         loop: true,
         effect: "fade",
         fadeEffect: { crossFade: true },
-        autoplay: {
-            delay: 5000,
-            disableOnInteraction: false,
-        },
+        autoplay: { delay: 5000, disableOnInteraction: false },
         speed: 1200,
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
+        pagination: { el: ".swiper-pagination", clickable: true },
     });
 }
 
