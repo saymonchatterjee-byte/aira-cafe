@@ -541,9 +541,9 @@ input:focus, textarea:focus {
     color: var(--text-primary);
 }
 
-/* ============================================
-   MENU LIST — Flat Row Layout
-   ============================================ */
+/* ──────────────────────────────────────────
+   MENU LIST — Flat Row Layout (Rich Cards)
+   ────────────────────────────────────────── */
 .menu-results {
     display: flex;
     flex-direction: column;
@@ -562,30 +562,21 @@ input:focus, textarea:focus {
     gap: 1.25rem;
 }
 
-/* ── Menu Row (flat list item) ── */
+/* ── Menu Row ── */
 .menu-card {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.9rem;
-    padding: 0.85rem 0.25rem;
+    padding: 0.9rem 0.25rem;
     border-bottom: 1px solid var(--border-light);
     background: transparent;
-    border-radius: 0;
-    border-top: none;
-    border-left: none;
-    border-right: none;
     position: relative;
     transition: background var(--transition-fast);
-    min-height: unset;
-    text-align: left;
     overflow: visible;
 }
 
 .menu-card:hover {
-    background: rgba(255,255,255,0.28);
-    border-color: var(--border-light);
-    transform: none;
-    box-shadow: none;
+    background: rgba(255,255,255,0.22);
 }
 
 /* Icon circle on the left */
@@ -600,59 +591,173 @@ input:focus, textarea:focus {
     align-items: center;
     justify-content: center;
     font-size: 1.45rem;
-    margin-bottom: 0;
+    margin-top: 0.1rem;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.07));
     transition: transform var(--transition-fast), background var(--transition-fast);
 }
 
 .menu-card:hover .menu-card-emoji {
-    transform: scale(1.08);
+    transform: scale(1.06);
     background: rgba(255,255,255,0.6);
 }
 
-/* Info block (name + category) fills remaining width */
+/* Info block fills remaining width */
 .menu-card-info {
     flex: 1;
     min-width: 0;
 }
 
+/* Title row: name + price side-by-side */
+.menu-card-title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.18rem;
+}
+
 .menu-card-name {
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     font-weight: 700;
     color: var(--text-primary);
     line-height: 1.35;
-    margin-bottom: 0.15rem;
-    width: 100%;
-    white-space: normal;
-}
-
-.menu-card-category {
-    font-size: 0.67rem;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--text-muted);
-    margin-bottom: 0;
-}
-
-/* Right-side: price + add button stacked */
-.menu-card-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.35rem;
-    flex-shrink: 0;
+    flex: 1;
 }
 
 .menu-card-price {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 800;
     color: var(--accent-gold);
-    margin: 0;
     white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+}
+
+/* Subtitle (e.g. "The Oblique White Pasta") */
+.menu-card-subtitle {
+    display: block;
+    font-size: 0.68rem;
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+    letter-spacing: 0.3px;
+}
+
+/* Portion note (e.g. "· 6 pcs") */
+.menu-card-portion {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Description */
+.menu-card-desc {
+    font-size: 0.74rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 0.45rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* "Served with:" note */
+.menu-card-note {
+    font-size: 0.68rem;
+    color: var(--accent-gold);
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.2px;
+}
+
+/* Variant pill-buttons */
+.menu-card-variants {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-bottom: 0.45rem;
+}
+
+.variant-btn {
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.3);
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+    font-family: 'Inter', sans-serif;
+}
+
+.variant-btn:hover {
+    border-color: var(--accent-gold);
+    color: var(--accent-gold);
+    background: var(--accent-gold-dim);
+}
+
+.variant-btn.active {
+    background: var(--accent-gold-dim);
+    border-color: var(--accent-gold);
+    color: var(--accent-gold);
+}
+
+/* Modifier row (label + dropdown) */
+.menu-card-modifier {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.modifier-label {
+    font-size: 0.64rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.menu-card-select {
+    flex: 1;
+    min-width: 120px;
+    padding: 4px 24px 4px 8px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.35);
+    color: var(--text-primary);
+    font-size: 0.72rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%236B8578' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    transition: border-color var(--transition-fast);
+}
+
+.menu-card-select:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+}
+
+/* Action row (Add button, right-aligned) */
+.menu-card-action {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.4rem;
 }
 
 .menu-card-add {
-    padding: 6px 14px;
+    padding: 5px 14px;
     background: rgba(255,255,255,0.35);
     color: var(--text-secondary);
     border: 1px solid var(--border);
@@ -672,6 +777,30 @@ input:focus, textarea:focus {
     color: #111;
     border-color: var(--accent-gold);
     box-shadow: var(--shadow-gold);
+}
+
+/* Tags */
+.tag-signature {
+    color: var(--accent-gold);
+    font-size: 0.78rem;
+    margin-left: 0.25rem;
+    vertical-align: middle;
+}
+
+.tag-spicy {
+    font-size: 0.75rem;
+    margin-left: 0.2rem;
+    vertical-align: middle;
+}
+
+/* Cart modifier sub-line */
+.cart-item-mods {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* ============================================

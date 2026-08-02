@@ -8,71 +8,236 @@ const SUPABASE_URL = "https://apcnjwfkweoalekxvdjp.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwY25qd2Zrd2VvYWxla3h2ZGpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4ODc5OTEsImV4cCI6MjA5ODQ2Mzk5MX0.usxF2_HoZSR13Jh12gUH9IQvdiUgmlZ2MFWUAfrO5Dc";
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// ─── Menu Data (Seeded from menu_items_no_id.csv) ───
+// ─── Menu Data ───
 const MENU_DATA = [
-    // ── Pasta ──
-    { id: "1",  name: "Truffle Parmigiano Alfredo (Veg)",      price: 349, category: "Pasta",               emoji: "🍝" },
-    { id: "2",  name: "Truffle Parmigiano Alfredo (Chicken)",   price: 399, category: "Pasta",               emoji: "🍝" },
-    { id: "3",  name: "Smoked Makhani Pasta (Veg)",            price: 299, category: "Pasta",               emoji: "🍝" },
-    { id: "4",  name: "Smoked Makhani Pasta (Chicken)",        price: 349, category: "Pasta",               emoji: "🍝" },
-    { id: "5",  name: "Roasted Garlic Cream Pasta (Veg)",      price: 299, category: "Pasta",               emoji: "🍝" },
-    { id: "6",  name: "Roasted Garlic Cream Pasta (Chicken)",  price: 349, category: "Pasta",               emoji: "🍝" },
-    { id: "7",  name: "Creamy Alfredo (Veg)",                  price: 279, category: "Pasta",               emoji: "🍝" },
-    { id: "8",  name: "Creamy Alfredo (Chicken)",              price: 329, category: "Pasta",               emoji: "🍝" },
-    { id: "9",  name: "Arrabbiata (Veg)",                      price: 269, category: "Pasta",               emoji: "🍝" },
-    { id: "10", name: "Arrabbiata (Chicken)",                  price: 319, category: "Pasta",               emoji: "🍝" },
-    { id: "11", name: "Aglio E Olio (Veg)",                    price: 249, category: "Pasta",               emoji: "🍝" },
-    { id: "12", name: "Aglio E Olio (Chicken)",                price: 299, category: "Pasta",               emoji: "🍝" },
-    { id: "13", name: "Basil Pesto Verde (Veg)",               price: 299, category: "Pasta",               emoji: "🍝" },
-    { id: "14", name: "Basil Pesto Verde (Chicken)",           price: 349, category: "Pasta",               emoji: "🍝" },
-    // ── Burgers ──
-    { id: "15", name: "Signature Fried Chicken Burger",        price: 299, category: "Burgers",             emoji: "🍔" },
-    { id: "16", name: "Korean Crunch Chicken Burger",          price: 319, category: "Burgers",             emoji: "🍔" },
-    { id: "17", name: "BBQ Crunch Chicken Burger",             price: 319, category: "Burgers",             emoji: "🍔" },
-    { id: "18", name: "Cheesy Veg Burger",                     price: 249, category: "Burgers",             emoji: "🍔" },
-    { id: "19", name: "Special Smash Chicken Burger",          price: 349, category: "Burgers",             emoji: "🍔" },
-    // ── Fried Chicken ──
-    { id: "20", name: "Signature Fried Chicken - 6 Pcs",       price: 399, category: "Fried Chicken",       emoji: "🍗" },
-    { id: "21", name: "Signature Fried Chicken - 12 Pcs",      price: 749, category: "Fried Chicken",       emoji: "🍗" },
-    { id: "22", name: "Fried Chicken Wings - 6 Pcs",           price: 279, category: "Fried Chicken",       emoji: "🍗" },
-    { id: "23", name: "Fried Chicken Wings - 12 Pcs",          price: 499, category: "Fried Chicken",       emoji: "🍗" },
-    // ── Sandwiches ──
-    { id: "24", name: "Veg Club Sandwich",                     price: 229, category: "Sandwiches",          emoji: "🥪" },
-    { id: "25", name: "Chicken Club Sandwich",                 price: 279, category: "Sandwiches",          emoji: "🥪" },
-    // ── Fries ──
-    { id: "26", name: "Salted Fries",                          price: 129, category: "Fries",               emoji: "🍟" },
-    { id: "27", name: "Cajun Spiced Fries",                    price: 149, category: "Fries",               emoji: "🍟" },
-    { id: "28", name: "Peri-Peri Fries",                       price: 149, category: "Fries",               emoji: "🍟" },
-    { id: "29", name: "Cheese Overload Fries",                 price: 199, category: "Fries",               emoji: "🍟" },
-    { id: "30", name: "Crispy Fried Chicken Fries",            price: 249, category: "Fries",               emoji: "🍟" },
-    // ── Breakfast ──
-    { id: "31", name: "Seasonal Fruit French Toast",           price: 279, category: "Breakfast",           emoji: "🥞" },
-    { id: "32", name: "Tiramisu French Toast",                 price: 299, category: "Breakfast",           emoji: "🥞" },
-    { id: "33", name: "Choice of Eggs",                        price: 249, category: "Breakfast",           emoji: "🍳" },
-    { id: "34", name: "Smoothie Bowl",                         price: 249, category: "Breakfast",           emoji: "🥣" },
-    { id: "35", name: "Egg & Cheese Sandwich",                 price: 199, category: "Breakfast",           emoji: "🥚" },
-    { id: "36", name: "Avocado & Hummus Toast",                price: 279, category: "Breakfast",           emoji: "🥑" },
-    // ── Comfort Food ──
-    { id: "37", name: "Veg Thukpa",                            price: 199, category: "Comfort Food",        emoji: "🍜" },
-    { id: "38", name: "Chicken Thukpa",                        price: 229, category: "Comfort Food",        emoji: "🍜" },
-    { id: "39", name: "Steamed Veg Momos (6 pcs)",             price: 159, category: "Comfort Food",        emoji: "🥟" },
-    { id: "40", name: "Steamed Chicken Momos (6 pcs)",         price: 189, category: "Comfort Food",        emoji: "🥟" },
-    { id: "41", name: "Fried Veg Momos (6 pcs)",               price: 179, category: "Comfort Food",        emoji: "🥟" },
-    { id: "42", name: "Fried Chicken Momos (6 pcs)",           price: 209, category: "Comfort Food",        emoji: "🥟" },
-    { id: "43", name: "Veg Wrap",                              price: 199, category: "Comfort Food",        emoji: "🌯" },
-    { id: "44", name: "Chicken Wrap",                          price: 239, category: "Comfort Food",        emoji: "🌯" },
-    { id: "45", name: "Crispy Chili Baby Corn (Original)",     price: 199, category: "Comfort Food",        emoji: "🌽" },
-    { id: "46", name: "Crispy Chili Baby Corn (Korean)",       price: 219, category: "Comfort Food",        emoji: "🌽" },
-    { id: "47", name: "Crispy Chili Baby Corn (BBQ)",          price: 219, category: "Comfort Food",        emoji: "🌽" },
-    { id: "48", name: "Crispy Chili Baby Corn (Nashville Hot)", price: 219, category: "Comfort Food",       emoji: "🌽" },
-    // ── Indo-Chinese Combos ──
-    { id: "49", name: "Burnt Garlic Chicken Combo",            price: 299, category: "Indo-Chinese Combos", emoji: "🍱" },
-    { id: "50", name: "Burnt Garlic Paneer Combo",             price: 279, category: "Indo-Chinese Combos", emoji: "🍱" },
-    { id: "51", name: "Chili Chicken Combo",                   price: 299, category: "Indo-Chinese Combos", emoji: "🍱" },
-    { id: "52", name: "Chili Paneer Combo",                    price: 279, category: "Indo-Chinese Combos", emoji: "🍱" },
-    // ── Paratha Combos ──
-    { id: "53", name: "Masala Chicken Paratha Combo",          price: 249, category: "Paratha Combos",      emoji: "🫓" },
-    { id: "54", name: "Masala Paneer Paratha Combo",           price: 229, category: "Paratha Combos",      emoji: "🫓" },
+
+    // ── PASTA STUDIO ──
+    {
+        id: "1", category: "Pasta", emoji: "🍝", signature: true,
+        name: "Truffle Parmigiano Alfredo",
+        description: "Fettuccine tossed in a silky Parmesan cream sauce with roasted garlic, saut\u00e9ed button mushrooms, baby spinach and fresh parsley, finished with aromatic truffle oil.",
+        bestWith: "Fettuccine",
+        variants: [ { label: "Veg", price: 349 }, { label: "Chicken", price: 399 } ],
+        modifierGroups: [ { id: "pasta", label: "Choose your Pasta", recommended: "Fettuccine", options: ["Penne", "Fusilli", "Spaghetti", "Fettuccine"] } ]
+    },
+    {
+        id: "2", category: "Pasta", emoji: "🍝", signature: true,
+        name: "Smoked Makhani Pasta",
+        description: "A rich, smoky Indian-Italian creation with creamy makhani sauce, roasted onion petals, red and yellow bell peppers, cherry tomatoes and fresh coriander.",
+        bestWith: "Penne",
+        variants: [ { label: "Veg", price: 299 }, { label: "Chicken", price: 349 } ],
+        modifierGroups: [ { id: "pasta", label: "Choose your Pasta", recommended: "Penne", options: ["Penne", "Fusilli", "Spaghetti", "Fettuccine"] } ]
+    },
+    {
+        id: "3", category: "Pasta", emoji: "🍝",
+        name: "Roasted Garlic Cream Pasta",
+        description: "Velvety roasted garlic cream sauce with saut\u00e9ed mushrooms, baby spinach, Parmesan, cracked black pepper and fresh parsley.",
+        bestWith: "Penne",
+        variants: [ { label: "Veg", price: 299 }, { label: "Chicken", price: 349 } ],
+        modifierGroups: [ { id: "pasta", label: "Choose your Pasta", recommended: "Penne", options: ["Penne", "Fusilli", "Spaghetti", "Fettuccine"] } ]
+    },
+    {
+        id: "4", category: "Pasta", emoji: "🍝",
+        name: "Creamy Alfredo",
+        subtitle: "The Oblique White Pasta",
+        description: "Classic creamy Alfredo with Parmesan, broccoli, sweet corn, mushrooms, zucchini and fresh parsley.",
+        bestWith: "Fettuccine",
+        variants: [ { label: "Veg", price: 279 }, { label: "Chicken", price: 329 } ],
+        modifierGroups: [ { id: "pasta", label: "Choose your Pasta", recommended: "Fettuccine", options: ["Penne", "Fusilli", "Spaghetti", "Fettuccine"] } ]
+    },
+    {
+        id: "5", category: "Pasta", emoji: "🍝", spicy: true,
+        name: "Arrabbiata",
+        subtitle: "The Oblique Red Pasta",
+        description: "A bold tomato and chilli sauce tossed with zucchini, roasted red bell peppers, black olives, cherry tomatoes and fresh basil.",
+        bestWith: "Penne",
+        variants: [ { label: "Veg", price: 269 }, { label: "Chicken", price: 319 } ],
+        modifierGroups: [ { id: "pasta", label: "Choose your Pasta", recommended: "Penne", options: ["Penne", "Fusilli", "Spaghetti", "Fettuccine"] } ]
+    },
+    {
+        id: "6", category: "Pasta", emoji: "🍝",
+        name: "Aglio E Olio",
+        description: "The Italian classic \u2014 extra virgin olive oil, roasted garlic, chilli and fresh parsley, finished with cracked black pepper and Parmesan.",
+        bestWith: "Spaghetti",
+        variants: [ { label: "Veg", price: 249 }, { label: "Chicken", price: 299 } ],
+        modifierGroups: [ { id: "pasta", label: "Choose your Pasta", recommended: "Spaghetti", options: ["Penne", "Fusilli", "Spaghetti", "Fettuccine"] } ]
+    },
+    {
+        id: "7", category: "Pasta", emoji: "🍝",
+        name: "Basil Pesto Verde",
+        description: "Fresh basil pesto with Parmesan, zucchini, broccoli, cherry tomatoes and toasted pine nuts or cashews.",
+        bestWith: "Fusilli / Fettuccine",
+        variants: [ { label: "Veg", price: 299 }, { label: "Chicken", price: 349 } ],
+        modifierGroups: [ { id: "pasta", label: "Choose your Pasta", recommended: "Fusilli", options: ["Penne", "Fusilli", "Spaghetti", "Fettuccine"] } ]
+    },
+
+    // ── SIGNATURE BURGERS ──
+    {
+        id: "15", category: "Burgers", emoji: "🍔", price: 299,
+        name: "Signature Fried Chicken Burger",
+        description: "Crispy signature fried chicken, house sauce, fresh lettuce and pickles in a soft toasted bun.",
+        note: "Served with: Soft Drink"
+    },
+    {
+        id: "16", category: "Burgers", emoji: "🍔", price: 319, spicy: true,
+        name: "Korean Crunch Chicken Burger",
+        description: "Crispy fried chicken glazed with Korean-style sauce, fresh lettuce and creamy house dressing.",
+        note: "Served with: Soft Drink"
+    },
+    {
+        id: "17", category: "Burgers", emoji: "🍔", price: 319,
+        name: "BBQ Crunch Chicken Burger",
+        description: "Crispy fried chicken, smoky BBQ sauce, lettuce and house dressing.",
+        note: "Served with: Soft Drink"
+    },
+    {
+        id: "18", category: "Burgers", emoji: "🍔", price: 249,
+        name: "Cheesy Veg Burger",
+        description: "Crispy seasoned vegetarian patty, melted cheese, lettuce, tomato and house burger sauce.",
+        note: "Served with: Soft Drink"
+    },
+    {
+        id: "19", category: "Burgers", emoji: "🍔", price: 349, signature: true,
+        name: "Special Smash Chicken Burger",
+        description: "Double smashed chicken patty, fried egg, melted cheese, signature sauce and crisp lettuce in a toasted bun.",
+        note: "Served with: Salted Fries + Soft Drink"
+    },
+
+    // ── IRA FRIED CHICKEN ──
+    {
+        id: "20", category: "Fried Chicken", emoji: "🍗",
+        name: "Signature Fried Chicken",
+        description: "Louisiana-style, marinated for 12 hours with cayenne and signature spices, freshly fried for a crisp, juicy finish.",
+        variants: [ { label: "6 Pieces", price: 399 }, { label: "12 Pieces", price: 749 } ],
+        modifierGroups: [ { id: "flavour", label: "Choose your Flavour", options: ["Original Crunch", "Nashville Hot 🌶", "Korean 🌶", "Barbecue", "Sweet Chili"] } ]
+    },
+    {
+        id: "22", category: "Fried Chicken", emoji: "🍗",
+        name: "Fried Chicken Wings",
+        description: "Crispy wings marinated for 12 hours, fried to golden perfection in your choice of sauce.",
+        variants: [ { label: "6 Pieces", price: 279 }, { label: "12 Pieces", price: 499 } ],
+        modifierGroups: [ { id: "flavour", label: "Choose your Flavour", options: ["Original Crunch", "Nashville Hot 🌶", "Korean 🌶", "Barbecue", "Sweet Chili"] } ]
+    },
+
+    // ── SANDWICHES ──
+    {
+        id: "24", category: "Sandwiches", emoji: "🥪", price: 229,
+        name: "Veg Club Sandwich",
+        description: "Triple-layer toasted sandwich with seasoned vegetables, cheese, lettuce, tomato and house dressing."
+    },
+    {
+        id: "25", category: "Sandwiches", emoji: "🥪", price: 279, signature: true,
+        name: "Chicken Club Sandwich",
+        description: "Triple-layer toasted sandwich with grilled chicken, egg, cheese, lettuce, tomato and house dressing."
+    },
+
+    // ── FRIES ──
+    { id: "26", category: "Fries", emoji: "🍟", price: 129, name: "Salted Fries" },
+    { id: "27", category: "Fries", emoji: "🍟", price: 149, name: "Cajun Spiced Fries", spicy: true },
+    { id: "28", category: "Fries", emoji: "🍟", price: 149, name: "Peri-Peri Fries", spicy: true },
+    { id: "29", category: "Fries", emoji: "🍟", price: 199, name: "Cheese Overload Fries" },
+    {
+        id: "30", category: "Fries", emoji: "🍟", price: 249, signature: true,
+        name: "Crispy Fried Chicken Fries",
+        description: "Crispy fries loaded with chopped signature fried chicken and house sauce."
+    },
+
+    // ── ALL-DAY BREAKFAST ──
+    {
+        id: "31", category: "Breakfast", emoji: "🥞", price: 279, signature: true,
+        name: "Seasonal Fruit French Toast",
+        description: "Thick-cut brioche French toast with seasonal fresh fruits, maple syrup and whipped cream."
+    },
+    {
+        id: "32", category: "Breakfast", emoji: "🥞", price: 299, signature: true,
+        name: "Tiramisu French Toast",
+        description: "Caramelized brioche, espresso syrup, mascarpone cream, cocoa and dark chocolate."
+    },
+    {
+        id: "33", category: "Breakfast", emoji: "🍳", price: 249,
+        name: "Choice of Eggs",
+        description: "Eggs prepared your way, served with chicken sausage and toasted bread.",
+        modifierGroups: [ { id: "egg_style", label: "Choose your Style", options: ["Scrambled", "Sunny Side Up", "Omelette"] } ]
+    },
+    {
+        id: "34", category: "Breakfast", emoji: "🥣", price: 249,
+        name: "Smoothie Bowl",
+        description: "Thick blended fruit smoothie topped with seasonal fruits, house granola, seeds and nuts."
+    },
+    {
+        id: "35", category: "Breakfast", emoji: "🥚", price: 199,
+        name: "Egg & Cheese Sandwich",
+        description: "Soft toasted bread, creamy scrambled egg and melted cheese."
+    },
+    {
+        id: "36", category: "Breakfast", emoji: "🥑", price: 279,
+        name: "Avocado & Hummus Toast",
+        description: "Toasted sourdough, creamy hummus, smashed avocado, cherry tomatoes, herbs and lemon."
+    },
+
+    // ── COMFORT & QUICK BITES ──
+    {
+        id: "37", category: "Comfort Food", emoji: "🍜", price: 199,
+        name: "Veg Thukpa",
+        description: "Warm Himalayan-style noodle soup with vegetables, herbs and aromatic broth."
+    },
+    {
+        id: "38", category: "Comfort Food", emoji: "🍜", price: 229,
+        name: "Chicken Thukpa",
+        description: "Warm Himalayan-style noodle soup with chicken, herbs and aromatic broth."
+    },
+    { id: "39", category: "Comfort Food", emoji: "🥟", price: 159, name: "Steamed Veg Momos",     portionNote: "6 pcs" },
+    { id: "40", category: "Comfort Food", emoji: "🥟", price: 189, name: "Steamed Chicken Momos", portionNote: "6 pcs" },
+    { id: "41", category: "Comfort Food", emoji: "🥟", price: 179, name: "Fried Veg Momos",       portionNote: "6 pcs" },
+    { id: "42", category: "Comfort Food", emoji: "🥟", price: 209, name: "Fried Chicken Momos",   portionNote: "6 pcs" },
+    { id: "43", category: "Comfort Food", emoji: "🌯", price: 199, name: "Veg Wrap" },
+    { id: "44", category: "Comfort Food", emoji: "🌯", price: 239, name: "Chicken Wrap" },
+    {
+        id: "45", category: "Comfort Food", emoji: "🌽",
+        name: "Crispy Chili Baby Corn",
+        description: "Crispy baby corn tossed in your choice of signature sauce.",
+        variants: [
+            { label: "Original", price: 199 },
+            { label: "Korean", price: 219 },
+            { label: "BBQ", price: 219 },
+            { label: "Nashville Hot", price: 219 }
+        ],
+        modifierGroups: [ { id: "style", label: "Choose your Style", options: ["Original", "Korean 🌶", "BBQ", "Nashville Hot 🌶"] } ]
+    },
+
+    // ── INDO-CHINESE COMBOS ──
+    {
+        id: "49", category: "Indo-Chinese Combos", emoji: "🍱", price: 299,
+        name: "Burnt Garlic Chicken Combo",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "50", category: "Indo-Chinese Combos", emoji: "🍱", price: 279,
+        name: "Burnt Garlic Paneer Combo",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "51", category: "Indo-Chinese Combos", emoji: "🍱", price: 299, spicy: true,
+        name: "Chili Chicken Combo",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "52", category: "Indo-Chinese Combos", emoji: "🍱", price: 279, spicy: true,
+        name: "Chili Paneer Combo",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+
+    // ── PARATHA COMBOS ──
+    {
+        id: "53", category: "Paratha Combos", emoji: "🫓", price: 249,
+        name: "Masala Chicken Paratha Combo",
+        description: "Flaky paratha served with creamy masala chicken."
+    },
+    {
+        id: "54", category: "Paratha Combos", emoji: "🫓", price: 229,
+        name: "Masala Paneer Paratha Combo",
+        description: "Flaky paratha served with rich masala paneer."
+    },
 ];
 
 // ─── Application State ───
@@ -321,78 +486,190 @@ function renderMenu(items) {
 
     if (items.length === 0) {
         grid.innerHTML = `
-            <article class="menu-card" style="justify-content: center; text-align: center; padding: 2rem 0;">
+            <article class="menu-card" style="padding:2rem 0;">
                 <div class="menu-card-emoji">☕</div>
                 <div class="menu-card-info">
-                    <h3 class="menu-card-name">No items in this category right now</h3>
-                    <p class="menu-card-category">Please try another menu category</p>
+                    <div class="menu-card-title-row">
+                        <h3 class="menu-card-name">No items in this category</h3>
+                    </div>
+                    <p class="menu-card-desc">Please try another menu category.</p>
                 </div>
-            </article>
-        `;
+            </article>`;
         return;
     }
 
     items.forEach(item => {
         const card = document.createElement("div");
         card.className = "menu-card";
-        card.innerHTML = `
-            <div class="menu-card-emoji">${item.emoji}</div>
-            <div class="menu-card-info">
-                <h3 class="menu-card-name">${item.name}</h3>
-                <p class="menu-card-category">${item.category}</p>
-            </div>
-            <div class="menu-card-right">
-                <span class="menu-card-price">₹${item.price}</span>
-                <button class="menu-card-add" onclick="addToCart('${item.id}')">+ Add</button>
-            </div>
-        `;
+        card.innerHTML = buildMenuCardHTML(item);
         grid.appendChild(card);
     });
 
-    window.setTimeout(() => {
-        grid.classList.remove("is-transitioning");
-    }, 240);
+    window.setTimeout(() => { grid.classList.remove("is-transitioning"); }, 240);
 }
+
+/**
+ * Builds the inner HTML for a rich menu card row.
+ */
+function buildMenuCardHTML(item) {
+    // ─ Tags
+    const sigTag   = item.signature ? '<span class="tag-signature">★</span>' : '';
+    const spicyTag = item.spicy     ? '<span class="tag-spicy">🌶</span>' : '';
+
+    // ─ Price (range if variants, else fixed)
+    let priceDisplay;
+    if (item.variants && item.variants.length > 0) {
+        const prices = item.variants.map(v => v.price);
+        const min = Math.min(...prices);
+        const max = Math.max(...prices);
+        priceDisplay = min === max ? `₹${min}` : `₹${min}–${max}`;
+    } else {
+        priceDisplay = `₹${item.price}`;
+    }
+
+    // ─ Subtitle / portion note
+    const subtitleHtml   = item.subtitle    ? `<span class="menu-card-subtitle">${item.subtitle}</span>` : '';
+    const portionHtml    = item.portionNote ? `<span class="menu-card-portion">&nbsp;&middot;&nbsp;${item.portionNote}</span>` : '';
+
+    // ─ Description
+    const descHtml = item.description
+        ? `<p class="menu-card-desc">${item.description}</p>` : '';
+
+    // ─ "Served with" note
+    const noteHtml = item.note
+        ? `<p class="menu-card-note">🍽️ ${item.note}</p>` : '';
+
+    // ─ Variant pill-buttons
+    let variantHtml = '';
+    if (item.variants && item.variants.length > 1) {
+        const pills = item.variants.map((v, i) => `
+            <button type="button"
+                class="variant-btn${i === 0 ? ' active' : ''}"
+                data-price="${v.price}"
+                data-idx="${i}"
+                onclick="selectVariant('${item.id}', ${i}, this)">
+                ${v.label} &nbsp;<strong>₹${v.price}</strong>
+            </button>`).join('');
+        variantHtml = `<div class="menu-card-variants" id="variants-${item.id}">${pills}</div>`;
+    }
+
+    // ─ Modifier dropdowns
+    let modifiersHtml = '';
+    if (item.modifierGroups && item.modifierGroups.length > 0) {
+        modifiersHtml = item.modifierGroups.map(group => {
+            const opts = group.options.map((opt, i) => {
+                const isRec = group.recommended && opt.startsWith(group.recommended.split('/')[0].trim());
+                return `<option value="${opt}"${isRec ? ' selected' : ''}>${opt}${isRec ? ' ✓' : ''}</option>`;
+            }).join('');
+            return `
+            <div class="menu-card-modifier">
+                <label class="modifier-label">${group.label}</label>
+                <select class="menu-card-select" id="mod-${item.id}-${group.id}">${opts}</select>
+            </div>`;
+        }).join('');
+    }
+
+    return `
+        <div class="menu-card-emoji">${item.emoji}</div>
+        <div class="menu-card-info">
+            <div class="menu-card-title-row">
+                <h3 class="menu-card-name">${item.name}${sigTag}${spicyTag}${portionHtml}</h3>
+                <span class="menu-card-price" id="price-${item.id}">${priceDisplay}</span>
+            </div>
+            ${subtitleHtml}
+            ${descHtml}
+            ${variantHtml}
+            ${modifiersHtml}
+            ${noteHtml}
+            <div class="menu-card-action">
+                <button class="menu-card-add" onclick="addToCart('${item.id}')">+ Add</button>
+            </div>
+        </div>`;
+}
+
+
+// ============================================
+//  VARIANT SELECTION
+// ============================================
+
+/**
+ * Called when a variant pill-button is clicked.
+ * Updates the active pill style and the price display label.
+ */
+window.selectVariant = function(itemId, variantIdx, btn) {
+    const item = MENU_DATA.find(m => m.id === itemId);
+    if (!item || !item.variants) return;
+    const container = document.getElementById(`variants-${itemId}`);
+    if (container) {
+        container.querySelectorAll('.variant-btn').forEach(b => b.classList.remove('active'));
+    }
+    btn.classList.add('active');
+    const priceEl = document.getElementById(`price-${itemId}`);
+    if (priceEl) priceEl.textContent = `₹${item.variants[variantIdx].price}`;
+};
 
 // ============================================
 //  CART MANAGEMENT
 // ============================================
 
-window.addToCart = function (id) {
+window.addToCart = function(id) {
     const menuItem = MENU_DATA.find(m => m.id === id);
     if (!menuItem) return;
 
-    const existing = cart.find(c => c.id === id);
+    // ─ Resolve price and variant label
+    let price = menuItem.price || 0;
+    let selectedVariantLabel = null;
+    if (menuItem.variants && menuItem.variants.length > 0) {
+        const container = document.getElementById(`variants-${id}`);
+        const activeBtn = container ? container.querySelector('.variant-btn.active') : null;
+        const idx = activeBtn ? parseInt(activeBtn.dataset.idx) : 0;
+        price = menuItem.variants[idx].price;
+        selectedVariantLabel = menuItem.variants[idx].label;
+    }
+
+    // ─ Resolve modifier selections
+    const selectedModifiers = {};
+    if (menuItem.modifierGroups) {
+        menuItem.modifierGroups.forEach(group => {
+            const el = document.getElementById(`mod-${id}-${group.id}`);
+            if (el) selectedModifiers[group.label] = el.value;
+        });
+    }
+
+    // ─ Build a unique cart key (item + variant + modifiers)
+    const cartKey = id + '|' + (selectedVariantLabel || '') + '|' + JSON.stringify(selectedModifiers);
+
+    // ─ Build human-readable display name
+    let displayName = menuItem.name;
+    if (selectedVariantLabel) displayName += ` (${selectedVariantLabel})`;
+    const modParts = Object.values(selectedModifiers);
+    if (modParts.length) displayName += ' · ' + modParts.join(' · ');
+
+    // ─ Deduplicate or push new
+    const existing = cart.find(c => c.cartKey === cartKey);
     if (existing) {
         existing.quantity++;
     } else {
-        cart.push({ ...menuItem, quantity: 1 });
+        cart.push({ ...menuItem, cartKey, quantity: 1, price, displayName, selectedModifiers });
     }
 
     updateCartUI();
     showToast(`${menuItem.name} added to cart`, "success");
 
-    // Subtle pulse on cart button
     const btn = document.getElementById("cart-toggle-btn");
-    btn.style.animation = "none";
-    btn.offsetHeight; // force reflow
-    btn.style.animation = "pulse-gold 0.6s ease";
+    if (btn) { btn.style.animation = "none"; btn.offsetHeight; btn.style.animation = "pulse-gold 0.6s ease"; }
 };
 
-window.incrementItem = function (id) {
-    const item = cart.find(c => c.id === id);
-    if (item) {
-        item.quantity++;
-        updateCartUI();
-    }
+window.incrementItem = function(cartKey) {
+    const item = cart.find(c => c.cartKey === cartKey);
+    if (item) { item.quantity++; updateCartUI(); }
 };
 
-window.decrementItem = function (id) {
-    const item = cart.find(c => c.id === id);
+window.decrementItem = function(cartKey) {
+    const item = cart.find(c => c.cartKey === cartKey);
     if (!item) return;
-    
     if (item.quantity <= 1) {
-        cart = cart.filter(c => c.id !== id);
+        cart = cart.filter(c => c.cartKey !== cartKey);
     } else {
         item.quantity--;
     }
@@ -400,9 +677,9 @@ window.decrementItem = function (id) {
 };
 
 function updateCartUI() {
-    const container = document.getElementById("cart-items");
-    const totalEl = document.getElementById("cart-total");
-    const countEl = document.getElementById("cart-count");
+    const container  = document.getElementById("cart-items");
+    const totalEl    = document.getElementById("cart-total");
+    const countEl    = document.getElementById("cart-count");
     const checkoutBtn = document.getElementById("checkout-btn");
 
     container.innerHTML = "";
@@ -414,37 +691,38 @@ function updateCartUI() {
                 <span class="cart-empty-icon">🛒</span>
                 <p>Your cart is empty</p>
                 <p style="font-size:0.8rem; color: var(--text-muted);">Add items from the menu to get started</p>
-            </div>
-        `;
+            </div>`;
         checkoutBtn.disabled = true;
     } else {
         checkoutBtn.disabled = false;
         cart.forEach(item => {
             const itemTotal = item.price * item.quantity;
             total += itemTotal;
+            const modText = Object.values(item.selectedModifiers || {}).join(' · ');
 
             const div = document.createElement("div");
             div.className = "cart-item";
             div.innerHTML = `
                 <span class="cart-item-emoji">${item.emoji}</span>
                 <div class="cart-item-info">
-                    <div class="cart-item-name">${item.name}</div>
+                    <div class="cart-item-name">${item.displayName || item.name}</div>
+                    ${modText ? `<div class="cart-item-mods">${modText}</div>` : ''}
                     <div class="cart-item-price">₹${item.price} each</div>
                 </div>
                 <div class="cart-item-controls">
-                    <button class="cart-qty-btn" onclick="decrementItem('${item.id}')">−</button>
+                    <button class="cart-qty-btn" onclick="decrementItem('${item.cartKey}')">\u2212</button>
                     <span class="cart-qty-value">${item.quantity}</span>
-                    <button class="cart-qty-btn" onclick="incrementItem('${item.id}')">+</button>
+                    <button class="cart-qty-btn" onclick="incrementItem('${item.cartKey}')">+</button>
                 </div>
-                <span class="cart-item-total">₹${itemTotal}</span>
-            `;
+                <span class="cart-item-total">₹${itemTotal}</span>`;
             container.appendChild(div);
         });
     }
 
-    totalEl.textContent = total;
-    countEl.textContent = cart.reduce((sum, i) => sum + i.quantity, 0);
+    totalEl.textContent  = total;
+    countEl.textContent  = cart.reduce((sum, i) => sum + i.quantity, 0);
 }
+
 
 // ============================================
 //  CART DRAWER TOGGLE
