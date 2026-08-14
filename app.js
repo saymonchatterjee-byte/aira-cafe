@@ -512,14 +512,43 @@ function getCategoryConfig(key) {
     return CATEGORY_DEFINITIONS.find(category => category.key === key) || CATEGORY_DEFINITIONS[0];
 }
 
+let searchQuery = "";
+
 /**
- * Returns filtered menu items by direct category key match.
- * "All" returns the full menu. Any specific category key filters by item.category.
+ * Returns filtered menu items by direct category key match and live search query.
  */
-function getFilteredMenuItems(filterKey) {
-    if (filterKey === "All") return [...MENU_DATA];
-    return MENU_DATA.filter(item => item.category === filterKey);
+function getFilteredMenuItems(filterKey, search = searchQuery) {
+    let items = MENU_DATA;
+    if (filterKey !== "All") {
+        items = items.filter(item => item.category === filterKey);
+    }
+    if (search && search.trim() !== "") {
+        const q = search.trim().toLowerCase();
+        items = items.filter(item =>
+            item.name.toLowerCase().includes(q) ||
+            (item.description && item.description.toLowerCase().includes(q)) ||
+            (item.subtitle && item.subtitle.toLowerCase().includes(q)) ||
+            item.category.toLowerCase().includes(q)
+        );
+    }
+    return items;
 }
+
+window.onMenuSearch = function(val) {
+    searchQuery = val;
+    const clearBtn = document.getElementById("search-clear-btn");
+    if (clearBtn) clearBtn.style.display = val.length > 0 ? "flex" : "none";
+    renderMenu(getFilteredMenuItems(currentFilter, searchQuery));
+};
+
+window.clearMenuSearch = function() {
+    searchQuery = "";
+    const input = document.getElementById("menu-search-input");
+    if (input) input.value = "";
+    const clearBtn = document.getElementById("search-clear-btn");
+    if (clearBtn) clearBtn.style.display = "none";
+    renderMenu(getFilteredMenuItems(currentFilter, searchQuery));
+};
 
 function generateCategoryFilters() {
     const container = document.getElementById("filter-bar");
@@ -576,14 +605,13 @@ function renderMenu(items) {
     grid.innerHTML = "";
 
     if (items.length === 0) {
+        const queryText = searchQuery ? ` matching "${searchQuery}"` : " in this category";
         grid.innerHTML = `
-            <article class="menu-card" style="padding:2rem 0;">
-                <div class="menu-card-emoji">☕</div>
-                <div class="menu-card-info">
-                    <div class="menu-card-title-row">
-                        <h3 class="menu-card-name">No items in this category</h3>
-                    </div>
-                    <p class="menu-card-desc">Please try another menu category.</p>
+            <article class="menu-card" style="padding:2.5rem 1.5rem; text-align:center; flex-direction:column; align-items:center;">
+                <div class="menu-card-emoji" style="font-size:3rem; width:80px; height:80px;">🔍</div>
+                <div class="menu-card-info" style="text-align:center; margin-top:1rem;">
+                    <h3 class="menu-card-name" style="font-size:1.2rem; margin-bottom:0.4rem;">No items found${queryText}</h3>
+                    <p class="menu-card-desc">Try clearing your search or browsing another menu category.</p>
                 </div>
             </article>`;
         return;
