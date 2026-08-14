@@ -46,7 +46,9 @@
 }
 
 /* --- Reset & Base --- */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -61,7 +63,7 @@ html {
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     background-color: #D4E2D8;
-    background-image: 
+    background-image:
         radial-gradient(circle at 15% 15%, rgba(220, 235, 226, 0.9) 0%, transparent 45%),
         radial-gradient(circle at 85% 18%, rgba(179, 146, 85, 0.16) 0%, transparent 40%),
         radial-gradient(circle at 50% 55%, rgba(212, 226, 218, 0.8) 0%, transparent 50%),
@@ -77,7 +79,10 @@ body {
 body::before {
     content: '';
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     pointer-events: none;
     z-index: 0;
     opacity: 0.3;
@@ -89,19 +94,28 @@ body::before {
 ::-webkit-scrollbar {
     width: 6px;
 }
+
 ::-webkit-scrollbar-track {
     background: var(--bg-primary);
 }
+
 ::-webkit-scrollbar-thumb {
     background: var(--border-light);
     border-radius: var(--radius-full);
 }
+
 ::-webkit-scrollbar-thumb:hover {
     background: var(--text-muted);
 }
 
-.scrollbar-none::-webkit-scrollbar { display: none; }
-.scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-none::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
 
 /* --- Typography --- */
 .font-display {
@@ -157,7 +171,8 @@ body::before {
 }
 
 /* Form inputs & interactive styles */
-input:focus, textarea:focus {
+input:focus,
+textarea:focus {
     border-color: var(--accent-gold) !important;
     box-shadow: 0 0 0 2px var(--accent-gold-dim) !important;
 }
@@ -260,13 +275,11 @@ input:focus, textarea:focus {
 .hero-slide-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        to bottom,
-        rgba(17,17,17,0.3) 0%,
-        rgba(17,17,17,0.1) 40%,
-        rgba(17,17,17,0.7) 80%,
-        rgba(17,17,17,1) 100%
-    );
+    background: linear-gradient(to bottom,
+            rgba(17, 17, 17, 0.3) 0%,
+            rgba(17, 17, 17, 0.1) 40%,
+            rgba(17, 17, 17, 0.7) 80%,
+            rgba(17, 17, 17, 1) 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -342,6 +355,7 @@ input:focus, textarea:focus {
     opacity: 0.5;
     transition: all var(--transition-base);
 }
+
 .hero-section .swiper-pagination-bullet-active {
     background: var(--accent-gold);
     opacity: 1;
@@ -358,7 +372,7 @@ input:focus, textarea:focus {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-bottom: 1px solid rgba(179,146,85,0.25);
+    border-bottom: 1px solid rgba(179, 146, 85, 0.25);
 }
 
 .cafe-banner-inner {
@@ -521,7 +535,7 @@ input:focus, textarea:focus {
     height: 72px;
     border-radius: 50%;
     border: 1px solid var(--border);
-    background: rgba(255,255,255,0.35);
+    background: rgba(255, 255, 255, 0.35);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -604,15 +618,41 @@ input:focus, textarea:focus {
 }
 
 /* ── Category-Specific Card Accent Styling ── */
-.menu-card-pasta { border-left-color: #B39255; }
-.menu-card-burgers { border-left-color: #C4875A; }
-.menu-card-fried-chicken { border-left-color: #E11D48; }
-.menu-card-sandwiches { border-left-color: #3B7A57; }
-.menu-card-fries { border-left-color: #D99B00; }
-.menu-card-breakfast { border-left-color: #D97706; }
-.menu-card-comfort-food { border-left-color: #059669; }
-.menu-card-indo-chinese-combos { border-left-color: #7C3AED; }
-.menu-card-paratha-combos { border-left-color: #C2410C; }
+.menu-card-pasta {
+    border-left-color: #B39255;
+}
+
+.menu-card-burgers {
+    border-left-color: #C4875A;
+}
+
+.menu-card-fried-chicken {
+    border-left-color: #E11D48;
+}
+
+.menu-card-sandwiches {
+    border-left-color: #3B7A57;
+}
+
+.menu-card-fries {
+    border-left-color: #D99B00;
+}
+
+.menu-card-breakfast {
+    border-left-color: #D97706;
+}
+
+.menu-card-comfort-food {
+    border-left-color: #059669;
+}
+
+.menu-card-indo-chinese-combos {
+    border-left-color: #7C3AED;
+}
+
+.menu-card-paratha-combos {
+    border-left-color: #C2410C;
+}
 
 /* ── Special Card Highlights ── */
 .menu-card.is-signature {
@@ -632,20 +672,20 @@ input:focus, textarea:focus {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.6);
+    background: rgba(255, 255, 255, 0.6);
     border: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
     margin-top: 0.1rem;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.07));
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.07));
     transition: transform var(--transition-fast), background var(--transition-fast);
 }
 
 .menu-card:hover .menu-card-emoji {
     transform: scale(1.08);
-    background: rgba(255,255,255,0.85);
+    background: rgba(255, 255, 255, 0.85);
 }
 
 /* ── Meta Bar & Badges ── */
@@ -704,8 +744,13 @@ input:focus, textarea:focus {
     border: 1px solid rgba(124, 58, 237, 0.3);
 }
 
-.dot-veg { color: #15803D; }
-.dot-nonveg { color: #9F1239; }
+.dot-veg {
+    color: #15803D;
+}
+
+.dot-nonveg {
+    color: #9F1239;
+}
 
 .badge-signature {
     font-size: 0.6rem;
@@ -814,7 +859,7 @@ input:focus, textarea:focus {
     padding: 4px 10px;
     border-radius: var(--radius-full);
     border: 1px solid var(--border);
-    background: rgba(255,255,255,0.3);
+    background: rgba(255, 255, 255, 0.3);
     font-size: 0.68rem;
     font-weight: 600;
     color: var(--text-secondary);
@@ -861,7 +906,7 @@ input:focus, textarea:focus {
     padding: 4px 24px 4px 8px;
     border-radius: var(--radius-sm);
     border: 1px solid var(--border);
-    background: rgba(255,255,255,0.35);
+    background: rgba(255, 255, 255, 0.35);
     color: var(--text-primary);
     font-size: 0.72rem;
     font-weight: 600;
@@ -889,7 +934,7 @@ input:focus, textarea:focus {
 
 .menu-card-add {
     padding: 5px 14px;
-    background: rgba(255,255,255,0.35);
+    background: rgba(255, 255, 255, 0.35);
     color: var(--text-secondary);
     border: 1px solid var(--border);
     border-radius: var(--radius-full);
@@ -941,7 +986,7 @@ input:focus, textarea:focus {
     position: fixed;
     inset: 0;
     z-index: 200;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     opacity: 0;
@@ -1176,7 +1221,7 @@ input:focus, textarea:focus {
     position: fixed;
     inset: 0;
     z-index: 300;
-    background: rgba(0,0,0,0.75);
+    background: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     display: flex;
@@ -1250,8 +1295,13 @@ input:focus, textarea:focus {
     border-radius: 2px;
 }
 
-.qr-cell.dark { background: #111; }
-.qr-cell.light { background: #fff; }
+.qr-cell.dark {
+    background: #111;
+}
+
+.qr-cell.light {
+    background: #fff;
+}
 
 .modal-amount {
     font-size: 2rem;
@@ -1356,9 +1406,17 @@ input:focus, textarea:focus {
     flex: 1;
 }
 
-.toast.success { border-left: 4px solid var(--success); }
-.toast.error { border-left: 4px solid var(--error); }
-.toast.info { border-left: 4px solid var(--info); }
+.toast.success {
+    border-left: 4px solid var(--success);
+}
+
+.toast.error {
+    border-left: 4px solid var(--error);
+}
+
+.toast.info {
+    border-left: 4px solid var(--info);
+}
 
 /* ============================================
    FOOTER
@@ -1384,39 +1442,89 @@ input:focus, textarea:focus {
    KEYFRAME ANIMATIONS
    ============================================ */
 @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes toastIn {
-    from { opacity: 0; transform: translateX(100px); }
-    to { opacity: 1; transform: translateX(0); }
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 @keyframes toastOut {
-    from { opacity: 1; transform: translateX(0); }
-    to { opacity: 0; transform: translateX(100px); }
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(100px);
+    }
 }
 
 @keyframes successPop {
-    0% { transform: scale(0); opacity: 0; }
-    60% { transform: scale(1.2); }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 @keyframes shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
 }
 
 @keyframes pulse-gold {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(201,169,110,0.4); }
-    50% { box-shadow: 0 0 0 12px rgba(201,169,110,0); }
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(201, 169, 110, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 0 12px rgba(201, 169, 110, 0);
+    }
 }
 
 @keyframes menuFadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ============================================
@@ -1592,74 +1700,92 @@ input:focus, textarea:focus {
         padding: 0 1rem;
         height: 60px;
     }
+
     .navbar-title {
         font-size: 1.15rem;
         letter-spacing: 1px;
     }
+
     .cart-btn {
         padding: 8px 14px;
         font-size: 0.75rem;
         letter-spacing: 1px;
     }
+
     .hero-section {
         height: 320px;
     }
+
     .hero-logo {
         width: 65px;
         height: 65px;
     }
+
     .menu-grid {
         gap: 0.75rem;
     }
+
     .menu-card {
         padding: 0.75rem 0.1rem;
     }
+
     .menu-card-emoji {
         width: 42px;
         height: 42px;
         font-size: 1.25rem;
     }
+
     .menu-card-name {
         font-size: 0.85rem;
     }
+
     .menu-card-price {
         font-size: 0.9rem;
     }
+
     .menu-card-add {
         font-size: 0.65rem;
         padding: 5px 10px;
         letter-spacing: 1px;
     }
+
     .drawer-panel {
         max-width: 100%;
     }
+
     .modal-content {
         padding: 1.5rem;
         margin: 0.5rem;
     }
+
     .toast-container {
         left: 1rem;
         right: 1rem;
         bottom: 1rem;
     }
+
     .toast {
         min-width: auto;
     }
+
     .menu-browser-header {
         flex-direction: column;
         align-items: flex-start;
     }
+
     .menu-filter-bar {
         top: 68px;
         grid-auto-columns: 84px;
         gap: 0.75rem;
         padding-top: 0.85rem;
     }
+
     .category-card-icon {
         width: 64px;
         height: 64px;
         font-size: 1.35rem;
     }
+
     .category-card-name {
         max-width: 84px;
         font-size: 0.68rem;
@@ -1670,7 +1796,7 @@ input:focus, textarea:focus {
    ACCORDION COMPONENT (Boutique Cafe)
    ============================================ */
 .accordion-item {
-    background: rgba(255,255,255,0.25);
+    background: rgba(255, 255, 255, 0.25);
     border: 1px solid var(--border);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-sm);
@@ -1716,8 +1842,11 @@ input:focus, textarea:focus {
    PRINT STYLES — KOT & Bill (dual-path fix)
    ============================================ */
 @media print {
+
     /* Hide everything by default */
-    body > * { display: none !important; }
+    body>* {
+        display: none !important;
+    }
 
     /* KOT path: show #print-area when it has content */
     #print-area:not(:empty) {
@@ -1732,6 +1861,7 @@ input:focus, textarea:focus {
         background: #fff !important;
         padding: 8px;
     }
+
     #print-area:not(:empty) * {
         visibility: visible !important;
         color: #000 !important;
@@ -1750,10 +1880,13 @@ input:focus, textarea:focus {
         background: #fff !important;
         padding: 8px;
     }
+
     #bill-print-area:not(:empty) * {
         visibility: visible !important;
         color: #000 !important;
     }
 
-    .no-print { display: none !important; }
+    .no-print {
+        display: none !important;
+    }
 }

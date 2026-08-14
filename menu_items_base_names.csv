@@ -2,19 +2,22 @@ name,price,category
 Truffle Parmigiano Alfredo,349,Pasta
 Smoked Makhani Pasta,299,Pasta
 Roasted Garlic Cream Pasta,299,Pasta
-Creamy Alfredo,279,Pasta
-Arrabbiata,269,Pasta
+Creamy Alfredo,239,Pasta
+Arrabbiata,239,Pasta
 Aglio E Olio,249,Pasta
-Basil Pesto Verde,299,Pasta
+Basil Pesto Verde,249,Pasta
 Signature Fried Chicken Burger,299,Burgers
 Korean Crunch Chicken Burger,319,Burgers
 BBQ Crunch Chicken Burger,319,Burgers
 Cheesy Veg Burger,249,Burgers
 Special Smash Chicken Burger,349,Burgers
-Signature Fried Chicken,399,Fried Chicken
+Signature Fried Chicken,289,Fried Chicken
 Fried Chicken Wings,279,Fried Chicken
 Veg Club Sandwich,229,Sandwiches
 Chicken Club Sandwich,279,Sandwiches
+Classic Chicken BLT Slider,299,Sandwiches
+Chicken Pops with Cheese Sando,299,Sandwiches
+Aira Special Multigrain Chicken Sando with Egg on Top,325,Sandwiches
 Salted Fries,129,Fries
 Cajun Spiced Fries,149,Fries
 Peri-Peri Fries,149,Fries
@@ -34,10 +37,23 @@ Fried Veg Momos,179,Comfort Food
 Fried Chicken Momos,209,Comfort Food
 Veg Wrap,199,Comfort Food
 Chicken Wrap,239,Comfort Food
+American Corn,199,Comfort Food
 Crispy Chili Baby Corn,199,Comfort Food
 Burnt Garlic Chicken Combo,299,Indo-Chinese Combos
-Burnt Garlic Paneer Combo,279,Indo-Chinese Combos
+Burnt Garlic Paneer Combo,299,Indo-Chinese Combos
 Chili Chicken Combo,299,Indo-Chinese Combos
-Chili Paneer Combo,279,Indo-Chinese Combos
+Chili Paneer Combo,299,Indo-Chinese Combos
 Masala Chicken Paratha Combo,249,Paratha Combos
 Masala Paneer Paratha Combo,229,Paratha Combos
+Veg Fried Rice / Noodles,179,Rice & Noodles
+Schezwan Fried Rice / Noodles,199,Rice & Noodles
+Burnt Garlic Fried Rice / Noodles,199,Rice & Noodles
+Mushroom & Paneer Fried Rice / Noodles,239,Rice & Noodles
+Classic Non-Veg Fried Rice / Noodles,239,Rice & Noodles
+Schezwan Non-Veg Fried Rice / Noodles,269,Rice & Noodles
+Burnt Garlic Non-Veg Fried Rice / Noodles,269,Rice & Noodles
+Aira Special Non-Veg Fried Rice / Noodles,329,Rice & Noodles
+Mix Schezwan Fried Rice / Noodles,359,Rice & Noodles
+Mix Burnt Garlic Fried Rice / Noodles,359,Rice & Noodles
+Special Seekh Kabab Rice / Noodles,389,Rice & Noodles
+Aira Ultimate Assorted Rice / Noodles,399,Rice & Noodles

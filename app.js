@@ -15,7 +15,7 @@ const MENU_DATA = [
     {
         id: "1", category: "Pasta", emoji: "🍝", signature: true,
         name: "Truffle Parmigiano Alfredo",
-        description: "Fettuccine tossed in a silky Parmesan cream sauce with roasted garlic, saut\u00e9ed button mushrooms, baby spinach and fresh parsley, finished with aromatic truffle oil.",
+        description: "Fettuccine tossed in a silky Parmesan cream sauce with roasted garlic, sautéed button mushrooms, baby spinach and fresh parsley, finished with aromatic truffle oil.",
         bestWith: "Fettuccine",
         variants: [ { label: "Veg", price: 349 }, { label: "Chicken", price: 399 } ],
         modifierGroups: [ { id: "pasta", label: "Choose your Pasta", recommended: "Fettuccine", options: ["Penne", "Fusilli", "Spaghetti", "Fettuccine"] } ]
@@ -31,7 +31,7 @@ const MENU_DATA = [
     {
         id: "3", category: "Pasta", emoji: "🍝",
         name: "Roasted Garlic Cream Pasta",
-        description: "Velvety roasted garlic cream sauce with saut\u00e9ed mushrooms, baby spinach, Parmesan, cracked black pepper and fresh parsley.",
+        description: "Velvety roasted garlic cream sauce with sautéed mushrooms, baby spinach, Parmesan, cracked black pepper and fresh parsley.",
         bestWith: "Penne",
         variants: [ { label: "Veg", price: 299 }, { label: "Chicken", price: 349 } ],
         modifierGroups: [ { id: "pasta", label: "Choose your Pasta", recommended: "Penne", options: ["Penne", "Fusilli", "Spaghetti", "Fettuccine"] } ]
@@ -40,9 +40,9 @@ const MENU_DATA = [
         id: "4", category: "Pasta", emoji: "🍝",
         name: "Creamy Alfredo",
         subtitle: "The Oblique White Pasta",
-        description: "Classic creamy Alfredo with Parmesan, broccoli, sweet corn, mushrooms, zucchini and fresh parsley.",
+        description: "Classic creamy Alfredo with Cheddar, broccoli, sweet corn, mushrooms, zucchini and fresh parsley.",
         bestWith: "Fettuccine",
-        variants: [ { label: "Veg", price: 279 }, { label: "Chicken", price: 329 } ],
+        variants: [ { label: "Veg", price: 239 }, { label: "Chicken", price: 259 } ],
         modifierGroups: [ { id: "pasta", label: "Choose your Pasta", recommended: "Fettuccine", options: ["Penne", "Fusilli", "Spaghetti", "Fettuccine"] } ]
     },
     {
@@ -51,15 +51,15 @@ const MENU_DATA = [
         subtitle: "The Oblique Red Pasta",
         description: "A bold tomato and chilli sauce tossed with zucchini, roasted red bell peppers, black olives, cherry tomatoes and fresh basil.",
         bestWith: "Penne",
-        variants: [ { label: "Veg", price: 269 }, { label: "Chicken", price: 319 } ],
+        variants: [ { label: "Veg", price: 239 }, { label: "Chicken", price: 258 } ],
         modifierGroups: [ { id: "pasta", label: "Choose your Pasta", recommended: "Penne", options: ["Penne", "Fusilli", "Spaghetti", "Fettuccine"] } ]
     },
     {
         id: "6", category: "Pasta", emoji: "🍝",
         name: "Aglio E Olio",
-        description: "The Italian classic \u2014 extra virgin olive oil, roasted garlic, chilli and fresh parsley, finished with cracked black pepper and Parmesan.",
+        description: "The Italian classic — extra virgin olive oil, roasted garlic, chilli and fresh parsley, finished with cracked black pepper and Parmesan.",
         bestWith: "Spaghetti",
-        variants: [ { label: "Veg", price: 249 }, { label: "Chicken", price: 299 } ],
+        variants: [ { label: "Veg", price: 249 }, { label: "Chicken", price: 269 } ],
         modifierGroups: [ { id: "pasta", label: "Choose your Pasta", recommended: "Spaghetti", options: ["Penne", "Fusilli", "Spaghetti", "Fettuccine"] } ]
     },
     {
@@ -67,7 +67,7 @@ const MENU_DATA = [
         name: "Basil Pesto Verde",
         description: "Fresh basil pesto with Parmesan, zucchini, broccoli, cherry tomatoes and toasted pine nuts or cashews.",
         bestWith: "Fusilli / Fettuccine",
-        variants: [ { label: "Veg", price: 299 }, { label: "Chicken", price: 349 } ],
+        variants: [ { label: "Veg", price: 249 }, { label: "Chicken", price: 269 } ],
         modifierGroups: [ { id: "pasta", label: "Choose your Pasta", recommended: "Fusilli", options: ["Penne", "Fusilli", "Spaghetti", "Fettuccine"] } ]
     },
 
@@ -103,12 +103,12 @@ const MENU_DATA = [
         note: "Served with: Salted Fries + Soft Drink"
     },
 
-    // ── IRA FRIED CHICKEN ──
+    // ── AIRA FRIED CHICKEN ──
     {
         id: "20", category: "Fried Chicken", emoji: "🍗",
         name: "Signature Fried Chicken",
-        description: "Louisiana-style, marinated for 12 hours with cayenne and signature spices, freshly fried for a crisp, juicy finish.",
-        variants: [ { label: "6 Pieces", price: 399 }, { label: "12 Pieces", price: 749 } ],
+        description: "Louisiana-style, 12-hour marinated with cayenne and Louisiana-inspired spices, freshly fried for a crisp, juicy finish.",
+        variants: [ { label: "3 Pieces", price: 289 }, { label: "6 Pieces", price: 399 }, { label: "12 Pieces", price: 699 } ],
         modifierGroups: [ { id: "flavour", label: "Choose your Flavour", options: ["Original Crunch", "Nashville Hot 🌶", "Korean 🌶", "Barbecue", "Sweet Chili"] } ]
     },
     {
@@ -130,11 +130,26 @@ const MENU_DATA = [
         name: "Chicken Club Sandwich",
         description: "Triple-layer toasted sandwich with grilled chicken, egg, cheese, lettuce, tomato and house dressing."
     },
+    {
+        id: "25_1", category: "Sandwiches", emoji: "🥪", price: 299,
+        name: "Classic Chicken BLT Slider",
+        description: "Chicken Salami | Lettuce | Fresh tomato | Cheese"
+    },
+    {
+        id: "25_2", category: "Sandwiches", emoji: "🥪", price: 299,
+        name: "Chicken Pops with Cheese Sando",
+        description: "Crunchy | Cheese"
+    },
+    {
+        id: "25_3", category: "Sandwiches", emoji: "🥪", price: 325, signature: true,
+        name: "Aira Special Multigrain Chicken Sando with Egg on Top",
+        description: "Super seeds | Chicken | Egg | Mayo"
+    },
 
     // ── FRIES ──
     { id: "26", category: "Fries", emoji: "🍟", price: 129, name: "Salted Fries" },
-    { id: "27", category: "Fries", emoji: "🍟", price: 149, name: "Cajun Spiced Fries", spicy: true },
-    { id: "28", category: "Fries", emoji: "🍟", price: 149, name: "Peri-Peri Fries", spicy: true },
+    { id: "27", category: "Fries", emoji: "🍟", price: 149, spicy: true, name: "Cajun Spiced Fries" },
+    { id: "28", category: "Fries", emoji: "🍟", price: 149, spicy: true, name: "Peri-Peri Fries" },
     { id: "29", category: "Fries", emoji: "🍟", price: 199, name: "Cheese Overload Fries" },
     {
         id: "30", category: "Fries", emoji: "🍟", price: 249, signature: true,
@@ -156,7 +171,7 @@ const MENU_DATA = [
     {
         id: "33", category: "Breakfast", emoji: "🍳", price: 249,
         name: "Choice of Eggs",
-        description: "Eggs prepared your way, served with chicken sausage and toasted bread.",
+        description: "Eggs prepared your way with chicken sausage and toasted bread.",
         modifierGroups: [ { id: "egg_style", label: "Choose your Style", options: ["Scrambled", "Sunny Side Up", "Omelette"] } ]
     },
     {
@@ -165,7 +180,7 @@ const MENU_DATA = [
         description: "Thick blended fruit smoothie topped with seasonal fruits, house granola, seeds and nuts."
     },
     {
-        id: "35", category: "Breakfast", emoji: "🥚", price: 199,
+        id: "35", category: "Breakfast", emoji: "🥪", price: 199,
         name: "Egg & Cheese Sandwich",
         description: "Soft toasted bread, creamy scrambled egg and melted cheese."
     },
@@ -192,6 +207,7 @@ const MENU_DATA = [
     { id: "42", category: "Comfort Food", emoji: "🥟", price: 209, name: "Fried Chicken Momos",   portionNote: "6 pcs" },
     { id: "43", category: "Comfort Food", emoji: "🌯", price: 199, name: "Veg Wrap" },
     { id: "44", category: "Comfort Food", emoji: "🌯", price: 239, name: "Chicken Wrap" },
+    { id: "44_1", category: "Comfort Food", emoji: "🌽", price: 199, name: "American Corn" },
     {
         id: "45", category: "Comfort Food", emoji: "🌽",
         name: "Crispy Chili Baby Corn",
@@ -211,7 +227,7 @@ const MENU_DATA = [
         modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
     },
     {
-        id: "50", category: "Indo-Chinese Combos", emoji: "🍱", price: 279,
+        id: "50", category: "Indo-Chinese Combos", emoji: "🍱", price: 299,
         name: "Burnt Garlic Paneer Combo",
         modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
     },
@@ -221,7 +237,7 @@ const MENU_DATA = [
         modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
     },
     {
-        id: "52", category: "Indo-Chinese Combos", emoji: "🍱", price: 279, spicy: true,
+        id: "52", category: "Indo-Chinese Combos", emoji: "🍱", price: 299, spicy: true,
         name: "Chili Paneer Combo",
         modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
     },
@@ -237,6 +253,81 @@ const MENU_DATA = [
         name: "Masala Paneer Paratha Combo",
         description: "Flaky paratha served with rich masala paneer."
     },
+
+    // ── FRIED RICE & NOODLES ──
+    {
+        id: "55", category: "Rice & Noodles", emoji: "🍚", price: 179,
+        name: "Veg Fried Rice / Noodles",
+        description: "Corn, carrot, beans, bell pepper.",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "56", category: "Rice & Noodles", emoji: "🍚", price: 199, spicy: true,
+        name: "Schezwan Fried Rice / Noodles",
+        description: "Corn, carrot, beans in spicy Schezwan sauce.",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "57", category: "Rice & Noodles", emoji: "🍚", price: 199,
+        name: "Burnt Garlic Fried Rice / Noodles",
+        description: "Chinese cabbage, bokchoi, corn, broccoli with aromatic burnt garlic.",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "58", category: "Rice & Noodles", emoji: "🍚", price: 239,
+        name: "Mushroom & Paneer Fried Rice / Noodles",
+        description: "Sautéed mushrooms and fresh paneer tossed with seasoned rice or noodles.",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "59", category: "Rice & Noodles", emoji: "🍚", price: 239,
+        name: "Classic Non-Veg Fried Rice / Noodles",
+        description: "Chicken, corn, carrot, beans.",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "60", category: "Rice & Noodles", emoji: "🍚", price: 269, spicy: true,
+        name: "Schezwan Non-Veg Fried Rice / Noodles",
+        description: "Chicken & fresh vegetables in fiery Schezwan style.",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "61", category: "Rice & Noodles", emoji: "🍚", price: 269,
+        name: "Burnt Garlic Non-Veg Fried Rice / Noodles",
+        description: "Chicken & fresh vegetables with golden burnt garlic.",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "62", category: "Rice & Noodles", emoji: "🍚", price: 329, signature: true,
+        name: "Aira Special Non-Veg Fried Rice / Noodles",
+        description: "Chicken + Egg + Prawn + Veg.",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "63", category: "Rice & Noodles", emoji: "🍚", price: 359, spicy: true,
+        name: "Mix Schezwan Fried Rice / Noodles",
+        description: "Mixed meats and veggies in spicy Schezwan sauce.",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "64", category: "Rice & Noodles", emoji: "🍚", price: 359,
+        name: "Mix Burnt Garlic Fried Rice / Noodles",
+        description: "Mixed meats and veggies with golden burnt garlic.",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "65", category: "Rice & Noodles", emoji: "🍚", price: 389, signature: true,
+        name: "Special Seekh Kabab Rice / Noodles",
+        description: "Juicy seekh kababs tossed with fried rice or noodles.",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "66", category: "Rice & Noodles", emoji: "🍚", price: 399, signature: true,
+        name: "Aira Ultimate Assorted Rice / Noodles",
+        description: "The ultimate chef's special rice or noodle creation.",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    }
+
 ];
 
 // ─── Application State ───
@@ -257,6 +348,7 @@ const CATEGORY_DEFINITIONS = [
     { key: "Comfort Food",        label: "Comfort Food",        icon: "🥟" },
     { key: "Indo-Chinese Combos", label: "Indo-Chinese Combos", icon: "🍱" },
     { key: "Paratha Combos",      label: "Paratha Combos",      icon: "🫓" },
+    { key: "Rice & Noodles",      label: "Rice & Noodles",      icon: "🍜" },
 ];
 
 const DEBUG_PREFIX = "[Aira Debug]";
@@ -522,8 +614,8 @@ function buildMenuCardHTML(item) {
     const nameLower = item.name.toLowerCase();
     if (item.variants && item.variants.some(v => v.label.includes("Veg")) && item.variants.some(v => v.label.includes("Chicken"))) {
         dietBadgeHtml = '<span class="diet-badge diet-badge-combo"><span class="dot-veg">●</span> Veg / <span class="dot-nonveg">●</span> Chicken</span>';
-    } else if (nameLower.includes("chicken") || (item.variants && item.variants.some(v => v.label.toLowerCase().includes("chicken")))) {
-        dietBadgeHtml = '<span class="diet-badge diet-badge-nonveg">🍗 Chicken</span>';
+    } else if (nameLower.includes("chicken") || nameLower.includes("blt") || nameLower.includes("non-veg") || nameLower.includes("seekh") || (item.variants && item.variants.some(v => v.label.toLowerCase().includes("chicken")))) {
+        dietBadgeHtml = '<span class="diet-badge diet-badge-nonveg">🍗 Non-Veg</span>';
     } else if (nameLower.includes("egg")) {
         dietBadgeHtml = '<span class="diet-badge diet-badge-egg">🍳 Egg</span>';
     } else if (nameLower.includes("paneer")) {
@@ -693,6 +785,7 @@ function getCartItemDBName(item) {
     let name = item.name;
     if (item.selectedVariantLabel) {
         let cleanVariant = item.selectedVariantLabel.replace(/[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '').trim();
+        if (cleanVariant === "3 Pieces") cleanVariant = "3 Pcs";
         if (cleanVariant === "6 Pieces") cleanVariant = "6 Pcs";
         if (cleanVariant === "12 Pieces") cleanVariant = "12 Pcs";
         
