@@ -210,10 +210,10 @@ const MENU_DATA = [
     { id: "44_1", category: "Comfort Food", emoji: "🌽", price: 199, name: "American Corn" },
     {
         id: "45", category: "Comfort Food", emoji: "🌽",
-        name: "Crispy Chili Baby Corn",
+        name: "Baby Corn",
         description: "Crispy baby corn tossed in your choice of signature sauce.",
         variants: [
-            { label: "Original", price: 199 },
+            { label: "Crispy Chili", price: 199 },
             { label: "Korean 🌶", price: 219 },
             { label: "BBQ", price: 219 },
             { label: "Nashville Hot 🌶", price: 219 }
