@@ -614,8 +614,8 @@ function buildMenuCardHTML(item) {
     const nameLower = item.name.toLowerCase();
     if (item.variants && item.variants.some(v => v.label.includes("Veg")) && item.variants.some(v => v.label.includes("Chicken"))) {
         dietBadgeHtml = '<span class="diet-badge diet-badge-combo"><span class="dot-veg">●</span> Veg / <span class="dot-nonveg">●</span> Chicken</span>';
-    } else if (nameLower.includes("chicken") || nameLower.includes("blt") || nameLower.includes("non-veg") || nameLower.includes("seekh") || (item.variants && item.variants.some(v => v.label.toLowerCase().includes("chicken")))) {
-        dietBadgeHtml = '<span class="diet-badge diet-badge-nonveg">🍗 Non-Veg</span>';
+    } else if (nameLower.includes("chicken") || (item.variants && item.variants.some(v => v.label.toLowerCase().includes("chicken")))) {
+        dietBadgeHtml = '<span class="diet-badge diet-badge-nonveg">🍗 Chicken</span>';
     } else if (nameLower.includes("egg")) {
         dietBadgeHtml = '<span class="diet-badge diet-badge-egg">🍳 Egg</span>';
     } else if (nameLower.includes("paneer")) {
@@ -803,18 +803,23 @@ function getCartItemDBName(item) {
     return name;
 }
 
-window.incrementItem = function(cartKey) {
-    const item = cart.find(c => c.cartKey === cartKey);
-    if (item) { item.quantity++; updateCartUI(); }
+window.incrementItem = function(target) {
+    const index = (typeof target === 'number') ? target : parseInt(target, 10);
+    const item = (!isNaN(index) && cart[index]) ? cart[index] : cart.find(c => c.cartKey === target);
+    if (item) {
+        item.quantity++;
+        updateCartUI();
+    }
 };
 
-window.decrementItem = function(cartKey) {
-    const item = cart.find(c => c.cartKey === cartKey);
-    if (!item) return;
-    if (item.quantity <= 1) {
-        cart = cart.filter(c => c.cartKey !== cartKey);
+window.decrementItem = function(target) {
+    const index = (typeof target === 'number') ? target : parseInt(target, 10);
+    const itemIdx = (!isNaN(index) && cart[index]) ? index : cart.findIndex(c => c.cartKey === target);
+    if (itemIdx === -1 || itemIdx >= cart.length) return;
+    if (cart[itemIdx].quantity <= 1) {
+        cart.splice(itemIdx, 1);
     } else {
-        item.quantity--;
+        cart[itemIdx].quantity--;
     }
     updateCartUI();
 };
@@ -838,7 +843,7 @@ function updateCartUI() {
         checkoutBtn.disabled = true;
     } else {
         checkoutBtn.disabled = false;
-        cart.forEach(item => {
+        cart.forEach((item, index) => {
             const itemTotal = item.price * item.quantity;
             total += itemTotal;
             const modText = Object.values(item.selectedModifiers || {}).join(' · ');
@@ -853,9 +858,9 @@ function updateCartUI() {
                     <div class="cart-item-price">₹${item.price} each</div>
                 </div>
                 <div class="cart-item-controls">
-                    <button class="cart-qty-btn" onclick="decrementItem('${item.cartKey}')">\u2212</button>
+                    <button class="cart-qty-btn" onclick="decrementItem(${index})">−</button>
                     <span class="cart-qty-value">${item.quantity}</span>
-                    <button class="cart-qty-btn" onclick="incrementItem('${item.cartKey}')">+</button>
+                    <button class="cart-qty-btn" onclick="incrementItem(${index})">+</button>
                 </div>
                 <span class="cart-item-total">₹${itemTotal}</span>`;
             container.appendChild(div);

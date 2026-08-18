@@ -441,10 +441,10 @@
             background: #fff;
             color: #111;
             font-family: 'Courier New', Courier, monospace;
-            font-size: 13px;
+            font-size: 15px;
             padding: 20px 18px;
             border-radius: 4px;
-            max-width: 300px;
+            max-width: 320px;
             margin: 0 auto;
             box-shadow: 0 2px 12px rgba(0,0,0,0.15);
             position: relative;
@@ -463,21 +463,21 @@
 
         .receipt-header  { text-align: center; margin-bottom: 12px; }
         .receipt-logo    { width: 72px; height: 72px; object-fit: cover; border-radius: 50%; margin: 0 auto 8px; display: block; }
-        .receipt-brand   { font-size: 18px; font-weight: 900; letter-spacing: 2px; font-family: 'Playfair Display', serif; }
-        .receipt-tagline { font-size: 11px; color: #555; margin-bottom: 2px; }
-        .receipt-addr    { font-size: 10px; color: #555; line-height: 1.5; }
-        .receipt-divider { border: none; border-top: 1px dashed #999; margin: 10px 0; }
-        .receipt-meta    { font-size: 11px; margin-bottom: 10px; line-height: 1.7; }
-        .receipt-table   { width: 100%; border-collapse: collapse; font-size: 11px; }
-        .receipt-table th { text-align: left; border-bottom: 1px dashed #999; padding-bottom: 4px; font-weight: bold; }
+        .receipt-brand   { font-size: 22px; font-weight: 900; letter-spacing: 2px; font-family: 'Playfair Display', serif; }
+        .receipt-tagline { font-size: 13px; color: #333; margin-bottom: 4px; }
+        .receipt-addr    { font-size: 12px; color: #333; line-height: 1.5; }
+        .receipt-divider { border: none; border-top: 1px dashed #666; margin: 10px 0; }
+        .receipt-meta    { font-size: 14px; margin-bottom: 10px; line-height: 1.7; color: #111; }
+        .receipt-table   { width: 100%; border-collapse: collapse; font-size: 14px; color: #111; }
+        .receipt-table th { text-align: left; border-bottom: 1px dashed #666; padding-bottom: 4px; font-weight: bold; font-size: 14px; }
         .receipt-table th.r, .receipt-table td.r { text-align: right; }
         .receipt-table th.c, .receipt-table td.c { text-align: center; }
-        .receipt-table td { padding: 3px 0; vertical-align: top; }
-        .receipt-totals  { font-size: 11px; margin-top: 8px; }
-        .receipt-totals tr td:first-child { color: #555; }
-        .receipt-totals tr td:last-child  { text-align: right; font-weight: 600; }
-        .receipt-grand   { font-size: 20px; font-weight: 900; text-align: center; margin: 8px 0 4px; letter-spacing: 1px; }
-        .receipt-footer  { text-align: center; font-size: 10px; color: #666; margin-top: 12px; line-height: 1.7; }
+        .receipt-table td { padding: 4px 0; vertical-align: top; font-size: 14px; font-weight: 500; }
+        .receipt-totals  { font-size: 14px; margin-top: 8px; color: #111; }
+        .receipt-totals tr td:first-child { color: #333; }
+        .receipt-totals tr td:last-child  { text-align: right; font-weight: 700; }
+        .receipt-grand   { font-size: 22px; font-weight: 900; text-align: center; margin: 10px 0 6px; letter-spacing: 1px; }
+        .receipt-footer  { text-align: center; font-size: 12px; color: #444; margin-top: 12px; line-height: 1.7; }
         .receipt-footer strong { color: #111; }
 
         /* Bill action buttons */
@@ -1117,7 +1117,7 @@
                 <hr class="receipt-divider">
 
                 <!-- Payment -->
-                <table style="width:100%; font-size:11px;">
+                <table style="width:100%; font-size:14px;">
                     <tr>
                         <td>Mode of Payment</td>
                         <td style="text-align:right;">${payMode}</td>
@@ -1163,22 +1163,22 @@
             const items = order.order_items || [];
 
             printArea.innerHTML = `
-                <div style="text-align:center; font-size:16px; font-weight:bold;">*** KOT ***</div>
-                <div style="text-align:center; margin-bottom:10px;">AIRA CAFE &amp; KITCHEN</div>
-                <div><strong>Table ${order.table_number}</strong> · Order #${order.id}</div>
-                <div>Time: ${timeFormatted}</div>
-                <div style="border-top:1px dashed #000; border-bottom:1px dashed #000; padding:5px 0; margin:8px 0;">
-                    <table style="width:100%;">
+                <div style="text-align:center; font-size:22px; font-weight:900; letter-spacing:1px; margin-bottom:2px;">*** KOT ***</div>
+                <div style="text-align:center; font-size:15px; font-weight:bold; margin-bottom:12px;">AIRA CAFE &amp; KITCHEN</div>
+                <div style="font-size:16px; margin-bottom:4px;"><strong>TABLE ${order.table_number}</strong> · Order #${order.id}</div>
+                <div style="font-size:15px;">Time: ${timeFormatted}</div>
+                <div style="border-top:2px dashed #000; border-bottom:2px dashed #000; padding:8px 0; margin:10px 0;">
+                    <table style="width:100%; font-size:17px; border-collapse:collapse;">
                         ${items.map(i => `
                             <tr>
-                                <td>${i.menu_item_name}</td>
-                                <td style="text-align:right;"><strong>×${i.quantity}</strong></td>
+                                <td style="padding:4px 0; font-weight:600;">${i.menu_item_name}</td>
+                                <td style="text-align:right; padding:4px 0; font-size:19px; white-space:nowrap;"><strong>×${i.quantity}</strong></td>
                             </tr>
                         `).join("")}
                     </table>
                 </div>
-                <div style="text-align:right; font-weight:bold;">Total: ₹${order.total_amount || 0}</div>
-                <div style="text-align:center; font-size:10px; margin-top:15px;">[ Self-Service Web Order ]</div>
+                <div style="text-align:right; font-size:17px; font-weight:bold; margin-top:6px;">Total: ₹${order.total_amount || 0}</div>
+                <div style="text-align:center; font-size:12px; margin-top:15px; color:#333;">[ Self-Service Web Order ]</div>
             `;
 
             printArea.classList.remove("hidden");
