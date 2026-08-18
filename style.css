@@ -1856,7 +1856,8 @@ textarea:focus {
         top: 0;
         width: 80mm;
         font-family: 'Courier New', Courier, monospace;
-        font-size: 16px;
+        font-size: 20px;
+        font-weight: 800;
         line-height: 1.35;
         color: #000 !important;
         background: #fff !important;
@@ -1866,6 +1867,7 @@ textarea:focus {
     #print-area:not(:empty) * {
         visibility: visible !important;
         color: #000 !important;
+        font-weight: bold !important;
     }
 
     /* Bill path: show #bill-print-area when it has content */
@@ -1876,7 +1878,8 @@ textarea:focus {
         top: 0;
         width: 80mm;
         font-family: 'Courier New', Courier, monospace;
-        font-size: 15px;
+        font-size: 17px;
+        font-weight: 700;
         line-height: 1.35;
         color: #000 !important;
         background: #fff !important;
