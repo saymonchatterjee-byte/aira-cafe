@@ -9,41 +9,8 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ─── Menu Data ───
+// ─── Menu Data ───
 const MENU_DATA = [
-
-    // ── THE AIRA FISH & CHIPS ──
-    {
-        id: "fnc_1", category: "Fish & Chips", emoji: "🐟", price: 599,
-        name: "Basa (Fish & Chips)",
-        description: "Choose your own hand-battered Fish & Chips adventure — pick a protein, a base, and an optional add-on.",
-        modifierGroups: [
-            { id: "base", label: "Choose your Base", options: ["French Fries", "Mix Salad", "Garlic Herb Rice", "Indian Aromatic Rice", "Steamed Rice"] }
-        ]
-    },
-    {
-        id: "fnc_2", category: "Fish & Chips", emoji: "🍗", price: 599, spicy: true,
-        name: "Spicy Crispy Chicken (Fish & Chips)",
-        description: "Choose your own hand-battered Fish & Chips adventure — pick a protein, a base, and an optional add-on.",
-        modifierGroups: [
-            { id: "base", label: "Choose your Base", options: ["French Fries", "Mix Salad", "Garlic Herb Rice", "Indian Aromatic Rice", "Steamed Rice"] }
-        ]
-    },
-    {
-        id: "fnc_3", category: "Fish & Chips", emoji: "🦐", price: 799,
-        name: "Prawns (Fish & Chips)",
-        description: "Choose your own hand-battered Fish & Chips adventure — pick a protein, a base, and an optional add-on.",
-        modifierGroups: [
-            { id: "base", label: "Choose your Base", options: ["French Fries", "Mix Salad", "Garlic Herb Rice", "Indian Aromatic Rice", "Steamed Rice"] }
-        ]
-    },
-    {
-        id: "fnc_4", category: "Fish & Chips", emoji: "🐟", price: 799, signature: true,
-        name: "Assam Local Fish (Fish & Chips)",
-        description: "Choose your own hand-battered Fish & Chips adventure — pick a protein, a base, and an optional add-on.",
-        modifierGroups: [
-            { id: "base", label: "Choose your Base", options: ["French Fries", "Mix Salad", "Garlic Herb Rice", "Indian Aromatic Rice", "Steamed Rice"] }
-        ]
-    },
 
     // ── PASTA STUDIO ──
     {
@@ -614,7 +581,19 @@ function renderMenu(items) {
     grid.classList.remove("is-transitioning");
     void grid.offsetWidth;
     grid.classList.add("is-transitioning");
-    grid.innerHTML = "";
+    if (currentFilter === "Fish & Chips") {
+        if (menuCount) menuCount.textContent = "Custom Builder";
+        grid.innerHTML = `
+            <article class="menu-card" style="grid-column: 1 / -1; padding: 2rem 1.5rem; text-align: center; background: #FAF7F0; border: 1.5px dashed #A94426; border-radius: 16px;">
+                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🐟</div>
+                <h3 style="font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: #2C221E; margin-bottom: 0.4rem;">The Aira Fish &amp; Chips Adventure</h3>
+                <p style="color: #6E5F52; font-size: 0.9rem; margin-bottom: 1rem;">Customize your protein, base, add-ons &amp; favourite dip in the interactive form below.</p>
+                <button type="button" onclick="document.getElementById('fish-and-chips-section').scrollIntoView({ behavior: 'smooth', block: 'start' })" style="padding: 10px 24px; background: #2C221E; color: #FAF7F0; font-weight: 700; border-radius: 9999px; border: none; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px;">
+                    Go to Builder Form ↓
+                </button>
+            </article>`;
+        return;
+    }
 
     if (items.length === 0) {
         grid.innerHTML = `
