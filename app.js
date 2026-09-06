@@ -661,6 +661,8 @@ function renderMenu(items) {
     grid.classList.remove("is-transitioning");
     void grid.offsetWidth;
     grid.classList.add("is-transitioning");
+    grid.innerHTML = "";
+
     if (currentFilter === "Fish & Chips") {
         if (menuCount) menuCount.textContent = "Custom Builder";
         grid.innerHTML = `
