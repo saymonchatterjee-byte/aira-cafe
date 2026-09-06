@@ -61,7 +61,38 @@
     </section>
 
     <!-- ========================================
-         THE AIRA FISH & CHIPS SECTION
+         MENU SECTION
+         ======================================== -->
+    <section id="menu-section" style="max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem 2rem;">
+
+        <div class="section-header">
+            <p class="section-label">Our Selection</p>
+            <h2 class="section-title">The Menu</h2>
+            <div class="section-divider"></div>
+        </div>
+
+        <div class="menu-browser">
+            <div class="menu-browser-header">
+                <div>
+                    <p class="menu-browser-label">Browse by category</p>
+                    <h3 class="menu-browser-title" id="menu-active-category">All Menu</h3>
+                </div>
+                <p class="menu-browser-count" id="menu-item-count">0 items</p>
+            </div>
+
+            <!-- Menu Category Filters -->
+            <nav id="filter-bar" class="menu-filter-bar" aria-label="Menu categories"></nav>
+
+            <!-- Menu Container -->
+            <div id="menu-accordion" class="menu-results" aria-live="polite">
+                <!-- Menu items will be generated dynamically in JS -->
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ========================================
+         THE AIRA FISH & CHIPS SECTION (BUILDER FORM)
          ======================================== -->
     <section id="fish-and-chips-section" class="fnc-section">
         <div class="fnc-card">
@@ -301,11 +332,6 @@
             </div>
         </div>
     </section>
-
-    <!-- ========================================
-         MENU SECTION
-         ======================================== -->
-    <section id="menu-section" style="max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem 2rem;">
 
         <div class="section-header">
             <p class="section-label">Our Selection</p>

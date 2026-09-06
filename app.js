@@ -573,10 +573,16 @@ function generateCategoryFilters() {
         `;
 
         btn.addEventListener("click", () => {
-            if (currentFilter === category.key) return;
             currentFilter = category.key;
             updateCategoryButtons();
             renderMenu(getFilteredMenuItems(currentFilter));
+
+            if (category.key === "Fish & Chips") {
+                const section = document.getElementById("fish-and-chips-section");
+                if (section) {
+                    section.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+            }
         });
         container.appendChild(btn);
     });
