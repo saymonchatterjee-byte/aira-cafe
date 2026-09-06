@@ -11,6 +11,40 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 // ─── Menu Data ───
 const MENU_DATA = [
 
+    // ── THE AIRA FISH & CHIPS ──
+    {
+        id: "fnc_1", category: "Fish & Chips", emoji: "🐟", price: 599,
+        name: "Basa (Fish & Chips)",
+        description: "Choose your own hand-battered Fish & Chips adventure — pick a protein, a base, and an optional add-on.",
+        modifierGroups: [
+            { id: "base", label: "Choose your Base", options: ["French Fries", "Mix Salad", "Garlic Herb Rice", "Indian Aromatic Rice", "Steamed Rice"] }
+        ]
+    },
+    {
+        id: "fnc_2", category: "Fish & Chips", emoji: "🍗", price: 599, spicy: true,
+        name: "Spicy Crispy Chicken (Fish & Chips)",
+        description: "Choose your own hand-battered Fish & Chips adventure — pick a protein, a base, and an optional add-on.",
+        modifierGroups: [
+            { id: "base", label: "Choose your Base", options: ["French Fries", "Mix Salad", "Garlic Herb Rice", "Indian Aromatic Rice", "Steamed Rice"] }
+        ]
+    },
+    {
+        id: "fnc_3", category: "Fish & Chips", emoji: "🦐", price: 799,
+        name: "Prawns (Fish & Chips)",
+        description: "Choose your own hand-battered Fish & Chips adventure — pick a protein, a base, and an optional add-on.",
+        modifierGroups: [
+            { id: "base", label: "Choose your Base", options: ["French Fries", "Mix Salad", "Garlic Herb Rice", "Indian Aromatic Rice", "Steamed Rice"] }
+        ]
+    },
+    {
+        id: "fnc_4", category: "Fish & Chips", emoji: "🐟", price: 799, signature: true,
+        name: "Assam Local Fish (Fish & Chips)",
+        description: "Choose your own hand-battered Fish & Chips adventure — pick a protein, a base, and an optional add-on.",
+        modifierGroups: [
+            { id: "base", label: "Choose your Base", options: ["French Fries", "Mix Salad", "Garlic Herb Rice", "Indian Aromatic Rice", "Steamed Rice"] }
+        ]
+    },
+
     // ── PASTA STUDIO ──
     {
         id: "1", category: "Pasta", emoji: "🍝", signature: true,
@@ -339,6 +373,7 @@ let isProcessing = false;
 // ─── Category Definitions (direct 1:1 category-key matching) ───
 const CATEGORY_DEFINITIONS = [
     { key: "All",                 label: "All Menu",            icon: "🍽️" },
+    { key: "Fish & Chips",        label: "Fish & Chips",        icon: "🐟" },
     { key: "Pasta",               label: "Pasta",               icon: "🍝" },
     { key: "Burgers",             label: "Burgers",             icon: "🍔" },
     { key: "Fried Chicken",       label: "Fried Chicken",       icon: "🍗" },
@@ -1119,6 +1154,105 @@ function showToast(message, type = "info") {
         setTimeout(() => toast.remove(), 300);
     }, 4000);
 }
+
+// ============================================
+//  THE AIRA FISH & CHIPS INTERACTIVE BUILDER
+// ============================================
+
+window.selectedFnCDip = "Classic Mayo";
+
+window.updateFishAndChipsPrice = function() {
+    let total = 0;
+    
+    // 1. Protein price
+    const proteinInput = document.querySelector('input[name="fnc-protein"]:checked');
+    if (proteinInput) {
+        total += parseInt(proteinInput.dataset.price || "599", 10);
+    } else {
+        total += 599;
+    }
+
+    // 2. Add-ons price
+    const checkedAddons = document.querySelectorAll('input[name="fnc-addon"]:checked');
+    checkedAddons.forEach(addon => {
+        total += parseInt(addon.dataset.price || "0", 10);
+    });
+
+    const displayEl = document.getElementById("fnc-total-display");
+    if (displayEl) {
+        displayEl.textContent = `₹${total}`;
+    }
+    return total;
+};
+
+window.selectFnCDip = function(btn) {
+    document.querySelectorAll('.fnc-dip-item').forEach(el => el.classList.remove('active'));
+    btn.classList.add('active');
+    window.selectedFnCDip = btn.dataset.dip || "Classic Mayo";
+};
+
+window.addFishAndChipsToCart = function() {
+    const proteinInput = document.querySelector('input[name="fnc-protein"]:checked');
+    const baseInput = document.querySelector('input[name="fnc-base"]:checked');
+    
+    if (!proteinInput) {
+        showToast("Please choose a protein", "error");
+        return;
+    }
+    if (!baseInput) {
+        showToast("Please choose a base", "error");
+        return;
+    }
+
+    const proteinName = proteinInput.value;
+    const proteinPrice = parseInt(proteinInput.dataset.price || "599", 10);
+    const baseName = baseInput.value;
+    
+    const checkedAddons = Array.from(document.querySelectorAll('input[name="fnc-addon"]:checked'));
+    const addonNames = checkedAddons.map(a => a.value);
+    const addonPriceSum = checkedAddons.reduce((sum, a) => sum + parseInt(a.dataset.price || "0", 10), 0);
+
+    const totalPrice = proteinPrice + addonPriceSum;
+    const dipName = window.selectedFnCDip || "Classic Mayo";
+
+    const cartKey = `fnc_${proteinName}_${baseName}_${addonNames.join('_')}_${dipName}`.replace(/\s+/g, '_');
+
+    const existingIndex = cart.findIndex(c => c.cartKey === cartKey);
+    if (existingIndex > -1) {
+        cart[existingIndex].quantity += 1;
+    } else {
+        const selectedMods = {
+            base: `Base: ${baseName}`,
+            dip: `Dip: ${dipName}`
+        };
+        if (addonNames.length > 0) {
+            selectedMods.addons = `Add-ons: ${addonNames.join(', ')}`;
+        }
+
+        cart.push({
+            id: `fnc_${Date.now()}`,
+            cartKey: cartKey,
+            name: `${proteinName} (Fish & Chips)`,
+            displayName: `${proteinName} Fish & Chips`,
+            category: "Fish & Chips",
+            emoji: "🐟",
+            price: totalPrice,
+            quantity: 1,
+            selectedModifiers: selectedMods
+        });
+    }
+
+    updateCartUI();
+    showToast(`${proteinName} Fish & Chips added to order!`, "success");
+
+    const btn = document.getElementById("cart-toggle-btn");
+    if (btn) {
+        btn.style.animation = "none";
+        btn.offsetHeight;
+        btn.style.animation = "pulse-gold 0.6s ease";
+    }
+};
+
 
 // Make showToast globally available for admin page reference
 window.showToast = showToast;

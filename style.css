@@ -1895,3 +1895,431 @@ textarea:focus {
         display: none !important;
     }
 }
+
+/* ============================================
+   THE AIRA FISH & CHIPS — VINTAGE DESIGN SYSTEM
+   ============================================ */
+
+.fnc-section {
+    padding: 3rem 1.5rem;
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.fnc-card {
+    background-color: #FAF7F0;
+    background-image: radial-gradient(#EFE9DC 1px, transparent 1px);
+    background-size: 20px 20px;
+    border: 1px solid #DCD0C0;
+    box-shadow: 0 0 0 4px #FAF7F0, 0 0 0 5px #DCD0C0, 0 16px 48px rgba(44, 34, 30, 0.08);
+    border-radius: 24px;
+    padding: 2.5rem 2rem;
+    position: relative;
+    color: #2C221E;
+}
+
+@media (max-width: 640px) {
+    .fnc-card {
+        padding: 1.75rem 1.25rem;
+    }
+}
+
+.fnc-card-header {
+    text-align: center;
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.fnc-page-badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    color: #9C8C7C;
+    letter-spacing: 1px;
+}
+
+.fnc-top-icon-badge {
+    position: absolute;
+    top: -5px;
+    right: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #EFE6D5;
+    border: 1px solid #D8CCB8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(44, 34, 30, 0.06);
+}
+
+.fnc-main-title {
+    line-height: 1.1;
+    margin-top: 0.5rem;
+}
+
+.fnc-title-sub {
+    font-size: 2.2rem;
+    color: #2C221E;
+    font-weight: 400;
+}
+
+.fnc-title-brand {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #1F1815;
+    letter-spacing: -0.5px;
+}
+
+@media (max-width: 640px) {
+    .fnc-title-sub { font-size: 1.75rem; }
+    .fnc-title-brand { font-size: 2.2rem; }
+}
+
+.fnc-description {
+    color: #6E5F52;
+    font-size: 0.95rem;
+    max-width: 500px;
+    margin: 0.75rem auto 0;
+    line-height: 1.5;
+}
+
+.fnc-divider {
+    text-align: center;
+    margin: 1.5rem 0;
+    position: relative;
+}
+
+.fnc-divider-icon {
+    font-size: 1.25rem;
+    opacity: 0.8;
+}
+
+/* --- Step Visual Diagram --- */
+.fnc-step-diagram {
+    background: #EFE9DC;
+    border: 1px solid #DCD0C0;
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2.25rem;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+
+@media (max-width: 640px) {
+    .fnc-step-diagram {
+        padding: 0.85rem 0.6rem;
+    }
+}
+
+.fnc-step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.fnc-step-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1.5px solid #9C8C7C;
+    background: #FAF7F0;
+    color: #B85028;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(44, 34, 30, 0.05);
+}
+
+.fnc-step-circle-dashed {
+    border-style: dashed;
+    border-color: #5C4C42;
+    color: #5C4C42;
+}
+
+.fnc-step-tag {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #605045;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.fnc-step-plus, .fnc-step-equals {
+    color: #9C8C7C;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* --- Step Option Blocks --- */
+.fnc-step-block {
+    margin-bottom: 2.25rem;
+}
+
+.fnc-block-title {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #A94426;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding-bottom: 0.5rem;
+    border-bottom: 1.5px solid #A94426;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.fnc-block-num {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: #A94426;
+}
+
+.fnc-options {
+    display: flex;
+    flex-direction: column;
+}
+
+.fnc-option-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 0.5rem;
+    border-bottom: 1px solid #EBE2D5;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    user-select: none;
+}
+
+.fnc-option-row:hover {
+    background: rgba(235, 225, 210, 0.4);
+}
+
+.fnc-option-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+}
+
+.fnc-option-left input[type="radio"],
+.fnc-option-left input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.fnc-custom-radio {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid #9C8C7C;
+    border-radius: 3px;
+    display: inline-block;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.fnc-option-left input[type="radio"]:checked ~ .fnc-custom-radio {
+    background: #2C221E;
+    border-color: #2C221E;
+    box-shadow: inset 0 0 0 3px #FAF7F0;
+}
+
+.fnc-custom-checkbox {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid #9C8C7C;
+    border-radius: 3px;
+    display: inline-block;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.fnc-option-left input[type="checkbox"]:checked ~ .fnc-custom-checkbox {
+    background: #2C221E;
+    border-color: #2C221E;
+    position: relative;
+}
+
+.fnc-option-left input[type="checkbox"]:checked ~ .fnc-custom-checkbox::after {
+    content: '✓';
+    color: #FAF7F0;
+    font-size: 11px;
+    font-weight: 900;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.fnc-option-label {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #2C221E;
+}
+
+.fnc-option-price {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #2C221E;
+}
+
+.fnc-addon-price {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #7C6C5C;
+}
+
+.fnc-badge-recommended {
+    background: #D89B36;
+    color: #FFFFFF;
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-left: 8px;
+}
+
+/* --- Favorite Dip Card --- */
+.fnc-dip-card {
+    background: #EFE9DC;
+    border: 1px solid #DCD0C0;
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    margin-top: 2rem;
+}
+
+.fnc-dip-title {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #A94426;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.fnc-dip-options {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+@media (max-width: 520px) {
+    .fnc-dip-options {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+}
+
+.fnc-dip-item {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 6px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.fnc-dip-item:hover {
+    transform: translateY(-2px);
+}
+
+.fnc-dip-item.active {
+    background: #FAF7F0;
+    box-shadow: 0 4px 12px rgba(44, 34, 30, 0.08), 0 0 0 2px #A94426;
+}
+
+.fnc-dip-swatch {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease;
+}
+
+.fnc-dip-mayo {
+    background: #F3EFE0;
+    border-color: #D8CEBE;
+}
+
+.fnc-dip-tandoori {
+    background: #BA452B;
+}
+
+.fnc-dip-chipotle {
+    background: #E08728;
+}
+
+.fnc-dip-mustard {
+    background: #B59E2B;
+}
+
+.fnc-dip-name {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #4C3C32;
+    text-align: center;
+}
+
+/* --- CTA Button --- */
+.fnc-cta-box {
+    margin-top: 2rem;
+}
+
+.fnc-add-button {
+    width: 100%;
+    background: #2C221E;
+    color: #FAF7F0;
+    border: none;
+    border-radius: 14px;
+    padding: 1.15rem 1.75rem;
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s ease;
+    box-shadow: 0 8px 24px rgba(44, 34, 30, 0.2);
+}
+
+.fnc-add-button:hover {
+    background: #42342E;
+    transform: translateY(-1px);
+    box-shadow: 0 12px 28px rgba(44, 34, 30, 0.28);
+}
+
+.fnc-add-button:active {
+    transform: translateY(0);
+}
+
+.fnc-btn-price {
+    background: #A94426;
+    color: #FAF7F0;
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 800;
+}
