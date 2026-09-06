@@ -327,7 +327,86 @@ const MENU_DATA = [
         name: "Aira Ultimate Assorted Rice / Noodles",
         description: "The ultimate chef's special rice or noodle creation.",
         modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
-    }
+    },
+
+    // ── BEVERAGES ──
+    // Mocktails
+    { id: "bev_1",  category: "Beverages", emoji: "🍹", price: 159, name: "Virgin Mojito" },
+    { id: "bev_2",  category: "Beverages", emoji: "🍹", price: 159, name: "Green Apple Mojito" },
+    { id: "bev_3",  category: "Beverages", emoji: "🍹", price: 159, name: "Blue Lagoon" },
+    { id: "bev_4",  category: "Beverages", emoji: "🍹", price: 159, name: "Strawberry Mint Cooler" },
+    { id: "bev_5",  category: "Beverages", emoji: "🍹", price: 159, name: "Blueberry Basil" },
+    { id: "bev_6",  category: "Beverages", emoji: "🍹", price: 159, name: "Mixed Berry Blush", description: "Top with cranberry juice" },
+    { id: "bev_7",  category: "Beverages", emoji: "🍹", price: 159, name: "Cool Cucumber" },
+    { id: "bev_8",  category: "Beverages", emoji: "🍹", price: 159, name: "Tropical Fizz" },
+    { id: "bev_9",  category: "Beverages", emoji: "🍹", price: 159, name: "Mango Sunrise", description: "Mango juice, grenadine, sprite" },
+    { id: "bev_10", category: "Beverages", emoji: "🍹", price: 159, name: "Mango Blueberry Fizz" },
+    { id: "bev_11", category: "Beverages", emoji: "🍹", price: 159, name: "Watermelon Ginger Fizz" },
+
+    // Iced Tea
+    { id: "bev_12", category: "Beverages", emoji: "🍹", price: 169, name: "Cranberry Iced Tea" },
+    { id: "bev_13", category: "Beverages", emoji: "🍹", price: 169, name: "Basil Blueberry Iced Tea" },
+    { id: "bev_14", category: "Beverages", emoji: "🍹", price: 169, name: "Peach Iced Tea" },
+    { id: "bev_15", category: "Beverages", emoji: "🍹", price: 169, name: "Ginger Lemon Iced Tea" },
+
+    // Shakes
+    {
+        id: "bev_16", category: "Beverages", emoji: "🥤", price: 159, name: "Cold Coffee Shake",
+        modifierGroups: [ { id: "add_scoop", label: "Add Ice Cream Scoop (+₹25)", options: ["No Ice Cream Scoop", "Add Ice Cream Scoop (+₹25)"] } ]
+    },
+    {
+        id: "bev_17", category: "Beverages", emoji: "🥤", price: 169, name: "Mint Oreo Shake",
+        modifierGroups: [ { id: "add_scoop", label: "Add Ice Cream Scoop (+₹25)", options: ["No Ice Cream Scoop", "Add Ice Cream Scoop (+₹25)"] } ]
+    },
+    {
+        id: "bev_18", category: "Beverages", emoji: "🥤", price: 169, name: "Strawberry Mint Shake",
+        modifierGroups: [ { id: "add_scoop", label: "Add Ice Cream Scoop (+₹25)", options: ["No Ice Cream Scoop", "Add Ice Cream Scoop (+₹25)"] } ]
+    },
+    {
+        id: "bev_19", category: "Beverages", emoji: "🥤", price: 169, name: "Kitkat Shake",
+        modifierGroups: [ { id: "add_scoop", label: "Add Ice Cream Scoop (+₹25)", options: ["No Ice Cream Scoop", "Add Ice Cream Scoop (+₹25)"] } ]
+    },
+    {
+        id: "bev_20", category: "Beverages", emoji: "🥤", price: 169, name: "Mango Shake",
+        modifierGroups: [ { id: "add_scoop", label: "Add Ice Cream Scoop (+₹25)", options: ["No Ice Cream Scoop", "Add Ice Cream Scoop (+₹25)"] } ]
+    },
+    {
+        id: "bev_21", category: "Beverages", emoji: "🥤", price: 169, name: "Hazelnut Shake",
+        modifierGroups: [ { id: "add_scoop", label: "Add Ice Cream Scoop (+₹25)", options: ["No Ice Cream Scoop", "Add Ice Cream Scoop (+₹25)"] } ]
+    },
+    {
+        id: "bev_22", category: "Beverages", emoji: "🥤", price: 179, signature: true, name: "The Biscoff Shake",
+        modifierGroups: [ { id: "add_scoop", label: "Add Ice Cream Scoop (+₹25)", options: ["No Ice Cream Scoop", "Add Ice Cream Scoop (+₹25)"] } ]
+    },
+    {
+        id: "bev_23", category: "Beverages", emoji: "🥤", price: 189, signature: true, name: "Brownie Chocolate Shake",
+        modifierGroups: [ { id: "add_scoop", label: "Add Ice Cream Scoop (+₹25)", options: ["No Ice Cream Scoop", "Add Ice Cream Scoop (+₹25)"] } ]
+    },
+    {
+        id: "bev_24", category: "Beverages", emoji: "🥤", price: 189, signature: true, name: "Thanda Badaam Naazrana Shake",
+        modifierGroups: [ { id: "add_scoop", label: "Add Ice Cream Scoop (+₹25)", options: ["No Ice Cream Scoop", "Add Ice Cream Scoop (+₹25)"] } ]
+    },
+
+    // Coffee
+    {
+        id: "bev_25", category: "Beverages", emoji: "☕", price: 89, name: "Cappuccino",
+        modifierGroups: [ { id: "syrup", label: "Flavor Pump (+₹15)", options: ["Standard", "Hazelnut Pump (+₹15)", "Toffee Caramel Nut Pump (+₹15)"] } ]
+    },
+    { id: "bev_26", category: "Beverages", emoji: "☕", price: 89,  name: "Black Coffee" },
+    { id: "bev_27", category: "Beverages", emoji: "☕", price: 149, name: "Iced Americano" },
+    { id: "bev_28", category: "Beverages", emoji: "☕", price: 189, name: "Orange Tonic Americano" },
+    { id: "bev_29", category: "Beverages", emoji: "☕", price: 169, signature: true, name: "Aira Special Americano", description: "Contains milk and white chocolate" },
+    { id: "bev_30", category: "Beverages", emoji: "☕", price: 189, signature: true, name: "Blueberry Cheesecake Iced Cloud Coffee" },
+    { id: "bev_31", category: "Beverages", emoji: "☕", price: 189, signature: true, name: "Vanilla Cloud Iced Coffee" },
+    { id: "bev_32", category: "Beverages", emoji: "☕", price: 159, name: "Shakerato" },
+
+    // Matcha
+    { id: "bev_33", category: "Beverages", emoji: "🍵", price: 249, name: "Strawberry Matcha Latte" },
+    { id: "bev_34", category: "Beverages", emoji: "🍵", price: 249, name: "Mango Matcha Latte" },
+    { id: "bev_35", category: "Beverages", emoji: "🍵", price: 249, name: "Blueberry Matcha Latte" },
+    { id: "bev_36", category: "Beverages", emoji: "🍵", price: 269, signature: true, name: "Coconut Matcha Cloud" },
+    { id: "bev_37", category: "Beverages", emoji: "🍵", price: 279, signature: true, name: "Vanilla Matcha Cloud" },
+    { id: "bev_38", category: "Beverages", emoji: "🍵", price: 279, signature: true, name: "Dirty Matcha" }
 
 ];
 
@@ -341,6 +420,7 @@ let isProcessing = false;
 const CATEGORY_DEFINITIONS = [
     { key: "All",                 label: "All Menu",            icon: "🍽️" },
     { key: "Fish & Chips",        label: "Fish & Chips",        icon: "🐟" },
+    { key: "Beverages",           label: "Beverages",           icon: "🍹" },
     { key: "Pasta",               label: "Pasta",               icon: "🍝" },
     { key: "Burgers",             label: "Burgers",             icon: "🍔" },
     { key: "Fried Chicken",       label: "Fried Chicken",       icon: "🍗" },
