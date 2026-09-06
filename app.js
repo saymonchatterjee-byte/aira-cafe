@@ -847,12 +847,19 @@ window.addToCart = function(id) {
         selectedVariantLabel = menuItem.variants[idx].label;
     }
 
-    // ─ Resolve modifier selections
+    // ─ Resolve modifier selections & price add-ons
     const selectedModifiers = {};
     if (menuItem.modifierGroups) {
         menuItem.modifierGroups.forEach(group => {
             const el = document.getElementById(`mod-${id}-${group.id}`);
-            if (el) selectedModifiers[group.label] = el.value;
+            if (el) {
+                const val = el.value;
+                selectedModifiers[group.label] = val;
+                const priceMatch = val.match(/\+\s*₹\s*(\d+)/);
+                if (priceMatch && priceMatch[1]) {
+                    price += parseInt(priceMatch[1], 10);
+                }
+            }
         });
     }
 
