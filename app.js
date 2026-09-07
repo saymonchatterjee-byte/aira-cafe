@@ -74,31 +74,31 @@ const MENU_DATA = [
 
     // ── SIGNATURE BURGERS ──
     {
-        id: "15", category: "Burgers", emoji: "🍔", price: 299,
+        id: "15", category: "Burgers", emoji: "🍔", price: 199,
         name: "Signature Fried Chicken Burger",
         description: "Crispy signature fried chicken, house sauce, fresh lettuce and pickles in a soft toasted bun.",
         note: "Served with: Soft Drink"
     },
     {
-        id: "16", category: "Burgers", emoji: "🍔", price: 319, spicy: true,
+        id: "16", category: "Burgers", emoji: "🍔", price: 219, spicy: true,
         name: "Korean Crunch Chicken Burger",
         description: "Crispy fried chicken glazed with Korean-style sauce, fresh lettuce and creamy house dressing.",
         note: "Served with: Soft Drink"
     },
     {
-        id: "17", category: "Burgers", emoji: "🍔", price: 319,
+        id: "17", category: "Burgers", emoji: "🍔", price: 219,
         name: "BBQ Crunch Chicken Burger",
         description: "Crispy fried chicken, smoky BBQ sauce, lettuce and house dressing.",
         note: "Served with: Soft Drink"
     },
     {
-        id: "18", category: "Burgers", emoji: "🍔", price: 249,
+        id: "18", category: "Burgers", emoji: "🍔", price: 199,
         name: "Cheesy Veg Burger",
         description: "Crispy seasoned vegetarian patty, melted cheese, lettuce, tomato and house burger sauce.",
         note: "Served with: Soft Drink"
     },
     {
-        id: "19", category: "Burgers", emoji: "🍔", price: 349, signature: true,
+        id: "19", category: "Burgers", emoji: "🍔", price: 229, signature: true,
         name: "Special Smash Chicken Burger",
         description: "Double smashed chicken patty, fried egg, melted cheese, signature sauce and crisp lettuce in a toasted bun.",
         note: "Served with: Salted Fries + Soft Drink"
@@ -160,33 +160,33 @@ const MENU_DATA = [
 
     // ── ALL-DAY BREAKFAST ──
     {
-        id: "31", category: "Breakfast", emoji: "🥞", price: 279, signature: true,
+        id: "31", category: "Breakfast(served till 2pm)", emoji: "🥞", price: 279, signature: true,
         name: "Seasonal Fruit French Toast",
         description: "Thick-cut brioche French toast with seasonal fresh fruits, maple syrup and whipped cream."
     },
     {
-        id: "32", category: "Breakfast", emoji: "🥞", price: 299, signature: true,
+        id: "32", category: "Breakfast(served till 2pm)", emoji: "🥞", price: 299, signature: true,
         name: "Tiramisu French Toast",
         description: "Caramelized brioche, espresso syrup, mascarpone cream, cocoa and dark chocolate."
     },
     {
-        id: "33", category: "Breakfast", emoji: "🍳", price: 249,
+        id: "33", category: "Breakfast(served till 2pm)", emoji: "🍳", price: 249,
         name: "Choice of Eggs",
         description: "Eggs prepared your way with chicken sausage and toasted bread.",
         modifierGroups: [ { id: "egg_style", label: "Choose your Style", options: ["Scrambled", "Sunny Side Up", "Omelette"] } ]
     },
     {
-        id: "34", category: "Breakfast", emoji: "🥣", price: 249,
+        id: "34", category: "Breakfast(served till 2pm)", emoji: "🥣", price: 249,
         name: "Smoothie Bowl",
         description: "Thick blended fruit smoothie topped with seasonal fruits, house granola, seeds and nuts."
     },
     {
-        id: "35", category: "Breakfast", emoji: "🥪", price: 199,
+        id: "35", category: "Breakfast(served till 2pm)", emoji: "🥪", price: 199,
         name: "Egg & Cheese Sandwich",
         description: "Soft toasted bread, creamy scrambled egg and melted cheese."
     },
     {
-        id: "36", category: "Breakfast", emoji: "🥑", price: 279,
+        id: "36", category: "Breakfast(served till 2pm)", emoji: "🥑", price: 279,
         name: "Avocado & Hummus Toast",
         description: "Toasted sourdough, creamy hummus, smashed avocado, cherry tomatoes, herbs and lemon."
     },
@@ -221,26 +221,70 @@ const MENU_DATA = [
         ]
     },
 
-    // ── INDO-CHINESE COMBOS ──
+    // ── INDO-CHINESE COMBOS & GRAVIES ──
     {
-        id: "49", category: "Indo-Chinese Combos", emoji: "🍱", price: 299,
+        id: "49", category: "Indo-Chinese Combos", emoji: "🍱", price: 199,
         name: "Burnt Garlic Chicken Combo",
         modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
     },
     {
-        id: "50", category: "Indo-Chinese Combos", emoji: "🍱", price: 299,
+        id: "50", category: "Indo-Chinese Combos", emoji: "🍱", price: 199,
         name: "Burnt Garlic Paneer Combo",
         modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
     },
     {
-        id: "51", category: "Indo-Chinese Combos", emoji: "🍱", price: 299, spicy: true,
+        id: "51", category: "Indo-Chinese Combos", emoji: "🍱", price: 199, spicy: true,
         name: "Chili Chicken Combo",
         modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
     },
     {
-        id: "52", category: "Indo-Chinese Combos", emoji: "🍱", price: 299, spicy: true,
+        id: "52", category: "Indo-Chinese Combos", emoji: "🍱", price: 199, spicy: true,
         name: "Chili Paneer Combo",
         modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "52_1", category: "Indo-Chinese Combos", emoji: "🍱", price: 199,
+        name: "Chicken Manchurian Combo",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "52_2", category: "Indo-Chinese Combos", emoji: "🍱", price: 199,
+        name: "Veg Manchurian Combo",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "52_3", category: "Indo-Chinese Combos", emoji: "🍱", price: 199, spicy: true,
+        name: "Schezwan Chicken + Corn Rice"
+    },
+    {
+        id: "52_4", category: "Indo-Chinese Combos", emoji: "🍱", price: 199,
+        name: "Hong Kong Chicken Combo",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "52_5", category: "Indo-Chinese Combos", emoji: "🍱", price: 199,
+        name: "Hong Kong Paneer Combo",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "52_6", category: "Indo-Chinese Combos", emoji: "🍱", price: 249, spicy: true,
+        name: "Korean Chicken + Fried Rice + Egg"
+    },
+    {
+        id: "52_7", category: "Indo-Chinese Combos", emoji: "🍲", price: 249, spicy: true,
+        name: "Chilli Chicken Gravy"
+    },
+    {
+        id: "52_8", category: "Indo-Chinese Combos", emoji: "🍲", price: 259,
+        name: "Burnt Garlic Chicken Gravy"
+    },
+    {
+        id: "52_9", category: "Indo-Chinese Combos", emoji: "🍲", price: 269, spicy: true,
+        name: "Chicken Ema Datshi"
+    },
+    {
+        id: "52_10", category: "Indo-Chinese Combos", emoji: "🍲", price: 269,
+        name: "Veg Manchurian Gravy"
     },
 
     // ── PARATHA COMBOS ──
@@ -257,21 +301,33 @@ const MENU_DATA = [
 
     // ── FRIED RICE & NOODLES ──
     {
-        id: "55", category: "Rice & Noodles", emoji: "🍚", price: 179,
-        name: "Veg Fried Rice / Noodles",
+        id: "55", category: "Rice & Noodles", emoji: "🍚", price: 159,
+        name: "Classic Veg Corn Fried Rice / Noodles",
         description: "Corn, carrot, beans, bell pepper.",
         modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
     },
     {
-        id: "56", category: "Rice & Noodles", emoji: "🍚", price: 199, spicy: true,
+        id: "56", category: "Rice & Noodles", emoji: "🍚", price: 179, spicy: true,
         name: "Schezwan Fried Rice / Noodles",
         description: "Corn, carrot, beans in spicy Schezwan sauce.",
         modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
     },
     {
-        id: "57", category: "Rice & Noodles", emoji: "🍚", price: 199,
+        id: "57", category: "Rice & Noodles", emoji: "🍚", price: 179,
         name: "Burnt Garlic Fried Rice / Noodles",
         description: "Chinese cabbage, bokchoi, corn, broccoli with aromatic burnt garlic.",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "57_1", category: "Rice & Noodles", emoji: "🍚", price: 189,
+        name: "Paneer Fried Rice / Noodles",
+        description: "Fresh paneer tossed with seasoned rice or noodles.",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "57_2", category: "Rice & Noodles", emoji: "🍚", price: 179,
+        name: "Egg Fried Rice / Noodles",
+        description: "Fluffy scrambled eggs tossed with seasoned rice or noodles.",
         modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
     },
     {
@@ -281,27 +337,45 @@ const MENU_DATA = [
         modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
     },
     {
-        id: "59", category: "Rice & Noodles", emoji: "🍚", price: 239,
-        name: "Classic Non-Veg Fried Rice / Noodles",
+        id: "59", category: "Rice & Noodles", emoji: "🍚", price: 179,
+        name: "Classic Chicken Fried Rice / Noodles",
         description: "Chicken, corn, carrot, beans.",
         modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
     },
     {
-        id: "60", category: "Rice & Noodles", emoji: "🍚", price: 269, spicy: true,
-        name: "Schezwan Non-Veg Fried Rice / Noodles",
+        id: "59_1", category: "Rice & Noodles", emoji: "🍚", price: 189,
+        name: "Chicken Egg Fried Rice / Noodles",
+        description: "Chicken and fluffy scrambled egg tossed with seasoned rice or noodles.",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "60", category: "Rice & Noodles", emoji: "🍚", price: 189, spicy: true,
+        name: "Schezwan Chicken Fried Rice / Noodles",
         description: "Chicken & fresh vegetables in fiery Schezwan style.",
         modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
     },
     {
-        id: "61", category: "Rice & Noodles", emoji: "🍚", price: 269,
-        name: "Burnt Garlic Non-Veg Fried Rice / Noodles",
+        id: "61", category: "Rice & Noodles", emoji: "🍚", price: 189,
+        name: "Burnt Garlic Chicken Fried Rice / Noodles",
         description: "Chicken & fresh vegetables with golden burnt garlic.",
         modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
     },
     {
-        id: "62", category: "Rice & Noodles", emoji: "🍚", price: 329, signature: true,
-        name: "Aira Special Non-Veg Fried Rice / Noodles",
-        description: "Chicken + Egg + Prawn + Veg.",
+        id: "61_1", category: "Rice & Noodles", emoji: "🍚", price: 199,
+        name: "Prawn Egg Fried Rice / Noodles",
+        description: "Juicy prawns and scrambled egg tossed with seasoned rice or noodles.",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "61_2", category: "Rice & Noodles", emoji: "🍚", price: 199,
+        name: "Basa Fried Rice / Noodles",
+        description: "Tender basa fish tossed with seasoned rice or noodles.",
+        modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
+    },
+    {
+        id: "62", category: "Rice & Noodles", emoji: "🍚", price: 249, signature: true,
+        name: "Special Mix Non-Veg Fried Rice / Noodles",
+        description: "Basa, egg, chicken, prawn.",
         modifierGroups: [ { id: "base", label: "Choose your Base", options: ["Fried Rice", "Noodles"] } ]
     },
     {
@@ -418,19 +492,19 @@ let isProcessing = false;
 
 // ─── Category Definitions (direct 1:1 category-key matching) ───
 const CATEGORY_DEFINITIONS = [
-    { key: "All",                 label: "All Menu",            icon: "🍽️" },
-    { key: "Fish & Chips",        label: "Fish & Chips",        icon: "🐟" },
-    { key: "Beverages",           label: "Beverages",           icon: "🍹" },
-    { key: "Pasta",               label: "Pasta",               icon: "🍝" },
-    { key: "Burgers",             label: "Burgers",             icon: "🍔" },
-    { key: "Fried Chicken",       label: "Fried Chicken",       icon: "🍗" },
-    { key: "Sandwiches",          label: "Sandwiches",          icon: "🥪" },
-    { key: "Fries",               label: "Fries",               icon: "🍟" },
-    { key: "Breakfast",           label: "Breakfast",           icon: "🥞" },
-    { key: "Comfort Food",        label: "Comfort Food",        icon: "🥟" },
-    { key: "Indo-Chinese Combos", label: "Indo-Chinese Combos", icon: "🍱" },
-    { key: "Paratha Combos",      label: "Paratha Combos",      icon: "🫓" },
-    { key: "Rice & Noodles",      label: "Rice & Noodles",      icon: "🍜" },
+    { key: "All",                        label: "All Menu",                   icon: "🍽️" },
+    { key: "Protein and chips",          label: "Protein and chips",          icon: "🐟" },
+    { key: "Beverages",                  label: "Beverages",                  icon: "🍹" },
+    { key: "Pasta",                      label: "Pasta",                      icon: "🍝" },
+    { key: "Burgers",                    label: "Burgers",                    icon: "🍔" },
+    { key: "Fried Chicken",              label: "Fried Chicken",              icon: "🍗" },
+    { key: "Sandwiches",                 label: "Sandwiches",                 icon: "🥪" },
+    { key: "Fries",                      label: "Fries",                      icon: "🍟" },
+    { key: "Breakfast(served till 2pm)", label: "Breakfast(served till 2pm)", icon: "🥞" },
+    { key: "Comfort Food",               label: "Comfort Food",               icon: "🥟" },
+    { key: "Indo-Chinese Combos",        label: "Indo-Chinese Combos",        icon: "🍱" },
+    { key: "Paratha Combos",             label: "Paratha Combos",             icon: "🫓" },
+    { key: "Rice & Noodles",             label: "Rice & Noodles",             icon: "🍜" },
 ];
 
 const DEBUG_PREFIX = "[Aira Debug]";
@@ -624,7 +698,7 @@ function generateCategoryFilters() {
             updateCategoryButtons();
             renderMenu(getFilteredMenuItems(currentFilter));
 
-            if (category.key === "Fish & Chips") {
+            if (category.key === "Protein and chips") {
                 const section = document.getElementById("fish-and-chips-section");
                 if (section) {
                     section.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -663,12 +737,12 @@ function renderMenu(items) {
     grid.classList.add("is-transitioning");
     grid.innerHTML = "";
 
-    if (currentFilter === "Fish & Chips") {
+    if (currentFilter === "Protein and chips") {
         if (menuCount) menuCount.textContent = "Custom Builder";
         grid.innerHTML = `
             <article class="menu-card" style="grid-column: 1 / -1; padding: 2rem 1.5rem; text-align: center; background: #FAF7F0; border: 1.5px dashed #A94426; border-radius: 16px;">
                 <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🐟</div>
-                <h3 style="font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: #2C221E; margin-bottom: 0.4rem;">The Aira Fish &amp; Chips Adventure</h3>
+                <h3 style="font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: #2C221E; margin-bottom: 0.4rem;">The Aira Protein and chips Adventure</h3>
                 <p style="color: #6E5F52; font-size: 0.9rem; margin-bottom: 1rem;">Customize your protein, base, add-ons &amp; favourite dip in the interactive form below.</p>
                 <button type="button" onclick="document.getElementById('fish-and-chips-section').scrollIntoView({ behavior: 'smooth', block: 'start' })" style="padding: 10px 24px; background: #2C221E; color: #FAF7F0; font-weight: 700; border-radius: 9999px; border: none; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px;">
                     Go to Builder Form ↓
@@ -1306,9 +1380,9 @@ window.addFishAndChipsToCart = function() {
         cart.push({
             id: `fnc_${Date.now()}`,
             cartKey: cartKey,
-            name: `${proteinName} (Fish & Chips)`,
-            displayName: `${proteinName} Fish & Chips`,
-            category: "Fish & Chips",
+            name: `${proteinName} (Protein and chips)`,
+            displayName: `${proteinName} Protein and chips`,
+            category: "Protein and chips",
             emoji: "🐟",
             price: totalPrice,
             quantity: 1,
@@ -1317,7 +1391,7 @@ window.addFishAndChipsToCart = function() {
     }
 
     updateCartUI();
-    showToast(`${proteinName} Fish & Chips added to order!`, "success");
+    showToast(`${proteinName} Protein and chips added to order!`, "success");
 
     const btn = document.getElementById("cart-toggle-btn");
     if (btn) {

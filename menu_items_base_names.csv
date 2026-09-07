@@ -6,11 +6,11 @@ Creamy Alfredo,239,Pasta
 Arrabbiata,239,Pasta
 Aglio E Olio,249,Pasta
 Basil Pesto Verde,249,Pasta
-Signature Fried Chicken Burger,299,Burgers
-Korean Crunch Chicken Burger,319,Burgers
-BBQ Crunch Chicken Burger,319,Burgers
-Cheesy Veg Burger,249,Burgers
-Special Smash Chicken Burger,349,Burgers
+Signature Fried Chicken Burger,199,Burgers
+Korean Crunch Chicken Burger,219,Burgers
+BBQ Crunch Chicken Burger,219,Burgers
+Cheesy Veg Burger,199,Burgers
+Special Smash Chicken Burger,229,Burgers
 Signature Fried Chicken,289,Fried Chicken
 Fried Chicken Wings,279,Fried Chicken
 Veg Club Sandwich,229,Sandwiches
@@ -23,12 +23,12 @@ Cajun Spiced Fries,149,Fries
 Peri-Peri Fries,149,Fries
 Cheese Overload Fries,199,Fries
 Crispy Fried Chicken Fries,249,Fries
-Seasonal Fruit French Toast,279,Breakfast
-Tiramisu French Toast,299,Breakfast
-Choice of Eggs,249,Breakfast
-Smoothie Bowl,249,Breakfast
-Egg & Cheese Sandwich,199,Breakfast
-Avocado & Hummus Toast,279,Breakfast
+Seasonal Fruit French Toast,279,Breakfast(served till 2pm)
+Tiramisu French Toast,299,Breakfast(served till 2pm)
+Choice of Eggs,249,Breakfast(served till 2pm)
+Smoothie Bowl,249,Breakfast(served till 2pm)
+Egg & Cheese Sandwich,199,Breakfast(served till 2pm)
+Avocado & Hummus Toast,279,Breakfast(served till 2pm)
 Veg Thukpa,199,Comfort Food
 Chicken Thukpa,229,Comfort Food
 Steamed Veg Momos,159,Comfort Food
@@ -39,33 +39,48 @@ Veg Wrap,199,Comfort Food
 Chicken Wrap,239,Comfort Food
 American Corn,199,Comfort Food
 Baby Corn,199,Comfort Food
-Burnt Garlic Chicken Combo,299,Indo-Chinese Combos
-Burnt Garlic Paneer Combo,299,Indo-Chinese Combos
-Chili Chicken Combo,299,Indo-Chinese Combos
-Chili Paneer Combo,299,Indo-Chinese Combos
+Burnt Garlic Chicken Combo,199,Indo-Chinese Combos
+Burnt Garlic Paneer Combo,199,Indo-Chinese Combos
+Chili Chicken Combo,199,Indo-Chinese Combos
+Chili Paneer Combo,199,Indo-Chinese Combos
+Chicken Manchurian Combo,199,Indo-Chinese Combos
+Veg Manchurian Combo,199,Indo-Chinese Combos
+Schezwan Chicken + Corn Rice,199,Indo-Chinese Combos
+Hong Kong Chicken Combo,199,Indo-Chinese Combos
+Hong Kong Paneer Combo,199,Indo-Chinese Combos
+Korean Chicken + Fried Rice + Egg,249,Indo-Chinese Combos
+Chilli Chicken Gravy,249,Indo-Chinese Combos
+Burnt Garlic Chicken Gravy,259,Indo-Chinese Combos
+Chicken Ema Datshi,269,Indo-Chinese Combos
+Veg Manchurian Gravy,269,Indo-Chinese Combos
 Masala Chicken Paratha Combo,249,Paratha Combos
 Masala Paneer Paratha Combo,229,Paratha Combos
-Veg Fried Rice / Noodles,179,Rice & Noodles
-Schezwan Fried Rice / Noodles,199,Rice & Noodles
-Burnt Garlic Fried Rice / Noodles,199,Rice & Noodles
+Classic Veg Corn Fried Rice / Noodles,159,Rice & Noodles
+Schezwan Fried Rice / Noodles,179,Rice & Noodles
+Burnt Garlic Fried Rice / Noodles,179,Rice & Noodles
+Paneer Fried Rice / Noodles,189,Rice & Noodles
+Egg Fried Rice / Noodles,179,Rice & Noodles
 Mushroom & Paneer Fried Rice / Noodles,239,Rice & Noodles
-Classic Non-Veg Fried Rice / Noodles,239,Rice & Noodles
-Schezwan Non-Veg Fried Rice / Noodles,269,Rice & Noodles
-Burnt Garlic Non-Veg Fried Rice / Noodles,269,Rice & Noodles
-Aira Special Non-Veg Fried Rice / Noodles,329,Rice & Noodles
+Classic Chicken Fried Rice / Noodles,179,Rice & Noodles
+Chicken Egg Fried Rice / Noodles,189,Rice & Noodles
+Schezwan Chicken Fried Rice / Noodles,189,Rice & Noodles
+Burnt Garlic Chicken Fried Rice / Noodles,189,Rice & Noodles
+Prawn Egg Fried Rice / Noodles,199,Rice & Noodles
+Basa Fried Rice / Noodles,199,Rice & Noodles
+Special Mix Non-Veg Fried Rice / Noodles,249,Rice & Noodles
 Mix Schezwan Fried Rice / Noodles,359,Rice & Noodles
 Mix Burnt Garlic Fried Rice / Noodles,359,Rice & Noodles
 Special Seekh Kabab Rice / Noodles,389,Rice & Noodles
 Aira Ultimate Assorted Rice / Noodles,399,Rice & Noodles
-Basa,599,Fish & Chips
-Spicy Crispy Chicken,599,Fish & Chips
-Prawns,799,Fish & Chips
-Assam Local Fish,799,Fish & Chips
-Chicken Seekh,199,Fish & Chips
-Mushroom,199,Fish & Chips
-Chicken Wings (2 pc),189,Fish & Chips
-Korean Wings (2 pc),199,Fish & Chips
-Chicken Pops,199,Fish & Chips
+Basa,599,Protein and chips
+Spicy Crispy Chicken,599,Protein and chips
+Prawns,799,Protein and chips
+Assam Local Fish,799,Protein and chips
+Chicken Seekh,199,Protein and chips
+Mushroom,199,Protein and chips
+Chicken Wings (2 pc),189,Protein and chips
+Korean Wings (2 pc),199,Protein and chips
+Chicken Pops,199,Protein and chips
 Virgin Mojito,159,Beverages
 Green Apple Mojito,159,Beverages
 Blue Lagoon,159,Beverages
