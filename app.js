@@ -160,33 +160,33 @@ const MENU_DATA = [
 
     // ── ALL-DAY BREAKFAST ──
     {
-        id: "31", category: "Breakfast(served till 2pm)", emoji: "🥞", price: 279, signature: true,
+        id: "31", category: "Breakfast (2pm)", emoji: "🥞", price: 279, signature: true,
         name: "Seasonal Fruit French Toast",
         description: "Thick-cut brioche French toast with seasonal fresh fruits, maple syrup and whipped cream."
     },
     {
-        id: "32", category: "Breakfast(served till 2pm)", emoji: "🥞", price: 299, signature: true,
+        id: "32", category: "Breakfast (2pm)", emoji: "🥞", price: 299, signature: true,
         name: "Tiramisu French Toast",
         description: "Caramelized brioche, espresso syrup, mascarpone cream, cocoa and dark chocolate."
     },
     {
-        id: "33", category: "Breakfast(served till 2pm)", emoji: "🍳", price: 249,
+        id: "33", category: "Breakfast (2pm)", emoji: "🍳", price: 249,
         name: "Choice of Eggs",
         description: "Eggs prepared your way with chicken sausage and toasted bread.",
         modifierGroups: [ { id: "egg_style", label: "Choose your Style", options: ["Scrambled", "Sunny Side Up", "Omelette"] } ]
     },
     {
-        id: "34", category: "Breakfast(served till 2pm)", emoji: "🥣", price: 249,
+        id: "34", category: "Breakfast (2pm)", emoji: "🥣", price: 249,
         name: "Smoothie Bowl",
         description: "Thick blended fruit smoothie topped with seasonal fruits, house granola, seeds and nuts."
     },
     {
-        id: "35", category: "Breakfast(served till 2pm)", emoji: "🥪", price: 199,
+        id: "35", category: "Breakfast (2pm)", emoji: "🥪", price: 199,
         name: "Egg & Cheese Sandwich",
         description: "Soft toasted bread, creamy scrambled egg and melted cheese."
     },
     {
-        id: "36", category: "Breakfast(served till 2pm)", emoji: "🥑", price: 279,
+        id: "36", category: "Breakfast (2pm)", emoji: "🥑", price: 279,
         name: "Avocado & Hummus Toast",
         description: "Toasted sourdough, creamy hummus, smashed avocado, cherry tomatoes, herbs and lemon."
     },
@@ -405,106 +405,117 @@ const MENU_DATA = [
 
     // ── BEVERAGES ──
     // Mocktails
-    { id: "bev_1",  category: "Beverages", emoji: "🍹", price: 159, name: "Virgin Mojito" },
-    { id: "bev_2",  category: "Beverages", emoji: "🍹", price: 159, name: "Green Apple Mojito" },
-    { id: "bev_3",  category: "Beverages", emoji: "🍹", price: 159, name: "Blue Lagoon" },
-    { id: "bev_4",  category: "Beverages", emoji: "🍹", price: 159, name: "Strawberry Mint Cooler" },
-    { id: "bev_5",  category: "Beverages", emoji: "🍹", price: 159, name: "Blueberry Basil" },
-    { id: "bev_6",  category: "Beverages", emoji: "🍹", price: 159, name: "Mixed Berry Blush", description: "Top with cranberry juice" },
-    { id: "bev_7",  category: "Beverages", emoji: "🍹", price: 159, name: "Cool Cucumber" },
-    { id: "bev_8",  category: "Beverages", emoji: "🍹", price: 159, name: "Tropical Fizz" },
-    { id: "bev_9",  category: "Beverages", emoji: "🍹", price: 159, name: "Mango Sunrise", description: "Mango juice, grenadine, sprite" },
-    { id: "bev_10", category: "Beverages", emoji: "🍹", price: 159, name: "Mango Blueberry Fizz" },
-    { id: "bev_11", category: "Beverages", emoji: "🍹", price: 159, name: "Watermelon Ginger Fizz" },
+    { id: "bev_1",  category: "Beverages", subcategory: "Mocktail", emoji: "🍹", price: 159, name: "Virgin Mojito" },
+    { id: "bev_2",  category: "Beverages", subcategory: "Mocktail", emoji: "🍹", price: 159, name: "Green Apple Mojito" },
+    { id: "bev_3",  category: "Beverages", subcategory: "Mocktail", emoji: "🍹", price: 159, name: "Blue Lagoon" },
+    { id: "bev_4",  category: "Beverages", subcategory: "Mocktail", emoji: "🍹", price: 159, name: "Strawberry Mint Cooler" },
+    { id: "bev_5",  category: "Beverages", subcategory: "Mocktail", emoji: "🍹", price: 159, name: "Blueberry Basil" },
+    { id: "bev_6",  category: "Beverages", subcategory: "Mocktail", emoji: "🍹", price: 159, name: "Mixed Berry Blush", description: "Top with cranberry juice" },
+    { id: "bev_7",  category: "Beverages", subcategory: "Mocktail", emoji: "🍹", price: 159, name: "Cool Cucumber" },
+    { id: "bev_8",  category: "Beverages", subcategory: "Mocktail", emoji: "🍹", price: 159, name: "Tropical Fizz" },
+    { id: "bev_9",  category: "Beverages", subcategory: "Mocktail", emoji: "🍹", price: 159, name: "Mango Sunrise", description: "Mango juice, grenadine, sprite" },
+    { id: "bev_10", category: "Beverages", subcategory: "Mocktail", emoji: "🍹", price: 159, name: "Mango Blueberry Fizz" },
+    { id: "bev_11", category: "Beverages", subcategory: "Mocktail", emoji: "🍹", price: 159, name: "Watermelon Ginger Fizz" },
 
     // Iced Tea
-    { id: "bev_12", category: "Beverages", emoji: "🍹", price: 169, name: "Cranberry Iced Tea" },
-    { id: "bev_13", category: "Beverages", emoji: "🍹", price: 169, name: "Basil Blueberry Iced Tea" },
-    { id: "bev_14", category: "Beverages", emoji: "🍹", price: 169, name: "Peach Iced Tea" },
-    { id: "bev_15", category: "Beverages", emoji: "🍹", price: 169, name: "Ginger Lemon Iced Tea" },
+    { id: "bev_12", category: "Beverages", subcategory: "Ice Tea", emoji: "🧋", price: 169, name: "Cranberry Iced Tea" },
+    { id: "bev_13", category: "Beverages", subcategory: "Ice Tea", emoji: "🧋", price: 169, name: "Basil Blueberry Iced Tea" },
+    { id: "bev_14", category: "Beverages", subcategory: "Ice Tea", emoji: "🧋", price: 169, name: "Peach Iced Tea" },
+    { id: "bev_15", category: "Beverages", subcategory: "Ice Tea", emoji: "🧋", price: 169, name: "Ginger Lemon Iced Tea" },
 
     // Shakes
     {
-        id: "bev_16", category: "Beverages", emoji: "🥤", price: 159, name: "Cold Coffee Shake",
+        id: "bev_16", category: "Beverages", subcategory: "Shake", emoji: "🥤", price: 159, name: "Cold Coffee Shake",
         modifierGroups: [ { id: "add_scoop", label: "Add Ice Cream Scoop (+₹25)", options: ["No Ice Cream Scoop", "Add Ice Cream Scoop (+₹25)"] } ]
     },
     {
-        id: "bev_17", category: "Beverages", emoji: "🥤", price: 169, name: "Mint Oreo Shake",
+        id: "bev_17", category: "Beverages", subcategory: "Shake", emoji: "🥤", price: 169, name: "Mint Oreo Shake",
         modifierGroups: [ { id: "add_scoop", label: "Add Ice Cream Scoop (+₹25)", options: ["No Ice Cream Scoop", "Add Ice Cream Scoop (+₹25)"] } ]
     },
     {
-        id: "bev_18", category: "Beverages", emoji: "🥤", price: 169, name: "Strawberry Mint Shake",
+        id: "bev_18", category: "Beverages", subcategory: "Shake", emoji: "🥤", price: 169, name: "Strawberry Mint Shake",
         modifierGroups: [ { id: "add_scoop", label: "Add Ice Cream Scoop (+₹25)", options: ["No Ice Cream Scoop", "Add Ice Cream Scoop (+₹25)"] } ]
     },
     {
-        id: "bev_19", category: "Beverages", emoji: "🥤", price: 169, name: "Kitkat Shake",
+        id: "bev_19", category: "Beverages", subcategory: "Shake", emoji: "🥤", price: 169, name: "Kitkat Shake",
         modifierGroups: [ { id: "add_scoop", label: "Add Ice Cream Scoop (+₹25)", options: ["No Ice Cream Scoop", "Add Ice Cream Scoop (+₹25)"] } ]
     },
     {
-        id: "bev_20", category: "Beverages", emoji: "🥤", price: 169, name: "Mango Shake",
+        id: "bev_20", category: "Beverages", subcategory: "Shake", emoji: "🥤", price: 169, name: "Mango Shake",
         modifierGroups: [ { id: "add_scoop", label: "Add Ice Cream Scoop (+₹25)", options: ["No Ice Cream Scoop", "Add Ice Cream Scoop (+₹25)"] } ]
     },
     {
-        id: "bev_21", category: "Beverages", emoji: "🥤", price: 169, name: "Hazelnut Shake",
+        id: "bev_21", category: "Beverages", subcategory: "Shake", emoji: "🥤", price: 169, name: "Hazelnut Shake",
         modifierGroups: [ { id: "add_scoop", label: "Add Ice Cream Scoop (+₹25)", options: ["No Ice Cream Scoop", "Add Ice Cream Scoop (+₹25)"] } ]
     },
     {
-        id: "bev_22", category: "Beverages", emoji: "🥤", price: 179, signature: true, name: "The Biscoff Shake",
+        id: "bev_22", category: "Beverages", subcategory: "Shake", emoji: "🥤", price: 179, signature: true, name: "The Biscoff Shake",
         modifierGroups: [ { id: "add_scoop", label: "Add Ice Cream Scoop (+₹25)", options: ["No Ice Cream Scoop", "Add Ice Cream Scoop (+₹25)"] } ]
     },
     {
-        id: "bev_23", category: "Beverages", emoji: "🥤", price: 189, signature: true, name: "Brownie Chocolate Shake",
+        id: "bev_23", category: "Beverages", subcategory: "Shake", emoji: "🥤", price: 189, signature: true, name: "Brownie Chocolate Shake",
         modifierGroups: [ { id: "add_scoop", label: "Add Ice Cream Scoop (+₹25)", options: ["No Ice Cream Scoop", "Add Ice Cream Scoop (+₹25)"] } ]
     },
     {
-        id: "bev_24", category: "Beverages", emoji: "🥤", price: 189, signature: true, name: "Thanda Badaam Naazrana Shake",
+        id: "bev_24", category: "Beverages", subcategory: "Shake", emoji: "🥤", price: 189, signature: true, name: "Thanda Badaam Naazrana Shake",
         modifierGroups: [ { id: "add_scoop", label: "Add Ice Cream Scoop (+₹25)", options: ["No Ice Cream Scoop", "Add Ice Cream Scoop (+₹25)"] } ]
     },
 
     // Coffee
     {
-        id: "bev_25", category: "Beverages", emoji: "☕", price: 89, name: "Cappuccino",
+        id: "bev_25", category: "Beverages", subcategory: "Coffee", emoji: "☕", price: 89, name: "Cappuccino",
         modifierGroups: [ { id: "syrup", label: "Flavor Pump (+₹15)", options: ["Standard", "Hazelnut Pump (+₹15)", "Toffee Caramel Nut Pump (+₹15)"] } ]
     },
-    { id: "bev_26", category: "Beverages", emoji: "☕", price: 89,  name: "Black Coffee" },
-    { id: "bev_27", category: "Beverages", emoji: "☕", price: 149, name: "Iced Americano" },
-    { id: "bev_28", category: "Beverages", emoji: "☕", price: 189, name: "Orange Tonic Americano" },
-    { id: "bev_29", category: "Beverages", emoji: "☕", price: 169, signature: true, name: "Aira Special Americano", description: "Contains milk and white chocolate" },
-    { id: "bev_30", category: "Beverages", emoji: "☕", price: 189, signature: true, name: "Blueberry Cheesecake Iced Cloud Coffee" },
-    { id: "bev_31", category: "Beverages", emoji: "☕", price: 189, signature: true, name: "Vanilla Cloud Iced Coffee" },
-    { id: "bev_32", category: "Beverages", emoji: "☕", price: 159, name: "Shakerato" },
+    { id: "bev_26", category: "Beverages", subcategory: "Coffee", emoji: "☕", price: 89,  name: "Black Coffee" },
+    { id: "bev_27", category: "Beverages", subcategory: "Coffee", emoji: "☕", price: 149, name: "Iced Americano" },
+    { id: "bev_28", category: "Beverages", subcategory: "Coffee", emoji: "☕", price: 189, name: "Orange Tonic Americano" },
+    { id: "bev_29", category: "Beverages", subcategory: "Coffee", emoji: "☕", price: 169, signature: true, name: "Aira Special Americano", description: "Contains milk and white chocolate" },
+    { id: "bev_30", category: "Beverages", subcategory: "Coffee", emoji: "☕", price: 189, signature: true, name: "Blueberry Cheesecake Iced Cloud Coffee" },
+    { id: "bev_31", category: "Beverages", subcategory: "Coffee", emoji: "☕", price: 189, signature: true, name: "Vanilla Cloud Iced Coffee" },
+    { id: "bev_32", category: "Beverages", subcategory: "Coffee", emoji: "☕", price: 159, name: "Shakerato" },
 
     // Matcha
-    { id: "bev_33", category: "Beverages", emoji: "🍵", price: 249, name: "Strawberry Matcha Latte" },
-    { id: "bev_34", category: "Beverages", emoji: "🍵", price: 249, name: "Mango Matcha Latte" },
-    { id: "bev_35", category: "Beverages", emoji: "🍵", price: 249, name: "Blueberry Matcha Latte" },
-    { id: "bev_36", category: "Beverages", emoji: "🍵", price: 269, signature: true, name: "Coconut Matcha Cloud" },
-    { id: "bev_37", category: "Beverages", emoji: "🍵", price: 279, signature: true, name: "Vanilla Matcha Cloud" },
-    { id: "bev_38", category: "Beverages", emoji: "🍵", price: 279, signature: true, name: "Dirty Matcha" }
+    { id: "bev_33", category: "Beverages", subcategory: "Matcha", emoji: "🍵", price: 249, name: "Strawberry Matcha Latte" },
+    { id: "bev_34", category: "Beverages", subcategory: "Matcha", emoji: "🍵", price: 249, name: "Mango Matcha Latte" },
+    { id: "bev_35", category: "Beverages", subcategory: "Matcha", emoji: "🍵", price: 249, name: "Blueberry Matcha Latte" },
+    { id: "bev_36", category: "Beverages", subcategory: "Matcha", emoji: "🍵", price: 269, signature: true, name: "Coconut Matcha Cloud" },
+    { id: "bev_37", category: "Beverages", subcategory: "Matcha", emoji: "🍵", price: 279, signature: true, name: "Vanilla Matcha Cloud" },
+    { id: "bev_38", category: "Beverages", subcategory: "Matcha", emoji: "🍵", price: 279, signature: true, name: "Dirty Matcha" }
 
 ];
 
 // ─── Application State ───
 let cart = [];
 let currentFilter = "All";
+let currentSubFilter = "All";
 let currentOrderId = null;
 let isProcessing = false;
 
+// ─── Beverage Subcategory Definitions ───
+const BEVERAGE_SUBCATEGORIES = [
+    { key: "All",      label: "All Beverages", icon: "🍹" },
+    { key: "Mocktail", label: "Mocktail",      icon: "🍸" },
+    { key: "Ice Tea",  label: "Ice Tea",       icon: "🧋" },
+    { key: "Shake",    label: "Shake",         icon: "🥤" },
+    { key: "Coffee",   label: "Coffee",        icon: "☕" },
+    { key: "Matcha",   label: "Matcha",        icon: "🍵" }
+];
+
 // ─── Category Definitions (direct 1:1 category-key matching) ───
 const CATEGORY_DEFINITIONS = [
-    { key: "All",                        label: "All Menu",                   icon: "🍽️" },
-    { key: "Protein and chips",          label: "Protein and chips",          icon: "🐟" },
-    { key: "Beverages",                  label: "Beverages",                  icon: "🍹" },
-    { key: "Pasta",                      label: "Pasta",                      icon: "🍝" },
-    { key: "Burgers",                    label: "Burgers",                    icon: "🍔" },
-    { key: "Fried Chicken",              label: "Fried Chicken",              icon: "🍗" },
-    { key: "Sandwiches",                 label: "Sandwiches",                 icon: "🥪" },
-    { key: "Fries",                      label: "Fries",                      icon: "🍟" },
-    { key: "Breakfast(served till 2pm)", label: "Breakfast(served till 2pm)", icon: "🥞" },
-    { key: "Comfort Food",               label: "Comfort Food",               icon: "🥟" },
-    { key: "Indo-Chinese Combos",        label: "Indo-Chinese Combos",        icon: "🍱" },
-    { key: "Paratha Combos",             label: "Paratha Combos",             icon: "🫓" },
-    { key: "Rice & Noodles",             label: "Rice & Noodles",             icon: "🍜" },
+    { key: "All",                 label: "All Menu",            icon: "🍽️" },
+    { key: "Protein and chips",   label: "Protein and chips",   icon: "🐟" },
+    { key: "Beverages",           label: "Beverages",           icon: "🍹" },
+    { key: "Pasta",               label: "Pasta",               icon: "🍝" },
+    { key: "Burgers",             label: "Burgers",             icon: "🍔" },
+    { key: "Fried Chicken",       label: "Fried Chicken",       icon: "🍗" },
+    { key: "Sandwiches",          label: "Sandwiches",          icon: "🥪" },
+    { key: "Fries",               label: "Fries",               icon: "🍟" },
+    { key: "Breakfast (2pm)",     label: "Breakfast (2pm)",     icon: "🥞" },
+    { key: "Comfort Food",        label: "Comfort Food",        icon: "🥟" },
+    { key: "Indo-Chinese Combos", label: "Indo-Chinese Combos", icon: "🍱" },
+    { key: "Paratha Combos",      label: "Paratha Combos",      icon: "🫓" },
+    { key: "Rice & Noodles",      label: "Rice & Noodles",      icon: "🍜" },
 ];
 
 const DEBUG_PREFIX = "[Aira Debug]";
@@ -515,6 +526,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const tableOk = initQRGatekeeper();
     if (!tableOk) return; // QR gatekeeper blocked — halt all initialization
     generateCategoryFilters();
+    renderSubfilterBar();
     renderMenu(getFilteredMenuItems(currentFilter));
     initCheckoutButton();
 });
@@ -671,10 +683,49 @@ function getCategoryConfig(key) {
 /**
  * Returns filtered menu items by direct category key match.
  * "All" returns the full menu. Any specific category key filters by item.category.
+ * For Beverages, also supports subcategory filtering.
  */
 function getFilteredMenuItems(filterKey) {
-    if (filterKey === "All") return [...MENU_DATA];
-    return MENU_DATA.filter(item => item.category === filterKey);
+    let items = (filterKey === "All") ? [...MENU_DATA] : MENU_DATA.filter(item => item.category === filterKey);
+    if (filterKey === "Beverages" && currentSubFilter !== "All") {
+        items = items.filter(item => item.subcategory === currentSubFilter);
+    }
+    return items;
+}
+
+function renderSubfilterBar() {
+    const subContainer = document.getElementById("subfilter-bar");
+    if (!subContainer) return;
+
+    if (currentFilter !== "Beverages") {
+        subContainer.style.display = "none";
+        currentSubFilter = "All";
+        return;
+    }
+
+    subContainer.style.display = "flex";
+    subContainer.innerHTML = "";
+
+    BEVERAGE_SUBCATEGORIES.forEach(sub => {
+        const pill = document.createElement("button");
+        pill.type = "button";
+        pill.className = `subfilter-pill${sub.key === currentSubFilter ? " active" : ""}`;
+        pill.dataset.sub = sub.key;
+        pill.innerHTML = `<span>${sub.icon}</span> <span>${sub.label}</span>`;
+        pill.addEventListener("click", () => {
+            currentSubFilter = sub.key;
+            updateSubfilterPills();
+            renderMenu(getFilteredMenuItems(currentFilter));
+        });
+        subContainer.appendChild(pill);
+    });
+}
+
+function updateSubfilterPills() {
+    document.querySelectorAll(".subfilter-pill").forEach(pill => {
+        const isActive = pill.dataset.sub === currentSubFilter;
+        pill.classList.toggle("active", isActive);
+    });
 }
 
 function generateCategoryFilters() {
@@ -695,7 +746,9 @@ function generateCategoryFilters() {
 
         btn.addEventListener("click", () => {
             currentFilter = category.key;
+            currentSubFilter = "All";
             updateCategoryButtons();
+            renderSubfilterBar();
             renderMenu(getFilteredMenuItems(currentFilter));
 
             if (category.key === "Protein and chips") {
@@ -726,7 +779,12 @@ function renderMenu(items) {
     const activeConfig = getCategoryConfig(currentFilter);
 
     if (activeCategory) {
-        activeCategory.textContent = activeConfig.label;
+        if (currentFilter === "Beverages" && currentSubFilter !== "All") {
+            const activeSub = BEVERAGE_SUBCATEGORIES.find(s => s.key === currentSubFilter);
+            activeCategory.textContent = `Beverages — ${activeSub ? activeSub.label : currentSubFilter}`;
+        } else {
+            activeCategory.textContent = activeConfig.label;
+        }
     }
     if (menuCount) {
         menuCount.textContent = `${items.length} item${items.length === 1 ? "" : "s"}`;
@@ -762,6 +820,44 @@ function renderMenu(items) {
                     <p class="menu-card-desc">Please try another menu category.</p>
                 </div>
             </article>`;
+        return;
+    }
+
+    // Grouping by Subcategory for Beverages when "All Beverages" is selected
+    if (currentFilter === "Beverages" && currentSubFilter === "All") {
+        const subGroups = [
+            { key: "Mocktail", title: "Mocktails", icon: "🍸" },
+            { key: "Ice Tea",  title: "Ice Teas",   icon: "🧋" },
+            { key: "Shake",    title: "Shakes",     icon: "🥤" },
+            { key: "Coffee",   title: "Coffees",    icon: "☕" },
+            { key: "Matcha",   title: "Matcha",     icon: "🍵" }
+        ];
+
+        subGroups.forEach(group => {
+            const groupItems = items.filter(item => item.subcategory === group.key);
+            if (groupItems.length === 0) return;
+
+            const header = document.createElement("div");
+            header.className = "menu-subsection-header";
+            header.innerHTML = `
+                <div class="menu-subsection-title">
+                    <span>${group.icon}</span> ${group.title}
+                </div>
+                <span class="menu-subsection-count">${groupItems.length} item${groupItems.length === 1 ? "" : "s"}</span>
+            `;
+            grid.appendChild(header);
+
+            groupItems.forEach(item => {
+                const card = document.createElement("div");
+                const catClass = `menu-card-${item.category.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+                const sigClass = item.signature ? "is-signature" : "";
+                const spicyClass = item.spicy ? "is-spicy" : "";
+                card.className = `menu-card ${catClass} ${sigClass} ${spicyClass}`.trim();
+                card.innerHTML = buildMenuCardHTML(item);
+                grid.appendChild(card);
+            });
+        });
+        window.setTimeout(() => { grid.classList.remove("is-transitioning"); }, 240);
         return;
     }
 

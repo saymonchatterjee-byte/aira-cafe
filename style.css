@@ -575,6 +575,76 @@ textarea:focus {
 }
 
 /* ──────────────────────────────────────────
+   SUBCATEGORY FILTERS & SUBSECTION HEADERS
+   ────────────────────────────────────────── */
+.menu-subfilter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.75rem 0;
+    margin-bottom: 0.5rem;
+    align-items: center;
+}
+
+.subfilter-pill {
+    padding: 6px 14px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.subfilter-pill:hover {
+    background: rgba(255, 255, 255, 0.75);
+    border-color: var(--accent-gold);
+    color: var(--text-primary);
+}
+
+.subfilter-pill.active {
+    background: var(--accent-gold);
+    border-color: var(--accent-gold);
+    color: #111;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(179, 146, 85, 0.25);
+}
+
+.menu-subsection-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1.5rem 0 0.75rem;
+    padding: 0.5rem 0.25rem;
+    border-bottom: 1.5px solid rgba(179, 146, 85, 0.3);
+}
+
+.menu-subsection-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.menu-subsection-count {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: rgba(179, 146, 85, 0.12);
+    padding: 2px 10px;
+    border-radius: 9999px;
+}
+
+/* ──────────────────────────────────────────
    MENU LIST — Flat Row Layout (Rich Cards)
    ────────────────────────────────────────── */
 .menu-results {
